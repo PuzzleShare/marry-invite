@@ -10,13 +10,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-export default function MenuAppBar() {
+export default function Header(props) {
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleChange = (event) => {
-        setAuth(event.target.checked);
-    };
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -32,7 +28,7 @@ export default function MenuAppBar() {
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     Marry Invite
                 </Typography>
-                {auth? (
+                {auth ? (
                     <div>
                         <IconButton
                             size="large"
@@ -60,12 +56,12 @@ export default function MenuAppBar() {
                             onClose={handleClose}
                         >
                             <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>Mypage</MenuItem>
-                            <MenuItem onClick={()=>{handleClose(); setAuth(false);}}>Logout</MenuItem>
+                            <MenuItem onClick={() => { props.setContent("Mypage"); handleClose(); }}>Mypage</MenuItem>
+                            <MenuItem onClick={() => { props.setContent("Main"); setAuth(false); handleClose(); }}>Logout</MenuItem>
                         </Menu>
                     </div>
                 ) : (
-                    <Button onClick={()=>{setAuth(true)}} color='default'>Login</Button>
+                    <Button onClick={() => { setAuth(true) }} color='default'>Login</Button>
                 )}
             </Toolbar>
         </AppBar>

@@ -1,14 +1,10 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 
-export default function SimpleContainer() {
+export default function Main() {
     return (
-        <React.Fragment>
-            <CssBaseline />
-            <Container>
-                내용 추가
-            </Container>
-        </React.Fragment>
+        <Container>
+            Main
+        </Container>
     );
 }
