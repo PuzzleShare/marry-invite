@@ -12,23 +12,25 @@ import Main from "../components/Main"
 import Mypage from "../components/Mypage"
 import CreatePage from "../components/CreatePage"
 import CreateButton from "../components/CreateButton"
+import Login from "../components/Login"
 
 export default function Home() {
+  const [auth, setAuth] = React.useState(false);
   const [content, setContent] = React.useState("Main");
 
   let contentControl = null;
   if (content == "Main") {
     contentControl =
-      <div>
+      <>
         <Main />
-        <CreateButton setContent={setContent} />
-      </div>;
+        {auth && <CreateButton setContent={setContent} />}
+      </>;
   } else if (content == "Mypage") {
     contentControl =
-      <div>
+      <>
         <Mypage />
-        <CreateButton setContent={setContent} />
-      </div>;
+        {auth && <CreateButton setContent={setContent} />}
+      </>;
   } else if (content == "CreatePage") {
     contentControl =
       <CreatePage />;
@@ -37,8 +39,10 @@ export default function Home() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Header setContent={setContent} />
-      {contentControl}
+      <Header setContent={setContent} setAuth={setAuth} auth={auth} />
+      <Container>
+        {contentControl}
+      </Container>
     </React.Fragment>
   );
 }

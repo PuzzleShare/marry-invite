@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 export default function CreateButton(props) {
     return (
         <Fab
-            color="secondary"
+            color="primary"
             aria-label="add"
             sx={{
                 width: '80px',

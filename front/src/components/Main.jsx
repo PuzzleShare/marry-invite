@@ -1,10 +1,12 @@
 import * as React from 'react';
-import Container from '@mui/material/Container';
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 
 export default function Main() {
     return (
-        <Container>
-            Main
-        </Container>
+        <Stack spacing={1}>
+            <Skeleton variant="rectangular" width={"100%"} height={500} />
+            <Skeleton variant="rectangular" width={"100%"} height={500} />
+        </Stack>
     );
 }

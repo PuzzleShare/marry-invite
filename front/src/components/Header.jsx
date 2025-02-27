@@ -11,7 +11,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
 export default function Header(props) {
-    const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleMenu = (event) => {
@@ -23,12 +22,12 @@ export default function Header(props) {
     };
 
     return (
-        <AppBar position="static" color='default'>
+        <AppBar position="static" color='default' sx={{ marginBottom: '20px' }}>
             <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Typography variant="h6" component="div" sx={{ cursor: 'pointer', flexGrow: 1 }} onClick={() => { props.setContent("Main"); }}>
                     Marry Invite
                 </Typography>
-                {auth ? (
+                {props.auth ? (
                     <div>
                         <IconButton
                             size="large"
@@ -55,13 +54,12 @@ export default function Header(props) {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
                             <MenuItem onClick={() => { props.setContent("Mypage"); handleClose(); }}>Mypage</MenuItem>
-                            <MenuItem onClick={() => { props.setContent("Main"); setAuth(false); handleClose(); }}>Logout</MenuItem>
+                            <MenuItem onClick={() => { props.setContent("Main"); props.setAuth(false); handleClose(); }}>Logout</MenuItem>
                         </Menu>
                     </div>
                 ) : (
-                    <Button onClick={() => { setAuth(true) }} color='default'>Login</Button>
+                    <Button onClick={() => { props.setAuth(true) }} color='default'>Login</Button>
                 )}
             </Toolbar>
         </AppBar>
