@@ -21,6 +21,7 @@ jobs:
           pwd
           ls
           ls ..
+          cd ..
           if [ -d prev ]; then
             rm -rf prev
             echo 'Remove prev directory'
