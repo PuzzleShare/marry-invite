@@ -1,0 +1,34 @@
+name: Sync to Personal Repo
+
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git User
+        run: |
+          git config --global user.name "alswo1212"
+          git config --global user.email "minjagot@naver.com"
+
+      - name: Prepare Remote Repository
+        run: |
+          git remote remove personal_repo || true  
+          git remote add personal_repo https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/alswo1212/marry-invite.git
+          git remote -v
+          git ls-remote personal_repo
+
+      - name: Push to Personal Repository
+        run: |
+          git checkout main
+          git push -f personal_repo main
