@@ -11,14 +11,26 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 모든 커밋 내역을 가져오도록 설정
+
       - name: Checkout Action User
-        uses: |
+        run: |
           echo "Current Github Actions user:"
           whoami
 
-      - name: Push to Personal Repository (alswo1212/marry-invite)
+      - name: Configure Git User
         run: |
           git config --global user.name "alswo1212"
           git config --global user.email "minjagot@naver.com"
+
+      - name: Prepare Remote Repository
+        run: |
+          git remote remove personal_repo || true  # 기존 remote 제거 (있을 경우)
           git remote add personal_repo https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/alswo1212/marry-invite.git
+          git remote -v  # Remote URL 확인
+
+      - name: Push to Personal Repository (alswo1212/marry-invite)
+        run: |
+          git checkout main  # main 브랜치 확인
           git push -f personal_repo main  # main 브랜치를 alswo1212/marry-invite의 main으로 push
