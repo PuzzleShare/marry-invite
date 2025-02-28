@@ -27,12 +27,13 @@ jobs:
           fi
       - name: Clone repository
         run: |
-          git clone --depth 1 --branch main https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/alswo1212/marry-invite.git
+          cd ..
+          git clone --depth 1 --branch main https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/alswo1212/marry-invite.git prev
           echo 'Clone completed'
       - name: Copy files
         run: |
           rm -rf prev/front
-          cp -r front prev/front
+          cp -r marry-invite/front prev/front
           echo 'Copy complete'
       - name: Commit and push
         run: |
