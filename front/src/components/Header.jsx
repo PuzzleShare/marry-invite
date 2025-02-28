@@ -12,7 +12,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 
-export default function Header(props) {
+export default function Header({ setContent, auth, setAuth }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [loginOpen, setLoginOpen] = React.useState(false);
 
@@ -33,12 +33,12 @@ export default function Header(props) {
             component="div"
             sx={{ cursor: "pointer", flexGrow: 1 }}
             onClick={() => {
-              props.setContent("Main");
+              setContent("Main");
             }}
           >
             Marry Invite
           </Typography>
-          {props.auth ? (
+          {auth ? (
             <div>
               <IconButton
                 size="large"
@@ -67,7 +67,7 @@ export default function Header(props) {
               >
                 <MenuItem
                   onClick={() => {
-                    props.setContent("Mypage");
+                    setContent("Mypage");
                     handleMenuClose();
                   }}
                 >
@@ -75,8 +75,8 @@ export default function Header(props) {
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
-                    props.setContent("Main");
-                    props.setAuth(false);
+                    setContent("Main");
+                    setAuth(false);
                     handleMenuClose();
                   }}
                 >
@@ -99,7 +99,7 @@ export default function Header(props) {
       <Login
         loginOpen={loginOpen}
         setLoginOpen={setLoginOpen}
-        setAuth={props.setAuth}
+        setAuth={setAuth}
       />
     </React.Fragment>
   );
