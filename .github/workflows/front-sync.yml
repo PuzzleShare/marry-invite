@@ -34,8 +34,10 @@ jobs:
       - name: Copy files
         run: |
           pwd
+          ls
+          ls ..
           rm -rf prev/front
-          cp -r marry-invite/front prev/front
+          cp -r front ../prev/front
           echo 'Copy complete'
       - name: Commit and push
         run: |
