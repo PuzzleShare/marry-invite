@@ -4,7 +4,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 
-import InviteCard from './InviteCard';
+import InviteCard from '@/components/InviteCard';
 
 export default function ResponsiveGrid() {
     const inviteCards = [
