@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+permissions:
+  contents: write
 
 jobs:
   sync:
@@ -14,18 +16,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configure Git User
+      - name: Remove old directory if exists
         run: |
+          if [ -d prev ]; then
+            rm -rf prev
+            echo 'Remove prev directory'
+          fi
+      - name: Clone repository
+        run: |
+          git clone --depth 1 --branch main https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/alswo1212/marry-invite.git
+          echo 'Clone completed'
+      - name: Copy files
+        run: |
+          rm -rf prev/front
+          cp --r front prev/front
+          echo 'Copy complete'
+      - name: Commit and push
+        run: |
+          cd prev
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-
-      - name: Prepare Remote Repository and Push
-        run: |
-          git remote remove personal_repo || true  
-          git remote add personal_repo https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/alswo1212/marry-invite.git
-
-          git remote -v
-          git ls-remote personal_repo
-
-          git checkout main
-          git push -f personal_repo main
+          git add .
+          git commit -m 'commit'
+          git push origin main
+          echo 'pushed'
