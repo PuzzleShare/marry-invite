@@ -3,7 +3,7 @@ name: Sync to Personal Repo
 on:
   push:
     branches:
-      - main  # main 브랜치에 push(merge)되었을 때 실행
+      - main # main 브랜치에 push(merge)되었을 때 실행
 
 jobs:
   sync:
@@ -11,6 +11,10 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+      - name: Checkout Action User
+        uses: |
+          echo "Current Github Actions user:"
+          whoami
 
       - name: Push to Personal Repository (alswo1212/marry-invite)
         run: |
