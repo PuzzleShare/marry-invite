@@ -3,7 +3,7 @@ name: Sync to Personal Repo
 on:
   push:
     branches:
-      - main # main 브랜치에 push(merge)되었을 때 실행
+      - main
 
 jobs:
   sync:
@@ -12,12 +12,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 모든 커밋 내역을 가져오도록 설정
-
-      - name: Checkout Action User
-        run: |
-          echo "Current Github Actions user:"
-          whoami
+          fetch-depth: 0
 
       - name: Configure Git User
         run: |
@@ -26,11 +21,11 @@ jobs:
 
       - name: Prepare Remote Repository
         run: |
-          git remote remove personal_repo || true  # 기존 remote 제거 (있을 경우)
+          git remote remove personal_repo || true  
           git remote add personal_repo https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/alswo1212/marry-invite.git
-          git remote -v  # Remote URL 확인
+          git remote -v
 
-      - name: Push to Personal Repository (alswo1212/marry-invite)
+      - name: Push to Personal Repository
         run: |
-          git checkout main  # main 브랜치 확인
-          git push -f personal_repo main  # main 브랜치를 alswo1212/marry-invite의 main으로 push
+          git checkout main
+          git push -f personal_repo main
