@@ -1,0 +1,20 @@
+name: Sync to Personal Repo
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 push(merge)되었을 때 실행
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Push to Personal Repository (alswo1212/marry-invite)
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git remote add personal_repo https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/alswo1212/marry-invite.git
+          git push -f personal_repo main  # main 브랜치를 alswo1212/marry-invite의 main으로 push
