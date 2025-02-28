@@ -18,8 +18,8 @@ jobs:
 
       - name: Configure Git User
         run: |
-          git config --global user.name "alswo1212"
-          git config --global user.email "minjagot@naver.com"
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
 
       - name: Prepare Remote Repository
         run: |
