@@ -1,9 +1,15 @@
 import * as React from "react";
+import Image from "next/image";
+
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+
+import naverLogo from "@/assets/login/naver_logo.png";
+import kakaoLogo from "@/assets/login/kakao_logo.png";
+import googleLogo from "@/assets/login/google_logo.png";
 
 export default function Login(props) {
   return (
@@ -30,7 +36,7 @@ export default function Login(props) {
             fontWeight: "600",
           }}
         >
-          {/* <Image src={naverLogo} width={40} height={40} alt="네이버 로고" /> */}
+          <Image src={naverLogo} height={20} alt="네이버 로고" />
           NAVER
         </Button>
         <Button
@@ -46,7 +52,7 @@ export default function Login(props) {
             fontWeight: "600",
           }}
         >
-          {/* <Image src={kakaoLogo} width={20} height={20} alt="카카오 로고" /> */}
+          <Image src={kakaoLogo} height={20} alt="카카오 로고" />
           KAKAO
         </Button>
         <Button
@@ -62,7 +68,7 @@ export default function Login(props) {
             fontWeight: "600",
           }}
         >
-          {/* <Image src={googleLogo} width={20} height={20} alt="구글 로고" /> */}
+          <Image src={googleLogo} height={20} alt="구글 로고" />
           GOOGLE
         </Button>
       </DialogContent>
