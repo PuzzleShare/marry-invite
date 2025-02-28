@@ -27,7 +27,7 @@ jobs:
       - name: Prepare Remote Repository
         run: |
           git remote remove personal_repo || true  # 기존 remote 제거 (있을 경우)
-          git remote add personal_repo https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/alswo1212/marry-invite.git
+          git remote add personal_repo https://${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/alswo1212/marry-invite.git
           git remote -v  # Remote URL 확인
 
       - name: Push to Personal Repository (alswo1212/marry-invite)
