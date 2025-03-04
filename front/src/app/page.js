@@ -20,17 +20,17 @@ export default function Home() {
   let contentControl = null;
   if (content == "Main") {
     contentControl = (
-      <>
+      <Container sx={{ marginTop: "20px" }}>
         <Main />
         {auth && <CreateButton setContent={setContent} />}
-      </>
+      </Container>
     );
   } else if (content == "Mypage") {
     contentControl = (
-      <>
+      <Container sx={{ marginTop: "20px" }}>
         <Mypage />
         {auth && <CreateButton setContent={setContent} />}
-      </>
+      </Container>
     );
   } else if (content == "CreatePage") {
     contentControl = <CreatePage />;
@@ -40,7 +40,7 @@ export default function Home() {
     <React.Fragment>
       <CssBaseline />
       <Header setContent={setContent} setAuth={setAuth} auth={auth} />
-      <Container>{contentControl}</Container>
+      {contentControl}
     </React.Fragment>
   );
 }

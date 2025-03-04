@@ -26,7 +26,7 @@ export default function Header({ setContent, auth, setAuth }) {
 
   return (
     <React.Fragment>
-      <AppBar position="static" color="default" sx={{ marginBottom: "20px" }}>
+      <AppBar position="static" color="default">
         <Toolbar>
           <Typography
             variant="h6"
