@@ -10,9 +10,10 @@ export default function CreateButton(props) {
       sx={{
         width: "80px",
         height: "80px",
-        position: "absolute",
+        position: "fixed",
         bottom: 80,
         right: 50,
+        zIndex: 1000,
       }}
       onClick={() => {
         props.setContent("CreatePage");

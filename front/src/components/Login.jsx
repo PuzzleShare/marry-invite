@@ -7,11 +7,42 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
+import OAuthButton from "@/components/OAuthButton";
 import naverLogo from "@/assets/login/naver_logo.png";
 import kakaoLogo from "@/assets/login/kakao_logo.png";
 import googleLogo from "@/assets/login/google_logo.png";
 
 export default function Login(props) {
+  const oauth = {
+    naver: {
+      logo: naverLogo,
+      alt: "네이버 로고",
+      content: "네이버 로그인",
+      color: "white",
+      background: "#03C75A",
+      border: "none",
+      size: 20,
+    },
+    kakao: {
+      logo: kakaoLogo,
+      alt: "카카오 로고",
+      content: "카카오 로그인",
+      color: "rgba(0, 0, 0, 0.85)",
+      background: "#FEE500",
+      border: "none",
+      size: 20,
+    },
+    google: {
+      logo: googleLogo,
+      alt: "구글글 로고",
+      content: "구글 로그인",
+      color: "#1F1F1F",
+      background: "white",
+      border: "1px solid #747775",
+      size: 20,
+    },
+  };
+
   return (
     <Dialog
       open={props.loginOpen}
@@ -21,56 +52,23 @@ export default function Login(props) {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle sx={{ textAlign: "center" }}>Login</DialogTitle>
-      <DialogContent>
-        <Button
-          onClick={() => {
-            props.setAuth(true);
-            props.setLoginOpen(false);
-          }}
-          sx={{
-            color: "white",
-            background: "#03c75a",
-            width: "100%",
-            marginTop: "10px",
-            fontWeight: "600",
-          }}
-        >
-          <Image src={naverLogo} height={20} alt="네이버 로고" />
-          NAVER
-        </Button>
-        <Button
-          onClick={() => {
-            props.setAuth(true);
-            props.setLoginOpen(false);
-          }}
-          sx={{
-            color: "rgb(0 0 0 / 85%)",
-            background: "#FEE500",
-            width: "100%",
-            marginTop: "10px",
-            fontWeight: "600",
-          }}
-        >
-          <Image src={kakaoLogo} height={20} alt="카카오 로고" />
-          KAKAO
-        </Button>
-        <Button
-          onClick={() => {
-            props.setAuth(true);
-            props.setLoginOpen(false);
-          }}
-          sx={{
-            color: "#5f6368",
-            background: "#ffffff",
-            width: "100%",
-            marginTop: "10px",
-            fontWeight: "600",
-          }}
-        >
-          <Image src={googleLogo} height={20} alt="구글 로고" />
-          GOOGLE
-        </Button>
+      <DialogTitle sx={{ textAlign: "center" }}>로그인</DialogTitle>
+      <DialogContent sx={{ width: "300px" }}>
+        <OAuthButton
+          setAuth={props.setAuth}
+          setLoginOpen={props.setLoginOpen}
+          oauth={oauth.naver}
+        />
+        <OAuthButton
+          setAuth={props.setAuth}
+          setLoginOpen={props.setLoginOpen}
+          oauth={oauth.kakao}
+        />
+        <OAuthButton
+          setAuth={props.setAuth}
+          setLoginOpen={props.setLoginOpen}
+          oauth={oauth.google}
+        />
       </DialogContent>
       <DialogActions>
         <Button

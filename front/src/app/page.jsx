@@ -14,7 +14,7 @@ import CreatePage from "@/components/CreatePage";
 import CreateButton from "@/components/CreateButton";
 
 export default function Home() {
-  const [auth, setAuth] = React.useState(false);
+  const [auth, setAuth] = React.useState(true);
   const [content, setContent] = React.useState("Main");
 
   let contentControl = null;
