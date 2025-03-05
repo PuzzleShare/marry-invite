@@ -21,7 +21,6 @@ export default function Login(props) {
       color: "white",
       background: "#03C75A",
       border: "none",
-      size: 20,
     },
     kakao: {
       logo: kakaoLogo,
@@ -30,7 +29,6 @@ export default function Login(props) {
       color: "rgba(0, 0, 0, 0.85)",
       background: "#FEE500",
       border: "none",
-      size: 20,
     },
     google: {
       logo: googleLogo,
@@ -39,7 +37,6 @@ export default function Login(props) {
       color: "#1F1F1F",
       background: "white",
       border: "1px solid #747775",
-      size: 20,
     },
   };
 
