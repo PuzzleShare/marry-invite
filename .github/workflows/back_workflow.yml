@@ -21,7 +21,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Build with Gradle
+    - name: Setting Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
       with:
         build-root: back
@@ -31,3 +31,36 @@ jobs:
       run: |
         cd back
         ./gradlew build
+        
+  deploy:
+    needs: build
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PK }}
+          port: ${{ secrets.PORT }}
+          script: |
+            whoami
+            ls -al
+      - name: Copy jar file to remote
+        uses: appleboy/scp-action@master
+        with:
+          username: ${{ secrets.USERNAME }}
+          host: ${{ secrets.HOST }}
+          key: ${{ secrets.PK }}
+          source: "./back/build/libs/*.jar"
+          target: "/home/${{ secrets.USERNAME }}/cicd"
+          strip_components: 3
+      - name: Execute deploy script
+        uses: appleboy/ssh-action@master
+        with:
+          username: ${{ secrets.USERNAME }}
+          host: ${{ secrets.HOST }}
+          key: ${{ secrets.PK }}
+          script: |
+            sh /home/${{ secrets.USERNAME }}/cicd/deploy.sh
