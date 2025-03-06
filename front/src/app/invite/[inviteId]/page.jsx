@@ -1,5 +1,6 @@
 import * as React from "react";
 
-export default function SharePage() {
-  return <>/invite/[inviteId] 왔냐?</>;
+export default async function SharePage({ params }) {
+  const { inviteId } = await params;
+  return <>/invite/{inviteId} 왔냐?</>;
 }

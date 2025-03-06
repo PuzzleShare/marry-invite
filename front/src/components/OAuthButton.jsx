@@ -27,7 +27,7 @@ export default function OAuthButton(props) {
         src={props.oauth.logo}
         alt={props.oauth.alt}
         layout="intrinsic"
-        height={props.oauth.size}
+        height={20}
         style={{ objectFit: "contain" }}
       />
       <span style={{ flex: 1, textAlign: "center" }}>
