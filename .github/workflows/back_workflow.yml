@@ -57,6 +57,16 @@ jobs:
           script: |
             whoami
             ls -al
+      - name: Confirm file
+        run: |
+          pwd
+          ls
+          cd back
+          ls
+          cd build
+          ls
+          cd libs
+          ls
       - name: Copy jar file to remote
         uses: appleboy/scp-action@master
         with:
@@ -73,4 +83,4 @@ jobs:
           host: ${{ secrets.HOST }}
           key: ${{ secrets.PK }}
           script: |
-            sh /home/${{ secrets.USERNAME }}/cicd/deploy.sh
+            sh /home/${{ secrets.USERNAME }}/deploy.sh
