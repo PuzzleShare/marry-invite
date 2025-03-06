@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
@@ -11,14 +12,20 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+
+// import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Popper from "@mui/material/Popper";
+// import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
+import Stack from "@mui/material/Stack";
 
 import PersonIcon from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
@@ -54,10 +61,6 @@ export default function Header() {
 
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
-    }
-
     prevOpen.current = open;
   }, [open]);
 
@@ -111,9 +114,9 @@ export default function Header() {
                           onKeyDown={handleListKeyDown}
                         >
                           <MenuItem
-                            onClick={(event) => {
+                            onClick={(e) => {
+                              handleClose(e);
                               router.push("/mypage");
-                              handleClose(event);
                             }}
                           >
                             <ListItemIcon>
@@ -122,10 +125,10 @@ export default function Header() {
                             Mypage
                           </MenuItem>
                           <MenuItem
-                            onClick={(event) => {
+                            onClick={(e) => {
+                              handleClose(e);
                               router.push("/");
                               setUser(null);
-                              handleClose(event);
                             }}
                           >
                             <ListItemIcon>
