@@ -1,5 +1,7 @@
 import * as React from "react";
-import Image from "next/image";
+import axios from "axios";
+import { useAtom } from "jotai";
+import { userAtom } from "@/atoms/auth";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -13,6 +15,8 @@ import kakaoLogo from "@/assets/login/kakao_logo.png";
 import googleLogo from "@/assets/login/google_logo.png";
 
 export default function Login(props) {
+  const [, setUser] = useAtom(userAtom);
+
   const oauth = {
     naver: {
       logo: naverLogo,
@@ -52,17 +56,14 @@ export default function Login(props) {
       <DialogTitle sx={{ textAlign: "center" }}>로그인</DialogTitle>
       <DialogContent sx={{ width: "300px" }}>
         <OAuthButton
-          setAuth={props.setAuth}
           setLoginOpen={props.setLoginOpen}
           oauth={oauth.naver}
         />
         <OAuthButton
-          setAuth={props.setAuth}
           setLoginOpen={props.setLoginOpen}
           oauth={oauth.kakao}
         />
         <OAuthButton
-          setAuth={props.setAuth}
           setLoginOpen={props.setLoginOpen}
           oauth={oauth.google}
         />

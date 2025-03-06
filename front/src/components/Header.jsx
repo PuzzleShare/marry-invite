@@ -1,6 +1,10 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
+import { useAtom } from "jotai";
+import { userAtom } from "@/atoms/auth";
+
 import Login from "@/components/Login";
 
 import AppBar from "@mui/material/AppBar";
@@ -12,9 +16,11 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 
-export default function Header(props) {
+export default function Header() {
+  const [user, setUser] = useAtom(userAtom);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [loginOpen, setLoginOpen] = React.useState(false);
+  const router = useRouter();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -33,12 +39,12 @@ export default function Header(props) {
             component="div"
             sx={{ cursor: "pointer", flexGrow: 1 }}
             onClick={() => {
-              props.setContent("Main");
+              router.push("/");
             }}
           >
             Marry Invite
           </Typography>
-          {props.auth ? (
+          {user ? (
             <div>
               <IconButton
                 size="large"
@@ -67,7 +73,7 @@ export default function Header(props) {
               >
                 <MenuItem
                   onClick={() => {
-                    props.setContent("Mypage");
+                    router.push("/mypage");
                     handleMenuClose();
                   }}
                 >
@@ -75,8 +81,8 @@ export default function Header(props) {
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
-                    props.setContent("Main");
-                    props.setAuth(false);
+                    router.push("/");
+                    setUser(null);
                     handleMenuClose();
                   }}
                 >
@@ -96,11 +102,7 @@ export default function Header(props) {
           )}
         </Toolbar>
       </AppBar>
-      <Login
-        loginOpen={loginOpen}
-        setLoginOpen={setLoginOpen}
-        setAuth={props.setAuth}
-      />
+      <Login loginOpen={loginOpen} setLoginOpen={setLoginOpen} />
     </React.Fragment>
   );
 }

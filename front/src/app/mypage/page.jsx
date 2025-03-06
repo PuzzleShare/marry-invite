@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 
 import Header from "@/components/Header";
-import Main from "@/components/Main";
+import Mypage from "@/components/Mypage";
 import CreateButton from "@/components/CreateButton";
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
       <CssBaseline />
       <Header />
       <Container sx={{ marginTop: "20px" }}>
-        <Main />
+        <Mypage />
       </Container>
       {user && <CreateButton />}
     </React.Fragment>
