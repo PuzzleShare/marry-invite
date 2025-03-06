@@ -16,6 +16,20 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 
+// import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import Paper from "@mui/material/Paper";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Popper from "@mui/material/Popper";
+// import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
+import Stack from "@mui/material/Stack";
+
+import PersonIcon from "@mui/icons-material/Person";
+import Logout from "@mui/icons-material/Logout";
+
 export default function Header() {
   const [user, setUser] = useAtom(userAtom);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -29,6 +43,39 @@ export default function Header() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === "Escape") {
+      setOpen(false);
+    }
+  }
+
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
 
   return (
     <React.Fragment>
@@ -47,48 +94,67 @@ export default function Header() {
           {user ? (
             <div>
               <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
+                ref={anchorRef}
+                id="composition-button"
+                aria-controls={open ? "composition-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
                 aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
+                onClick={handleToggle}
               >
-                <AccountCircle />
+                <Avatar sx={{ width: 32, height: 32 }} />
               </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
+              <Popper
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                placement="bottom-start"
+                transition
+                disablePortal
               >
-                <MenuItem
-                  onClick={() => {
-                    router.push("/mypage");
-                    handleMenuClose();
-                  }}
-                >
-                  Mypage
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    router.push("/");
-                    setUser(null);
-                    handleMenuClose();
-                  }}
-                >
-                  Logout
-                </MenuItem>
-              </Menu>
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin: "right top",
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleClose}>
+                        <MenuList
+                          autoFocusItem={open}
+                          id="composition-menu"
+                          aria-labelledby="composition-button"
+                          onKeyDown={handleListKeyDown}
+                        >
+                          <MenuItem
+                            onClick={() => {
+                              router.push("/mypage");
+                              handleMenuClose();
+                            }}
+                          >
+                            <ListItemIcon>
+                              <PersonIcon fontSize="small" />
+                            </ListItemIcon>
+                            Mypage
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => {
+                              router.push("/");
+                              setUser(null);
+                              handleMenuClose();
+                            }}
+                          >
+                            <ListItemIcon>
+                              <Logout fontSize="small" />
+                            </ListItemIcon>
+                            Logout
+                          </MenuItem>
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
             </div>
           ) : (
             <Button
