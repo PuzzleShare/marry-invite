@@ -49,6 +49,8 @@ jobs:
             ls -al
       - name: Confirm jar
         run: |
+          pwd
+          ls
           cd back
           ls
           cd build
