@@ -14,6 +14,15 @@ import Header from "@/components/Header";
 const Content = () => {
   const searchParams = useSearchParams();
   const inviteId = searchParams.get("inviteId");
+  const colorArray = [
+    "rgb(247, 108, 108)",
+    "rgb(247, 203, 108)",
+    "rgb(194, 247, 108)",
+    "rgb(108, 247, 212)",
+    "rgb(108, 145, 247)",
+    "rgb(173, 108, 247)",
+    "rgb(247, 108, 205)",
+  ];
   return (
     <Container
       sx={{
@@ -80,16 +89,6 @@ const Content = () => {
 };
 
 export default function CreatePage() {
-  const colorArray = [
-    "rgb(247, 108, 108)",
-    "rgb(247, 203, 108)",
-    "rgb(194, 247, 108)",
-    "rgb(108, 247, 212)",
-    "rgb(108, 145, 247)",
-    "rgb(173, 108, 247)",
-    "rgb(247, 108, 205)",
-  ];
-
   return (
     <React.Fragment>
       <CssBaseline />
