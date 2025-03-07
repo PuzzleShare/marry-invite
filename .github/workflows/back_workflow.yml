@@ -31,7 +31,9 @@ jobs:
       run: |
         cd back
         ls
-        ./gradlew tasks
+        git submodule update
+        cd marry-invite-sub
+        ls
     - name: Build with Gradle
       run: |
         cd back
