@@ -27,10 +27,19 @@ jobs:
         build-root: back
     - name: Grant execute permission to Gradle Wrapper
       run: chmod +x ./back/gradlew  # 실행 권한 부여
+    - name: Confirm Tasks
+      run: |
+        cd back
+        ls
+        ./gradlew tasks
     - name: Build with Gradle
       run: |
         cd back
         ./gradlew copyPrivate build
+    - name: Confirm resource
+      run: |
+        cd back/src/main/resources
+        ls
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
