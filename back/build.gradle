@@ -38,3 +38,10 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+task copyPrivate(type: Copy) {
+	copy {
+		from './marry-invite-sub'
+		include "*.yml"
+		into 'src/main/resources'
+	}
+}

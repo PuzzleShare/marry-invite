@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: marry-invite
+  profiles:
+    group:
+      dev: "datasource"
+    active: dev
