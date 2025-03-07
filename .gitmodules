@@ -1,0 +1,3 @@
+[submodule "back/marry-invite-sub"]
+	path = back/marry-invite-sub
+	url = https://github.com/PuzzleShare/marry-invite-sub.git
