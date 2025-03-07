@@ -31,8 +31,9 @@ jobs:
       run: |
         cd back
         ls
-        git submodule update
+        git submodule update --remote
         cd marry-invite-sub
+        echo "-move in submodule-"
         ls
     - name: Build with Gradle
       run: |
