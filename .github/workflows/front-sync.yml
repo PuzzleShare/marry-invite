@@ -38,7 +38,7 @@ jobs:
           ls
           ls ..
           rm -rf prev/front
-          cp -r front ../prev/front
+          cp -r front ../prev
           echo 'Copy complete'
       - name: Commit and push
         run: |
