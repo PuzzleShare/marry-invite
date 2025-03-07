@@ -12,20 +12,15 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
 
-// import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Popper from "@mui/material/Popper";
-// import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
-import Stack from "@mui/material/Stack";
 
 import PersonIcon from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
@@ -97,6 +92,7 @@ export default function Header() {
                 placement="bottom-start"
                 transition
                 disablePortal
+                sx={{ zIndex: 100 }}
               >
                 {({ TransitionProps, placement }) => (
                   <Grow
