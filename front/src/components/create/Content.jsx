@@ -1,5 +1,17 @@
+"use client";
 import * as React from "react";
+
+import { useAtom } from "jotai";
+import { blockDataAtom } from "@/atoms/block";
+
 import Box from "@mui/material/Box";
+
+import CalenderBlock from "@/components/create/blocks/CalendarBlock";
+import GalleryBlock from "@/components/create/blocks/GalleryBlock";
+import GuestbookBlock from "@/components/create/blocks/GuestbookBlock";
+import MapBlock from "@/components/create/blocks/MapBlock";
+import NestedBlock from "@/components/create/blocks/NestedBlock";
+import TextBlock from "@/components/create/blocks/TextBlock";
 
 export default function Content() {
   const colorArray = [
@@ -18,6 +30,7 @@ export default function Content() {
         justifyContent: "center",
         flexGrow: 1,
         height: "calc(100vh - 84px)",
+        minWidth: 500,
         marginTop: "20px",
         overflow: "auto",
         whiteSpace: "normal", // 기본 줄바꿈 허용

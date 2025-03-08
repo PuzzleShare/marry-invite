@@ -10,14 +10,14 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import LocalPostOfficeOutlinedIcon from "@mui/icons-material/LocalPostOfficeOutlined";
 
-export default function InviteCard(props) {
+export default function InviteCard({ inviteCard }) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         width="358"
         height="426"
-        image={props.inviteCard.imgUrl}
+        image={inviteCard.imgUrl}
       />
       <CardActions sx={{ justifyContent: "space-between" }}>
         <div>

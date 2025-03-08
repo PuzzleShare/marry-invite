@@ -1,7 +1,14 @@
+"use client";
 import * as React from "react";
+
+import { useAtom } from "jotai";
+import { blockDataAtom } from "@/atoms/block";
+
 import Box from "@mui/material/Box";
 
 export default function BlockTree() {
+  const [blockData, setBlockData] = useAtom(blockDataAtom);
+
   return (
     <Box
       sx={{
