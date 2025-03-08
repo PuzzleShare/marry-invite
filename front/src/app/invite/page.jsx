@@ -10,14 +10,14 @@ import { blockDataAtom } from "@/atoms/block";
 import apiClient from "@/lib/axios";
 
 import CssBaseline from "@mui/material/CssBaseline";
-import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 
 import Header from "@/components/Header";
-import BlockTree from "@/components/create/BlockTree";
-import Content from "@/components/create/Content";
-import Controller from "@/components/create/Controller";
+import BlockTree from "@/components/invite/BlockTree";
+import Content from "@/components/invite/Content";
+import Controller from "@/components/invite/Controller";
 
 function InviteIdLoader() {
   const searchParams = useSearchParams();
@@ -51,7 +51,7 @@ function CreatePage({ inviteId }) {
     <React.Fragment>
       <CssBaseline />
       <Header />
-      <Container>
+      <Box sx={{ maxWidth: 1300, padding: "0 24px", margin: "auto" }}>
         <Stack
           direction="row"
           divider={<Divider orientation="vertical" flexItem />}
@@ -60,7 +60,7 @@ function CreatePage({ inviteId }) {
           <Content blockData={blockData} setBlockData={setBlockData} />
           <Controller blockData={blockData} setBlockData={setBlockData} />
         </Stack>
-      </Container>
+      </Box>
     </React.Fragment>
   );
 }

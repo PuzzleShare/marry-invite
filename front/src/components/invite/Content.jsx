@@ -6,12 +6,12 @@ import { blockDataAtom } from "@/atoms/block";
 
 import Box from "@mui/material/Box";
 
-import CalenderBlock from "@/components/create/blocks/CalendarBlock";
-import GalleryBlock from "@/components/create/blocks/GalleryBlock";
-import GuestbookBlock from "@/components/create/blocks/GuestbookBlock";
-import MapBlock from "@/components/create/blocks/MapBlock";
-import NestedBlock from "@/components/create/blocks/NestedBlock";
-import TextBlock from "@/components/create/blocks/TextBlock";
+import CalenderBlock from "@/components/invite/blocks/CalendarBlock";
+import GalleryBlock from "@/components/invite/blocks/GalleryBlock";
+import GuestbookBlock from "@/components/invite/blocks/GuestbookBlock";
+import MapBlock from "@/components/invite/blocks/MapBlock";
+import NestedBlock from "@/components/invite/blocks/NestedBlock";
+import TextBlock from "@/components/invite/blocks/TextBlock";
 
 export default function Content() {
   const colorArray = [

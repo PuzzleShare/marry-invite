@@ -6,12 +6,12 @@ import { blockDataAtom } from "@/atoms/block";
 
 import Box from "@mui/material/Box";
 
-import CalenderBlockController from "@/components/create/controllers/CalendarBlockController";
-import GalleryBlockController from "@/components/create/controllers/GalleryBlockController";
-import GuestbookBlockController from "@/components/create/controllers/GuestbookBlockController";
-import MapBlockController from "@/components/create/controllers/MapBlockController";
-import NestedBlockController from "@/components/create/controllers/NestedBlockController";
-import TextBlockController from "@/components/create/controllers/TextBlockController";
+import CalenderBlockController from "@/components/invite/controllers/CalendarBlockController";
+import GalleryBlockController from "@/components/invite/controllers/GalleryBlockController";
+import GuestbookBlockController from "@/components/invite/controllers/GuestbookBlockController";
+import MapBlockController from "@/components/invite/controllers/MapBlockController";
+import NestedBlockController from "@/components/invite/controllers/NestedBlockController";
+import TextBlockController from "@/components/invite/controllers/TextBlockController";
 
 export default function Controller() {
   return (
