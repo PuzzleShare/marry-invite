@@ -37,6 +37,7 @@ jobs:
         cd marry-invite-sub
         echo "-move in submodule-"
         ls
+        cat application-datasource.yml
     - name: Build with Gradle
       run: |
         cd back
