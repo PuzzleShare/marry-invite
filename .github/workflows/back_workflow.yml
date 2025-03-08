@@ -41,6 +41,8 @@ jobs:
       run: |
         cd back
         ./gradlew copyPrivate build
+      env:
+        SPRING_PROFILES_ACTIVE: dev
     - name: Confirm resource
       run: |
         cd back/src/main/resources
