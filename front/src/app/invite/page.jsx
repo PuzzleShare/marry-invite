@@ -53,6 +53,7 @@ function CreatePage({ inviteId }) {
       <Header />
       <Box sx={{ maxWidth: 1300, padding: "0 24px", margin: "auto" }}>
         <Stack
+          spacing={0.5}
           direction="row"
           divider={<Divider orientation="vertical" flexItem />}
         >

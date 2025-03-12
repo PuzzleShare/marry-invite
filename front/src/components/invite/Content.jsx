@@ -4,33 +4,22 @@ import * as React from "react";
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 
+import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
-import CalenderBlock from "@/components/invite/blocks/CalendarBlock";
-import GalleryBlock from "@/components/invite/blocks/GalleryBlock";
-import GuestbookBlock from "@/components/invite/blocks/GuestbookBlock";
-import MapBlock from "@/components/invite/blocks/MapBlock";
-import NestedBlock from "@/components/invite/blocks/NestedBlock";
-import TextBlock from "@/components/invite/blocks/TextBlock";
+import BlockContainer from "@/components/invite/blocks/BlockContainer";
 
 export default function Content() {
-  const colorArray = [
-    "rgb(247, 108, 108)",
-    "rgb(247, 203, 108)",
-    "rgb(194, 247, 108)",
-    "rgb(108, 247, 212)",
-    "rgb(108, 145, 247)",
-    "rgb(173, 108, 247)",
-    "rgb(247, 108, 205)",
-  ];
+  const [blockData, setBlockData] = useAtom(blockDataAtom);
+
   return (
-    <Box
+    <Stack
       sx={{
-        display: "flex",
-        justifyContent: "center",
         flexGrow: 1,
+        justifyContent: "flex-start",
+        alignItems: "center",
         height: "calc(100vh - 84px)",
-        minWidth: 500,
+        minWidth: "460px",
         marginTop: "20px",
         overflow: "auto",
         whiteSpace: "normal", // 기본 줄바꿈 허용
@@ -38,19 +27,17 @@ export default function Content() {
         ...scrollStyle,
       }}
     >
-      <Box>
-        {colorArray.map((color, index) => (
-          <Box
-            key={index}
-            sx={{
-              width: 460,
-              height: 500,
-              background: color,
-            }}
-          />
-        ))}
-      </Box>
-    </Box>
+      {blockData.content.map((block, index) => (
+        <Box
+          key={index}
+          sx={{
+            width: 460,
+          }}
+        >
+          <BlockContainer block={block} index={index} />
+        </Box>
+      ))}
+    </Stack>
   );
 }
 
