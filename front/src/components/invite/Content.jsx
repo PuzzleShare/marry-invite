@@ -19,11 +19,10 @@ export default function Content() {
         justifyContent: "flex-start",
         alignItems: "center",
         height: "calc(100vh - 84px)",
-        minWidth: "460px",
+        minWidth: "478px",
         marginTop: "20px",
+        padding: "0 5px",
         overflow: "auto",
-        whiteSpace: "normal", // 기본 줄바꿈 허용
-        wordBreak: "break-word", // 단어가 길어도 줄바꿈
         ...scrollStyle,
       }}
     >

@@ -53,13 +53,14 @@ function CreatePage({ inviteId }) {
       <Header />
       <Box sx={{ maxWidth: 1300, padding: "0 24px", margin: "auto" }}>
         <Stack
-          spacing={0.5}
           direction="row"
           divider={<Divider orientation="vertical" flexItem />}
         >
-          <BlockTree blockData={blockData} setBlockData={setBlockData} />
-          <Content blockData={blockData} setBlockData={setBlockData} />
-          <Controller blockData={blockData} setBlockData={setBlockData} />
+          <Box sx={{ paddingTop: "8px", minWidth: "300px" }}>
+            <BlockTree content={blockData.content} />
+          </Box>
+          <Content />
+          <Controller />
         </Stack>
       </Box>
     </React.Fragment>
