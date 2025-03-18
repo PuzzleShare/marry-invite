@@ -1,4 +1,4 @@
-package com.marry_invite.document;
+package com.marry_invite.users.document;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +17,6 @@ public class Users {
     private String id;
     private String email;
     private String name;
-    private String profilImg;
+    private String profileImg;
     private String provider;
 }
