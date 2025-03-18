@@ -24,6 +24,7 @@ import MenuList from "@mui/material/MenuList";
 
 import PersonIcon from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
+import { useUser } from "@/request/hook/users";
 
 export default function Header() {
   const [user, setUser] = useAtom(userAtom);
@@ -58,6 +59,16 @@ export default function Header() {
   React.useEffect(() => {
     prevOpen.current = open;
   }, [open]);
+
+  React.useEffect(() => {
+    const setUserData = async () => {
+      if (!user) {
+        const userData = await useUser();
+        setUser(userData);
+      }
+    };
+    setUserData();
+  }, []);
 
   return (
     <React.Fragment>

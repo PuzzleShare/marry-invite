@@ -3,5 +3,6 @@ spring:
     name: marry-invite
   profiles:
     group:
-      dev: "datasource"
-    active: dev
+      local: "datasource, oauth, oauthclient"
+      dev: "datasource, oauth, oauthclient"
+    active: local
