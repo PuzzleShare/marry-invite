@@ -3,6 +3,7 @@ import * as React from "react";
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 
+import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -20,7 +21,15 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-export default function BlockTree({ content, depth = 0 }) {
+export default function BlockTreeContainer({ content }) {
+  return (
+    <Box sx={{ paddingTop: "8px", minWidth: "300px" }}>
+      <BlockTree content={content} />
+    </Box>
+  );
+}
+
+function BlockTree({ content, depth = 0 }) {
   const [open, setOpen] = React.useState({});
 
   const handleClick = (index) => {
