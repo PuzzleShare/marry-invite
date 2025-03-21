@@ -62,15 +62,7 @@ export default function BlockContainer({ block, index }) {
       >
         <DragIndicatorIcon sx={{ ...iconStyle }} />
       </Box>
-      <Box
-        sx={{
-          width: "100%",
-          minHeight: "200px",
-          background: "rgba(0,0,0,0.1)",
-        }}
-      >
-        {blockType(block.type)}
-      </Box>
+      {blockType(block.type)}
     </Stack>
   );
 }

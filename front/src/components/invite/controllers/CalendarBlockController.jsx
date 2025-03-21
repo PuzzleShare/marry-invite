@@ -9,7 +9,7 @@ dayjs.locale("ko");
 
 export default function CalendarBlockController() {
   const [selectedDateTime, setSelectedDateTime] = React.useState(
-    dayjs("2022-04-17T15:30")
+    dayjs("2025-04-17T15:30")
   );
 
   return (
