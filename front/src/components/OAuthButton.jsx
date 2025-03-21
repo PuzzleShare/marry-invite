@@ -9,12 +9,13 @@ export default function OAuthButton({ setLoginOpen, oauth }) {
   const [, setUser] = useAtom(userAtom); // todo: 나중에 지우기
 
   // todo: 소셜로그인 연동하기
+  const goLogin = (provider) =>
+    (window.location.href = `${process.env.NEXT_PUBLIC_BACK_END}/oauth2/authorization/${provider}`);
 
   return (
     <Button
       onClick={() => {
-        setUser("UserData"); // todo: 나중에 지우기
-        setLoginOpen(false);
+        goLogin(props.oauth.key);
       }}
       sx={{
         color: oauth.color,
