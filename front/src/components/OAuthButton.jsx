@@ -5,7 +5,7 @@ import { userAtom } from "@/atoms/auth";
 
 import Button from "@mui/material/Button";
 
-export default function OAuthButton(props) {
+export default function OAuthButton({ setLoginOpen, oauth }) {
   const [, setUser] = useAtom(userAtom); // todo: 나중에 지우기
 
   // todo: 소셜로그인 연동하기
@@ -15,11 +15,11 @@ export default function OAuthButton(props) {
   return (
     <Button
       onClick={() => {
-        goLogin(props.oauth.key);
+        goLogin(oauth.key);
       }}
       sx={{
-        color: props.oauth.color,
-        background: props.oauth.background,
+        color: oauth.color,
+        background: oauth.background,
         width: "100%",
         height: "40px",
         marginTop: "10px",
@@ -27,19 +27,17 @@ export default function OAuthButton(props) {
         alignItems: "center",
         justifyContent: "flex-start",
         paddingLeft: "16px",
-        border: props.oauth.border,
+        border: oauth.border,
       }}
     >
       <Image
-        src={props.oauth.logo}
-        alt={props.oauth.alt}
+        src={oauth.logo}
+        alt={oauth.alt}
         layout="intrinsic"
         height={20}
         style={{ objectFit: "contain" }}
       />
-      <span style={{ flex: 1, textAlign: "center" }}>
-        {props.oauth.content}
-      </span>
+      <span style={{ flex: 1, textAlign: "center" }}>{oauth.content}</span>
     </Button>
   );
 }

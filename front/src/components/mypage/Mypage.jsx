@@ -1,12 +1,12 @@
 "use client";
-
 import * as React from "react";
+
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 
-import InviteCard from "@/components/InviteCard";
+import InviteCard from "@/components/mypage/InviteCard";
 
-export default function ResponsiveGrid() {
+export default function Mypage() {
   const inviteCards = [
     {
       imgUrl:

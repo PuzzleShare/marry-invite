@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 
 import Header from "@/components/Header";
-import Mypage from "@/components/Mypage";
+import Mypage from "@/components/mypage/Mypage";
 import CreateButton from "@/components/CreateButton";
 
 export default function Home() {

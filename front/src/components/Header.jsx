@@ -12,15 +12,14 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
-
-import Avatar from "@mui/material/Avatar";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
+import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
+import ListItemIcon from "@mui/material/ListItemIcon";
 
 import PersonIcon from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
