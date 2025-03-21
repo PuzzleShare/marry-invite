@@ -15,7 +15,7 @@ export default function OAuthButton({ setLoginOpen, oauth }) {
   return (
     <Button
       onClick={() => {
-        goLogin(props.oauth.key);
+        goLogin(oauth.key);
       }}
       sx={{
         color: oauth.color,
