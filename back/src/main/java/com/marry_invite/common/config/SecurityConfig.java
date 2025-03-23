@@ -40,14 +40,15 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/api/test/**").permitAll()
                                 .anyRequest().authenticated()
-                ).oauth2Login(oAuth2LoginConf -> {
-                    oAuth2LoginConf.userInfoEndpoint(userInfoEndpointConfig -> {
-                        userInfoEndpointConfig.userService(customOAuth2UserService);
-                    })
-                            .successHandler(oAuth2AuthenticationsSuccessHandler)
-                            .failureHandler(oAuth2AuthenticationFailureHandler)
-                    ;
-                }).addFilterBefore(cookieToAuthorizationFilter, BasicAuthenticationFilter.class)
+                ).oauth2Login(oAuth2LoginConf ->
+                        oAuth2LoginConf.userInfoEndpoint(userInfoEndpointConfig ->
+                                        userInfoEndpointConfig.userService(customOAuth2UserService)
+                                ).successHandler(oAuth2AuthenticationsSuccessHandler)
+                                .failureHandler(oAuth2AuthenticationFailureHandler)
+                ).logout(config ->
+                        config.logoutUrl("/api/logout")
+                                .deleteCookies("JSESSIONID", "accessToken", "refreshToken")
+                ).addFilterBefore(cookieToAuthorizationFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(tokenRefreshFilter, RequestCacheAwareFilter.class);
         return http.build();
     }
