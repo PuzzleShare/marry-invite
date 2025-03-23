@@ -12,18 +12,19 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
-
-import Avatar from "@mui/material/Avatar";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
+import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import Popper from "@mui/material/Popper";
+import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
+import ListItemIcon from "@mui/material/ListItemIcon";
 
 import PersonIcon from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
+import { useUser } from "@/api/users";
+import apiClient from "@/lib/axios";
 
 export default function Header() {
   const [user, setUser] = useAtom(userAtom);
@@ -58,6 +59,16 @@ export default function Header() {
   React.useEffect(() => {
     prevOpen.current = open;
   }, [open]);
+
+  React.useEffect(() => {
+    const setUserData = async () => {
+      if (!user) {
+        const userData = await useUser();
+        setUser(userData);
+      }
+    };
+    setUserData();
+  }, []);
 
   return (
     <React.Fragment>
@@ -121,10 +132,13 @@ export default function Header() {
                             Mypage
                           </MenuItem>
                           <MenuItem
-                            onClick={(e) => {
-                              handleClose(e);
-                              router.push("/");
-                              setUser(null);
+                            onClick={async (e) => {
+                              try {
+                                await apiClient.post("/api/logout");
+                                setUser(null);
+                                handleClose(e);
+                                router.push("/");
+                              } catch (error) {}
                             }}
                           >
                             <ListItemIcon>
