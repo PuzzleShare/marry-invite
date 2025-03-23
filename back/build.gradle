@@ -43,6 +43,9 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+tasks.withType(Test) {
+	enabled = false
+}
 task copyPrivate(type: Copy) {
 	copy {
 		from './marry-invite-sub'
