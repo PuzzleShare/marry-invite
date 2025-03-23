@@ -138,7 +138,9 @@ export default function Header() {
                                 setUser(null);
                                 handleClose(e);
                                 router.push("/");
-                              } catch (error) {}
+                              } catch (error) {
+                                console.log(error);
+                              }
                             }}
                           >
                             <ListItemIcon>
