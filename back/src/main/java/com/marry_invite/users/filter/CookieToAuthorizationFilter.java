@@ -22,6 +22,7 @@ public class CookieToAuthorizationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
+        System.out.println("== cookie to header filter start ==");
         String accessToken = customOAuth2UserService.getCookie(request, "accessToken");
 
         if (accessToken != null) {

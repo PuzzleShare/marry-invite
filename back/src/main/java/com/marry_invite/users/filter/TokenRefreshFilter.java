@@ -5,7 +5,6 @@ import com.marry_invite.users.provider.JWTProvider;
 import com.marry_invite.users.service.CustomOAuth2UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,19 +24,24 @@ public class TokenRefreshFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
+        System.out.println("== refresh token filter start ==");
         String accessToken = customOAuth2UserService.getCookie(request, "accessToken");
         String refreshToken = customOAuth2UserService.getCookie(request, "refreshToken");
-
-        if (jwtProvider.validateToken(accessToken) == 1 && jwtProvider.validateToken(refreshToken) == 0){
+        int accessState = jwtProvider.validateToken(accessToken);
+        int refreshState = jwtProvider.validateToken(refreshToken);
+        if (accessState == 1 && refreshState == 0){
             // access token expire and refresh token valid
             accessToken = jwtProvider.createAccessToken(jwtProvider.getSubset(refreshToken));
             request = new CustomRequestWrapper(request, accessToken);
             customOAuth2UserService.setTokenCookies(response, accessToken, refreshToken);
 
-        } else if (jwtProvider.validateToken(accessToken) == 0 && jwtProvider.validateToken(refreshToken) == 1) {
+        } else if (accessState == 0 && refreshState == 1) {
             // access token valid and refresh token expire
             refreshToken = jwtProvider.createRefreshToken(jwtProvider.getSubset(accessToken));
             customOAuth2UserService.setTokenCookies(response, accessToken, refreshToken);
+
+        } else if (accessState == 1 && refreshState == 1) {
+            customOAuth2UserService.removeTokenCookies(request, response);
         }
 
         filterChain.doFilter(request, response);

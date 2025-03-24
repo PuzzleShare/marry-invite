@@ -8,11 +8,9 @@ import com.marry_invite.users.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.savedrequest.RequestCacheAwareFilter;
@@ -48,8 +46,9 @@ public class SecurityConfig {
                 ).logout(config ->
                         config.logoutUrl("/api/logout")
                                 .deleteCookies("JSESSIONID", "accessToken", "refreshToken")
-                ).addFilterBefore(cookieToAuthorizationFilter, BasicAuthenticationFilter.class)
-                .addFilterBefore(tokenRefreshFilter, RequestCacheAwareFilter.class);
+                )// 같이 BasicAuthenticationFilter 전에 동작하도록 되어있지만 tokenRefreshFilter 가 먼저 실행됨
+                .addFilterBefore(tokenRefreshFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore(cookieToAuthorizationFilter, BasicAuthenticationFilter.class);
         return http.build();
     }
 }

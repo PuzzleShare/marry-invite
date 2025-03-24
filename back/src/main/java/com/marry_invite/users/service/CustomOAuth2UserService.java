@@ -80,4 +80,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 "refreshToken=" + refreshToken +
                         "; Path=/; Secure; HttpOnly; SameSite=None; Max-Age=" + REFRESH_MAX_AGE);
     }
+
+    public void removeTokenCookies(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ){
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("accessToken") || cookie.getName().equals("refreshToken")) {
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
+        }
+    }
 }
