@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
+import { selectedBlockAtom } from "@/atoms/selectedBlock";
 
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -55,12 +56,15 @@ export default function BlockTreeContainer() {
 function BlockTree({
   content,
   depth = 0,
+  path = [],
   parentDisplay = "block",
   updateBlockData,
 }) {
+  const [, setSelectedBlock] = useAtom(selectedBlockAtom);
   const [open, setOpen] = React.useState({});
 
-  const handleClick = (index) => {
+  const handleClick = (block, index) => {
+    setSelectedBlock({ block, path: [...path, index] });
     setOpen((prevOpen) => ({
       ...prevOpen,
       [index]: !prevOpen[index],
@@ -104,7 +108,7 @@ function BlockTree({
                 opacity: currentDisplay === "none" ? 0.3 : 1, // 개별 블록의 상태 반영
               }}
               disableRipple
-              onClick={() => handleClick(index)}
+              onClick={() => handleClick(block, index)}
             >
               <ListItemIcon>{listItemIcon(block.type)}</ListItemIcon>
               <ListItemText primary={block.blockName} />

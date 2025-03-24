@@ -31,7 +31,7 @@ const dummyData = {
       type: "calendar",
       blockName: "Calendar",
       style: {},
-      content: ["2025.03.08 15:30"], // yyyy.MM.dd hh:mm
+      content: ["2025-04-17T15:30"], // yyyy.MM.dd hh:mm
     },
     {
       type: "map",
@@ -47,7 +47,7 @@ const dummyData = {
         {
           type: "blocks",
           blockName: "Nested",
-          style: {},
+          style: { display: "none" },
           content: [
             {
               type: "text", // => p 태그
@@ -76,7 +76,7 @@ const dummyData = {
               type: "calendar",
               blockName: "Calendar",
               style: {},
-              content: ["2025.03.08 15:30"], // yyyy.MM.dd hh:mm
+              content: ["2025-06-17T15:30"], // yyyy.MM.dd hh:mm
             },
             {
               type: "map",
@@ -113,7 +113,7 @@ const dummyData = {
           type: "calendar",
           blockName: "Calendar",
           style: {},
-          content: ["2025.03.08 15:30"], // yyyy.MM.dd hh:mm
+          content: ["2025-05-17T15:30"], // yyyy.MM.dd hh:mm
         },
         {
           type: "map",
@@ -127,3 +127,4 @@ const dummyData = {
 };
 
 export const blockDataAtom = atom(dummyData);
+export const selectedBlockAtom = atom({ block: null, path: [] });

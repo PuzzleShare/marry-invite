@@ -2,7 +2,7 @@
 import * as React from "react";
 
 import { useAtom } from "jotai";
-import { blockDataAtom } from "@/atoms/block";
+import { selectedBlockAtom } from "@/atoms/selectedBlock";
 
 import Box from "@mui/material/Box";
 
@@ -14,20 +14,22 @@ import NestedBlockController from "@/components/invite/controllers/NestedBlockCo
 import TextBlockController from "@/components/invite/controllers/TextBlockController";
 
 export default function Controller() {
-  const controllerType = (type) => {
+  const [selectedBlock] = useAtom(selectedBlockAtom);
+
+  const controllerType = (type, block, path) => {
     switch (type) {
       case "blocks":
-        return <NestedBlockController />;
+        return <NestedBlockController block={block} path={path} />;
       case "text":
-        return <TextBlockController />;
+        return <TextBlockController block={block} path={path} />;
       case "gallery":
-        return <GalleryBlockController />;
+        return <GalleryBlockController block={block} path={path} />;
       case "guest_book":
-        return <GuestbookBlockController />;
+        return <GuestbookBlockController block={block} path={path} />;
       case "calendar":
-        return <CalendarBlockController />;
+        return <CalendarBlockController block={block} path={path} />;
       case "map":
-        return <MapBlockController />;
+        return <MapBlockController block={block} path={path} />;
       default:
         return null;
     }
@@ -42,7 +44,13 @@ export default function Controller() {
         ...scrollStyle,
       }}
     >
-      {controllerType("calendar")} {/* 선택된 블록 컨트롤러 보여주기 */}
+      {selectedBlock.block
+        ? controllerType(
+            selectedBlock.block.type,
+            selectedBlock.block,
+            selectedBlock.path
+          )
+        : "블록을 선택하세요"}
     </Box>
   );
 }

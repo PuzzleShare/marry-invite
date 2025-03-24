@@ -34,7 +34,7 @@ export default function Content() {
             ...block.style,
           }}
         >
-          <BlockContainer block={block} index={index} />
+          <BlockContainer block={block} />
         </Box>
       ))}
     </Stack>
