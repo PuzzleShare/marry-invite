@@ -4,7 +4,6 @@ import com.marry_invite.users.dto.request.CustomRequestWrapper;
 import com.marry_invite.users.service.CustomOAuth2UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ public class CookieToAuthorizationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        System.out.println("== cookie to header filter start ==");
         String accessToken = customOAuth2UserService.getCookie(request, "accessToken");
 
         if (accessToken != null) {

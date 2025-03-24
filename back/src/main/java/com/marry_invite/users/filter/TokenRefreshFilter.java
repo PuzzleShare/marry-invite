@@ -24,7 +24,6 @@ public class TokenRefreshFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        System.out.println("== refresh token filter start ==");
         String accessToken = customOAuth2UserService.getCookie(request, "accessToken");
         String refreshToken = customOAuth2UserService.getCookie(request, "refreshToken");
         int accessState = jwtProvider.validateToken(accessToken);
