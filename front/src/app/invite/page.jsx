@@ -15,7 +15,7 @@ import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 
 import Header from "@/components/Header";
-import BlockTree from "@/components/invite/BlockTree";
+import BlockTreeContainer from "@/components/invite/BlockTree";
 import Content from "@/components/invite/Content";
 import Controller from "@/components/invite/Controller";
 
@@ -56,9 +56,7 @@ function CreatePage({ inviteId }) {
           direction="row"
           divider={<Divider orientation="vertical" flexItem />}
         >
-          <Box sx={{ paddingTop: "8px", minWidth: "300px" }}>
-            <BlockTree content={blockData.content} />
-          </Box>
+          <BlockTreeContainer content={blockData.content} />
           <Content />
           <Controller />
         </Stack>
