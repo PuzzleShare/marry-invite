@@ -16,20 +16,20 @@ import TextBlockController from "@/components/invite/controllers/TextBlockContro
 export default function Controller() {
   const [selectedBlock] = useAtom(selectedBlockAtom);
 
-  const controllerType = (type, block, path) => {
+  const controllerType = (type) => {
     switch (type) {
       case "blocks":
-        return <NestedBlockController block={block} path={path} />;
+        return <NestedBlockController />;
       case "text":
-        return <TextBlockController block={block} path={path} />;
+        return <TextBlockController />;
       case "gallery":
-        return <GalleryBlockController block={block} path={path} />;
+        return <GalleryBlockController />;
       case "guest_book":
-        return <GuestbookBlockController block={block} path={path} />;
+        return <GuestbookBlockController />;
       case "calendar":
-        return <CalendarBlockController block={block} path={path} />;
+        return <CalendarBlockController />;
       case "map":
-        return <MapBlockController block={block} path={path} />;
+        return <MapBlockController />;
       default:
         return null;
     }
@@ -39,17 +39,13 @@ export default function Controller() {
     <Box
       sx={{
         height: "calc(100vh - 64px)",
-        maxWidth: 400,
+        minWidth: 350,
         padding: "8px 0 0 10px",
         ...scrollStyle,
       }}
     >
       {selectedBlock.block
-        ? controllerType(
-            selectedBlock.block.type,
-            selectedBlock.block,
-            selectedBlock.path
-          )
+        ? controllerType(selectedBlock.block.type)
         : "블록을 선택하세요"}
     </Box>
   );

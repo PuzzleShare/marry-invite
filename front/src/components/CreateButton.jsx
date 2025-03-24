@@ -38,7 +38,6 @@ export default function CreateButton() {
       }}
       onClick={async () => {
         const inviteId = await getInviteId();
-        console.log(inviteId);
         router.push(`/invite?inviteId=${inviteId}`);
       }}
     >

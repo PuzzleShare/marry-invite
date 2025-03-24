@@ -60,7 +60,7 @@ function BlockTree({
   parentDisplay = "block",
   updateBlockData,
 }) {
-  const [, setSelectedBlock] = useAtom(selectedBlockAtom);
+  const [selectedBlock, setSelectedBlock] = useAtom(selectedBlockAtom);
   const [open, setOpen] = React.useState({});
 
   const handleClick = (block, index) => {
@@ -107,7 +107,6 @@ function BlockTree({
                 pl: depth * 2,
                 opacity: currentDisplay === "none" ? 0.3 : 1, // 개별 블록의 상태 반영
               }}
-              disableRipple
               onClick={() => handleClick(block, index)}
             >
               <ListItemIcon>{listItemIcon(block.type)}</ListItemIcon>
@@ -143,6 +142,7 @@ function BlockTree({
                 <BlockTree
                   content={block.content}
                   depth={depth + 1}
+                  path={[...path, index]}
                   parentDisplay={currentDisplay} // 부모 상태 전달
                   updateBlockData={(childIndex, updatedChildBlock) => {
                     updateBlockData(index, {

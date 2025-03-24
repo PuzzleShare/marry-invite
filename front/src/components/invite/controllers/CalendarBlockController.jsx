@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
@@ -13,11 +12,16 @@ import { StaticDateTimePicker } from "@mui/x-date-pickers/StaticDateTimePicker";
 
 dayjs.locale("ko");
 
-export default function CalendarBlockController({ block, path }) {
+export default function CalendarBlockController() {
   const [, setBlockData] = useAtom(blockDataAtom);
+  const [selectedBlock] = useAtom(selectedBlockAtom);
   const [selectedDateTime, setSelectedDateTime] = React.useState(
-    dayjs(block.content[0])
+    dayjs(selectedBlock.block.content[0])
   );
+
+  React.useEffect(() => {
+    setSelectedDateTime(dayjs(selectedBlock.block.content[0]));
+  }, [selectedBlock]);
 
   const handleDateChange = (newValue) => {
     if (!newValue) return;
@@ -34,7 +38,7 @@ export default function CalendarBlockController({ block, path }) {
         }
       };
 
-      updateBlockByPath(newData.content, path);
+      updateBlockByPath(newData.content, selectedBlock.path);
       return newData;
     });
   };
