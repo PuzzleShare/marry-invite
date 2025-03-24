@@ -22,8 +22,8 @@ public class JWTProvider {
     private void init(){
         signKey = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
-    public static final long ACCESS_MAX_AGE = 30 * 1000L;
-    public static final long REFRESH_MAX_AGE = 60*60*24 * 1000L;
+    public static final long ACCESS_MAX_AGE = 30L;
+    public static final long REFRESH_MAX_AGE = 60*60*24L;
 
     public String createAccessToken(Users user){
         return createToken(user.getId(), ACCESS_MAX_AGE);

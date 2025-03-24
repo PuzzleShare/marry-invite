@@ -23,7 +23,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 
 import PersonIcon from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
-import { useUser } from "@/request/hook/users";
+import { useUser } from "@/api/users";
+import apiClient from "@/lib/axios";
 
 export default function Header() {
   const [user, setUser] = useAtom(userAtom);
@@ -131,10 +132,15 @@ export default function Header() {
                             Mypage
                           </MenuItem>
                           <MenuItem
-                            onClick={(e) => {
-                              handleClose(e);
-                              router.push("/");
-                              setUser(null);
+                            onClick={async (e) => {
+                              try {
+                                await apiClient.post("/api/logout");
+                                setUser(null);
+                                handleClose(e);
+                                router.push("/");
+                              } catch (error) {
+                                console.log(error);
+                              }
                             }}
                           >
                             <ListItemIcon>

@@ -5,4 +5,4 @@ spring:
     group:
       local: "datasource, oauth, oauthclient"
       dev: "datasource, oauth, oauthclient"
-    active: local
+    active: dev
