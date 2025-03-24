@@ -5,6 +5,7 @@ import com.marry_invite.users.filter.TokenRefreshFilter;
 import com.marry_invite.users.handler.OAuth2AuthenticationFailureHandler;
 import com.marry_invite.users.handler.OAuth2AuthenticationsSuccessHandler;
 import com.marry_invite.users.service.CustomOAuth2UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,6 +47,7 @@ public class SecurityConfig {
                 ).logout(config ->
                         config.logoutUrl("/api/logout")
                                 .deleteCookies("JSESSIONID", "accessToken", "refreshToken")
+                                .logoutSuccessHandler((req, rsp, auth) -> rsp.setStatus(HttpServletResponse.SC_NO_CONTENT)) // 204 응답
                 )// 같이 BasicAuthenticationFilter 전에 동작하도록 되어있지만 tokenRefreshFilter 가 먼저 실행됨
                 .addFilterBefore(tokenRefreshFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(cookieToAuthorizationFilter, BasicAuthenticationFilter.class);
