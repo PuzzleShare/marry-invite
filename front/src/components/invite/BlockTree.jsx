@@ -26,41 +26,18 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 export default function BlockTreeContainer() {
-  const [blockData, setBlockData] = useAtom(blockDataAtom);
-
-  const updateBlockData = (index, updatedBlock) => {
-    setBlockData((prevData) => {
-      const updateContent = (blocks, idx) => {
-        return blocks.map((b, i) =>
-          i === idx
-            ? updatedBlock
-            : b.type === "blocks"
-            ? { ...b, content: updateContent(b.content, idx) }
-            : b
-        );
-      };
-      return { ...prevData, content: updateContent(prevData.content, index) };
-    });
-  };
+  const [blockData] = useAtom(blockDataAtom);
 
   return (
     <Box sx={{ paddingTop: "8px", minWidth: "300px" }}>
-      <BlockTree
-        content={blockData.content}
-        updateBlockData={updateBlockData}
-      />
+      <BlockTree content={blockData.content} />
     </Box>
   );
 }
 
-function BlockTree({
-  content,
-  depth = 0,
-  path = [],
-  parentDisplay = "block",
-  updateBlockData,
-}) {
-  const [selectedBlock, setSelectedBlock] = useAtom(selectedBlockAtom);
+function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
+  const [, setBlockData] = useAtom(blockDataAtom);
+  const [, setSelectedBlock] = useAtom(selectedBlockAtom);
   const [open, setOpen] = React.useState({});
 
   const handleClick = (block, index) => {
@@ -69,6 +46,26 @@ function BlockTree({
       ...prevOpen,
       [index]: !prevOpen[index],
     }));
+  };
+
+  const updateBlockDisplay = (path, display) => {
+    setBlockData((prevData) => {
+      const newData = { ...prevData };
+
+      const updateBlockByPath = (blocks, path) => {
+        if (path.length === 1) {
+          blocks[path[0]].style = {
+            ...blocks[path[0]].style,
+            display: display,
+          };
+        } else {
+          updateBlockByPath(blocks[path[0]].content, path.slice(1));
+        }
+      };
+
+      updateBlockByPath(newData.content, path);
+      return newData;
+    });
   };
 
   const listItemIcon = (type) => {
@@ -120,14 +117,10 @@ function BlockTree({
                 }}
                 onClick={(event) => {
                   event.stopPropagation();
-                  updateBlockData(index, {
-                    ...block,
-                    style: {
-                      ...block.style,
-                      display:
-                        block.style.display === "none" ? "block" : "none",
-                    },
-                  });
+                  updateBlockDisplay(
+                    [...path, index],
+                    block.style.display === "none" ? "block" : "none"
+                  );
                 }}
               >
                 {block.style.display === "none" ? (
@@ -144,14 +137,6 @@ function BlockTree({
                   depth={depth + 1}
                   path={[...path, index]}
                   parentDisplay={currentDisplay} // 부모 상태 전달
-                  updateBlockData={(childIndex, updatedChildBlock) => {
-                    updateBlockData(index, {
-                      ...block,
-                      content: block.content.map((b, i) =>
-                        i === childIndex ? updatedChildBlock : b
-                      ),
-                    });
-                  }}
                 />
               </Collapse>
             )}
