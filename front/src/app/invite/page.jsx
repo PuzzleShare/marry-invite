@@ -56,7 +56,7 @@ function CreatePage({ inviteId }) {
           direction="row"
           divider={<Divider orientation="vertical" flexItem />}
         >
-          <BlockTreeContainer content={blockData.content} />
+          <BlockTreeContainer />
           <Content />
           <Controller />
         </Stack>
