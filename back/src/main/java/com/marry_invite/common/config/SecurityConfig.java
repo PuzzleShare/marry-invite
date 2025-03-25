@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/api/test/**").permitAll()
+                                .requestMatchers("/api/invite/**").permitAll()
                                 .anyRequest().authenticated()
                 ).oauth2Login(oAuth2LoginConf ->
                         oAuth2LoginConf.userInfoEndpoint(userInfoEndpointConfig ->
