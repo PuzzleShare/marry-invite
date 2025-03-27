@@ -5,6 +5,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -75,6 +76,15 @@ public class JWTProvider {
     }
 
     public String getSubset(String token){
+        return Jwts.parserBuilder()
+                .setSigningKey(signKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+    public String getSubset(HttpServletRequest req){
+        String token = req.getHeader("Authorization").substring(7);
         return Jwts.parserBuilder()
                 .setSigningKey(signKey)
                 .build()
