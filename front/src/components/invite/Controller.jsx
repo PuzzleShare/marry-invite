@@ -2,7 +2,7 @@
 import * as React from "react";
 
 import { useAtom } from "jotai";
-import { blockDataAtom } from "@/atoms/block";
+import { selectedBlockAtom } from "@/atoms/selectedBlock";
 
 import Box from "@mui/material/Box";
 
@@ -14,6 +14,8 @@ import NestedBlockController from "@/components/invite/controllers/NestedBlockCo
 import TextBlockController from "@/components/invite/controllers/TextBlockController";
 
 export default function Controller() {
+  const [selectedBlock] = useAtom(selectedBlockAtom);
+
   const controllerType = (type) => {
     switch (type) {
       case "blocks":
@@ -37,12 +39,14 @@ export default function Controller() {
     <Box
       sx={{
         height: "calc(100vh - 64px)",
-        maxWidth: 400,
+        minWidth: 350,
         padding: "8px 0 0 10px",
         ...scrollStyle,
       }}
     >
-      {controllerType("calendar")} {/* 선택된 블록 컨트롤러 보여주기 */}
+      {selectedBlock.block
+        ? controllerType(selectedBlock.block.type)
+        : "블록을 선택하세요"}
     </Box>
   );
 }

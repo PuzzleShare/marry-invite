@@ -1,6 +1,7 @@
 package com.marry_invite.common.handler;
 
 import com.marry_invite.common.dto.response.ErrorResponse;
+import com.marry_invite.common.error.DocumentNotFoundException;
 import com.marry_invite.users.exceptions.JwtTokenException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +21,13 @@ public class CustomExceptionHandler {
     @ExceptionHandler(JwtTokenException.class)
     public ResponseEntity<ErrorResponse> handleJwtTokenException(
             JwtTokenException e
+    ){
+        return ResponseEntity.badRequest()
+                .body(new ErrorResponse(e.getMessage()));
+    }
+    @ExceptionHandler(DocumentNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleDocumentNotFoundException(
+            DocumentNotFoundException e
     ){
         return ResponseEntity.badRequest()
                 .body(new ErrorResponse(e.getMessage()));

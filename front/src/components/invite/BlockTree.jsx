@@ -2,8 +2,10 @@ import * as React from "react";
 
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
+import { selectedBlockAtom } from "@/atoms/selectedBlock";
 
 import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -18,29 +20,52 @@ import Folder from "@mui/icons-material/Folder";
 import TextFields from "@mui/icons-material/TextFields";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
-export default function BlockTreeContainer({ content }) {
+export default function BlockTreeContainer() {
+  const [blockData] = useAtom(blockDataAtom);
+
   return (
     <Box sx={{ paddingTop: "8px", minWidth: "300px" }}>
-      <BlockTree content={content} />
+      <BlockTree content={blockData.content} />
     </Box>
   );
 }
 
-function BlockTree({ content, depth = 0 }) {
+function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
+  const [, setBlockData] = useAtom(blockDataAtom);
+  const [, setSelectedBlock] = useAtom(selectedBlockAtom);
   const [open, setOpen] = React.useState({});
 
-  const handleClick = (index) => {
+  const handleClick = (block, index) => {
+    setSelectedBlock({ block, path: [...path, index] });
     setOpen((prevOpen) => ({
       ...prevOpen,
       [index]: !prevOpen[index],
     }));
   };
 
-  const onDragEnd = (result) => {
-    // todo: 드래그 & 드랍 적용
+  const updateBlockDisplay = (path, display) => {
+    setBlockData((prevData) => {
+      const newData = { ...prevData };
+
+      const updateBlockByPath = (blocks, path) => {
+        if (path.length === 1) {
+          blocks[path[0]].style = {
+            ...blocks[path[0]].style,
+            display: display,
+          };
+        } else {
+          updateBlockByPath(blocks[path[0]].content, path.slice(1));
+        }
+      };
+
+      updateBlockByPath(newData.content, path);
+      return newData;
+    });
   };
 
   const listItemIcon = (type) => {
@@ -67,24 +92,57 @@ function BlockTree({ content, depth = 0 }) {
       sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
       component="nav"
     >
-      {content.map((block, index) => (
-        <React.Fragment key={index}>
-          <ListItemButton
-            sx={{ pl: depth * 2 }}
-            onClick={() => handleClick(index)}
-          >
-            <ListItemIcon>{listItemIcon(block.type)}</ListItemIcon>
-            <ListItemText primary={block.blockName} />
-            {block.type === "blocks" &&
-              (open[index] ? <ExpandLess /> : <ExpandMore />)}
-          </ListItemButton>
-          {block.type === "blocks" && (
-            <Collapse in={open[index]} timeout="auto" unmountOnExit>
-              <BlockTree content={block.content} depth={depth + 1} />
-            </Collapse>
-          )}
-        </React.Fragment>
-      ))}
+      {content.map((block, index) => {
+        // 현재 블록의 display 상태 결정 (부모가 숨겨졌다면 무조건 숨김)
+        const currentDisplay =
+          parentDisplay === "none" ? "none" : block.style.display;
+
+        return (
+          <React.Fragment key={index}>
+            <ListItemButton
+              sx={{
+                pl: depth * 2,
+                opacity: currentDisplay === "none" ? 0.3 : 1, // 개별 블록의 상태 반영
+              }}
+              onClick={() => handleClick(block, index)}
+            >
+              <ListItemIcon>{listItemIcon(block.type)}</ListItemIcon>
+              <ListItemText primary={block.blockName} />
+              {block.type === "blocks" &&
+                (open[index] ? <ExpandLess /> : <ExpandMore />)}
+
+              <IconButton
+                onMouseDown={(event) => {
+                  event.stopPropagation();
+                }}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  updateBlockDisplay(
+                    [...path, index],
+                    block.style.display === "none" ? "block" : "none"
+                  );
+                }}
+              >
+                {block.style.display === "none" ? (
+                  <VisibilityOffOutlinedIcon fontSize="small" />
+                ) : (
+                  <VisibilityOutlinedIcon fontSize="small" />
+                )}
+              </IconButton>
+            </ListItemButton>
+            {block.type === "blocks" && (
+              <Collapse in={open[index]} timeout="auto" unmountOnExit>
+                <BlockTree
+                  content={block.content}
+                  depth={depth + 1}
+                  path={[...path, index]}
+                  parentDisplay={currentDisplay} // 부모 상태 전달
+                />
+              </Collapse>
+            )}
+          </React.Fragment>
+        );
+      })}
     </List>
   );
 }

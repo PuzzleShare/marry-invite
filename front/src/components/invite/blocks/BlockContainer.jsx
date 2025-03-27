@@ -14,20 +14,20 @@ import TextBlock from "@/components/invite/blocks/TextBlock";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import AddIcon from "@mui/icons-material/Add";
 
-export default function BlockContainer({ block, index }) {
+export default function BlockContainer({ block }) {
   const blockType = (type) => {
     if (type === "blocks") {
-      return <NestedBlock block={block} index={index} />;
+      return <NestedBlock block={block} />;
     } else if (type === "text") {
-      return <TextBlock block={block} index={index} />;
+      return <TextBlock block={block} />;
     } else if (type === "gallery") {
-      return <GalleryBlock block={block} index={index} />;
+      return <GalleryBlock block={block} />;
     } else if (type === "guest_book") {
-      return <GuestbookBlock block={block} index={index} />;
+      return <GuestbookBlock block={block} />;
     } else if (type === "calendar") {
-      return <CalendarBlock block={block} index={index} />;
+      return <CalendarBlock block={block} />;
     } else if (type === "map") {
-      return <MapBlock block={block} index={index} />;
+      return <MapBlock block={block} />;
     }
   };
 
