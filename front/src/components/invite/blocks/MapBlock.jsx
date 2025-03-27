@@ -1,20 +1,28 @@
 import * as React from "react";
 
-import Box from "@mui/material/Box";
+export default function MapBlock({ block }) {
+  const mapRef = React.useRef(null);
 
-export default function MapBlock({ block, index }) {
-  return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      sx={{
-        width: "100%",
-        minHeight: "200px",
-        border: "4px solid rgba(0,0,0,0.1)",
-      }}
-    >
-      MapBlock
-    </Box>
-  );
+  React.useEffect(() => {
+    const [latitude, longitude, address, detailAddr] = block.content;
+    const script = document.createElement("script");
+    script.src = `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${process.env.NEXT_PUBLIC_NCP_KEY_ID}`;
+    script.async = true;
+    script.onload = () => {
+      if (window.naver && mapRef.current) {
+        const map = new window.naver.maps.Map(mapRef.current, {
+          center: new window.naver.maps.LatLng(latitude, longitude),
+          zoom: 15,
+        });
+
+        new naver.maps.Marker({
+          position: new naver.maps.LatLng(latitude, longitude),
+          map: map,
+        });
+      }
+    };
+    document.head.appendChild(script);
+  }, []);
+
+  return <div ref={mapRef} style={{ width: "100%", aspectRatio: "1 / 0.5" }} />;
 }
