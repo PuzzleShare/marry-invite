@@ -1,6 +1,6 @@
 package com.marry_invite.invite.service;
 
-import com.marry_invite.common.error.DocumentNotFoundException;
+import com.marry_invite.common.exception.DocumentNotFoundException;
 import com.marry_invite.invite.document.Invites;
 import com.marry_invite.invite.document.block.RootBlock;
 import com.marry_invite.invite.dto.response.InviteResponse;
