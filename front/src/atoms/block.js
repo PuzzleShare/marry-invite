@@ -37,7 +37,7 @@ const dummyData = {
       type: "map",
       blockName: "Map",
       style: {},
-      content: [37.3595704, 127.105399, "[주소]", "[상세주소]"],
+      content: ["[주소]", "[상세주소]", "37.3595704", "127.105399"],
     },
     {
       type: "blocks",
