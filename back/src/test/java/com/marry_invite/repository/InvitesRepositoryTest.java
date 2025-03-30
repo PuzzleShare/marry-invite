@@ -1,6 +1,6 @@
 package com.marry_invite.repository;
 
-import com.marry_invite.common.error.DocumentNotFoundException;
+import com.marry_invite.common.exception.DocumentNotFoundException;
 import com.marry_invite.invite.document.Invites;
 import com.marry_invite.invite.document.block.DataBlock;
 import com.marry_invite.invite.document.block.RootBlock;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
