@@ -19,7 +19,7 @@ export default function Content() {
         justifyContent: "flex-start",
         alignItems: "center",
         height: "calc(100vh - 84px)",
-        minWidth: "478px",
+        minWidth: "600px",
         marginTop: "20px",
         padding: "0 5px",
         overflow: "auto",
@@ -30,7 +30,7 @@ export default function Content() {
         <Box
           key={index}
           sx={{
-            width: 460,
+            width: 540,
             ...block.style,
           }}
         >

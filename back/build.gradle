@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation "com.sksamuel.scrimage:scrimage-core:4.0.32"
 	implementation "com.sksamuel.scrimage:scrimage-webp:4.0.32"
