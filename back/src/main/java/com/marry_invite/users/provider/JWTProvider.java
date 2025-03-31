@@ -5,6 +5,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ public class JWTProvider {
     private void init(){
         signKey = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
-    public static final long ACCESS_MAX_AGE = 60*60*1000L;
-    public static final long REFRESH_MAX_AGE = 60*60*24*1000L;
+    public static final long ACCESS_MAX_AGE = 60*60L;
+    public static final long REFRESH_MAX_AGE = 60*60*24L;
 
     public String createAccessToken(Users user){
         return createToken(user.getId(), ACCESS_MAX_AGE);
@@ -44,7 +45,7 @@ public class JWTProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + time))
+                .setExpiration(new Date(now.getTime() + time * 1000))
                 .signWith(signKey, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -75,6 +76,15 @@ public class JWTProvider {
     }
 
     public String getSubset(String token){
+        return Jwts.parserBuilder()
+                .setSigningKey(signKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+    public String getSubset(HttpServletRequest req){
+        String token = req.getHeader("Authorization").substring(7);
         return Jwts.parserBuilder()
                 .setSigningKey(signKey)
                 .build()
