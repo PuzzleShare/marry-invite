@@ -7,10 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
-@RequestMapping("/map")
+@RequestMapping("/api/map")
 @RequiredArgsConstructor
 public class NaverMapController {
 
@@ -20,7 +18,6 @@ public class NaverMapController {
     public ResponseEntity<Object> getCoordinates(@RequestParam("address") String address) {
         try {
             MarkerResponse response = naverMapService.getCoordinates(address);
-            System.out.println(response);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

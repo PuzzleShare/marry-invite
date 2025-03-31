@@ -35,7 +35,15 @@ export default function MapBlock({ block }) {
   }, [block.content]);
 
   return (
-    <Box style={{ width: "100%", aspectRatio: "1 / 0.5", padding: "10px 0" }}>
+    <Box
+      alignItems="center"
+      display="flex"
+      flexDirection="column"
+      style={{ width: "100%", aspectRatio: "9 / 5", padding: "10px 0" }}
+    >
+      <Typography variant="h6" gutterBottom>
+        오시는길
+      </Typography>
       <Typography variant="h6" gutterBottom>
         {roadAddress}
       </Typography>

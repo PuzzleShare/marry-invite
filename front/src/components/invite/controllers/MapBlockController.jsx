@@ -6,7 +6,8 @@ import { selectedBlockAtom } from "@/atoms/selectedBlock";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import axios from "axios";
+
+import apiClient from "@/lib/axios";
 
 export default function MapBlockController() {
   const [, setBlockData] = useAtom(blockDataAtom);
@@ -44,20 +45,14 @@ export default function MapBlockController() {
     }
 
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACK_END}/map/geocode`,
+      const { data } = await apiClient.get(
+        `${process.env.NEXT_PUBLIC_BACK_END}/api/map/geocode`,
         {
           params: { address: address },
         }
       );
 
-      console.log(response.data);
-      if (!response.data || !response.data.x || !response.data.y) {
-        alert("주소를 찾을 수 없습니다.");
-        return;
-      }
-
-      const { x, y, roadAddress } = response.data;
+      const { x, y, roadAddress } = data;
 
       handleMapMarker(x, y, roadAddress);
     } catch (error) {
@@ -82,14 +77,16 @@ export default function MapBlockController() {
         value={detailAddress}
         onChange={(e) => setDetailAddress(e.target.value)}
       />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={fetchCoordinates}
-        sx={{ mt: 2 }}
+      <Box
+        alignItems="end"
+        display="flex"
+        flexDirection="column"
+        marginTop="20px"
       >
-        위치 저장
-      </Button>
+        <Button variant="contained" color="primary" onClick={fetchCoordinates}>
+          위치 저장
+        </Button>
+      </Box>
     </Box>
   );
 }
