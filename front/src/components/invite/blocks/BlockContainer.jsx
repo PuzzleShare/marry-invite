@@ -38,28 +38,14 @@ export default function BlockContainer({ block }) {
       alignItems="start"
       sx={{
         "&:hover .iconBox": {
-          opacity: 1, // 호버 시 아이콘 보이기
+          opacity: 1,
         },
       }}
     >
-      <Box
-        className="iconBox"
-        sx={{
-          ...buttonStyle,
-          opacity: 0, // 기본적으로 숨겨짐
-          transition: "opacity 0.3s", // 부드러운 트랜지션
-        }}
-      >
+      <Box className="iconBox" sx={{ ...buttonStyle }}>
         <AddIcon sx={{ ...iconStyle }} />
       </Box>
-      <Box
-        className="iconBox"
-        sx={{
-          ...buttonStyle,
-          opacity: 0, // 기본적으로 숨겨짐
-          transition: "opacity 0.3s", // 부드러운 트랜지션
-        }}
-      >
+      <Box className="iconBox" sx={{ ...buttonStyle }}>
         <DragIndicatorIcon sx={{ ...iconStyle }} />
       </Box>
       {blockType(block.type)}
@@ -75,12 +61,14 @@ const buttonStyle = {
   cursor: "pointer",
   width: "24px",
   height: "24px",
-  transition: "background 0.3s", // 부드러운 색상 변화
+  transition: "background 0.3s",
+  opacity: 0,
+  transition: "opacity 0.3s",
   "&:hover": {
-    background: "rgba(0,0,0,0.1)", // 호버 상태에서 색상 변경
+    background: "rgba(0,0,0,0.05)",
   },
   "&:active": {
-    background: "rgba(0,0,0,0.2)", // 클릭 상태에서 색상 변경
+    background: "rgba(0,0,0,0.1)",
   },
 };
 
