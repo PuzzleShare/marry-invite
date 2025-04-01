@@ -3,6 +3,7 @@ import * as React from "react";
 
 import { useAtom } from "jotai";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
+import { scrollStyle } from "@/styles/scroll";
 
 import Box from "@mui/material/Box";
 
@@ -50,16 +51,3 @@ export default function Controller() {
     </Box>
   );
 }
-
-const scrollStyle = {
-  "&::-webkit-scrollbar": {
-    width: "8px", // 스크롤바 너비
-  },
-  "&::-webkit-scrollbar-thumb": {
-    backgroundColor: "#888", // 스크롤바 색상
-    borderRadius: "4px",
-  },
-  "&::-webkit-scrollbar-thumb:hover": {
-    backgroundColor: "#555", // 호버 시 색상 변경
-  },
-};

@@ -3,6 +3,7 @@ import * as React from "react";
 
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
+import { scrollStyle } from "@/styles/scroll";
 
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -22,7 +23,6 @@ export default function Content() {
         minWidth: "600px",
         marginTop: "20px",
         padding: "0 5px",
-        overflow: "auto",
         ...scrollStyle,
       }}
     >
@@ -40,16 +40,3 @@ export default function Content() {
     </Stack>
   );
 }
-
-const scrollStyle = {
-  "&::-webkit-scrollbar": {
-    width: "8px", // 스크롤바 너비
-  },
-  "&::-webkit-scrollbar-thumb": {
-    backgroundColor: "#888", // 스크롤바 색상
-    borderRadius: "4px",
-  },
-  "&::-webkit-scrollbar-thumb:hover": {
-    backgroundColor: "#555", // 호버 시 색상 변경
-  },
-};
