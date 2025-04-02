@@ -37,8 +37,10 @@ public class SecurityConfig {
                 .sessionManagement(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/api/test/**").permitAll()
-                                .requestMatchers("/api/invite/**").permitAll()
+                                .requestMatchers("/api/test/*").permitAll()
+                                .requestMatchers("/api/invite/*").permitAll()
+                                .requestMatchers("/api/*/comment").permitAll()
+                                .requestMatchers("/api/comment/*").permitAll()
                                 .anyRequest().authenticated()
                 ).oauth2Login(oAuth2LoginConf ->
                         oAuth2LoginConf.userInfoEndpoint(userInfoEndpointConfig ->
