@@ -1,6 +1,6 @@
-package com.marry_invite.common.error;
+package com.marry_invite.common.exception;
 
-public class DocumentNotFoundException extends RuntimeException {
+public class DocumentNotFoundException extends CustomException {
     public DocumentNotFoundException(){
         super("정보를 찾을 수 없습니다.");
     }

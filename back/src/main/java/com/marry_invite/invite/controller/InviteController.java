@@ -1,5 +1,6 @@
 package com.marry_invite.invite.controller;
 
+import com.marry_invite.common.dto.response.ResponseMessage;
 import com.marry_invite.invite.document.block.RootBlock;
 import com.marry_invite.invite.dto.response.InviteResponse;
 import com.marry_invite.invite.service.InvitesService;
@@ -29,12 +30,12 @@ public class InviteController {
     }
 
     @PostMapping("/api/invite")
-    public Map<String, String> createInvite(HttpServletRequest req){
+    public ResponseMessage createInvite(HttpServletRequest req){
         return invitesService.createInvite(req);
     }
 
     @PatchMapping("/api/invite/{inviteId}")
-    public Map<String, String> modifyInvite(
+    public ResponseMessage modifyInvite(
             HttpServletRequest req,
             @PathVariable String inviteId,
             @RequestBody RootBlock data
@@ -43,7 +44,7 @@ public class InviteController {
     }
 
     @DeleteMapping("/api/invite/{inviteId}")
-    public Map<String, String> removeInvite(
+    public ResponseMessage removeInvite(
             HttpServletRequest req,
             @PathVariable String inviteId
     ){
