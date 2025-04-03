@@ -4,6 +4,7 @@ import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
 import { uploadFile } from "@/api/invite/gallery";
 
+import { Delete } from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -16,14 +17,12 @@ import {
   ImageList,
   ImageListItem,
 } from "@mui/material";
-import { Delete } from "@mui/icons-material";
 
 export default function GalleryBlockController() {
-  const [blockData, setBlockData] = useAtom(blockDataAtom);
+  const [, setBlockData] = useAtom(blockDataAtom);
   const [selectedBlock] = useAtom(selectedBlockAtom);
   const [files, setFiles] = React.useState([]);
 
-  // 파일 선택 또는 드래그 앤 드롭
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files).map((file) => ({
       file,
@@ -34,7 +33,6 @@ export default function GalleryBlockController() {
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
-  // 개별 파일 업로드
   const handleUpload = async (index) => {
     const fileData = files[index];
     const formData = new FormData();
@@ -44,20 +42,18 @@ export default function GalleryBlockController() {
     console.log(data);
 
     if (data) {
-      // `uploadedUrl` 업데이트
       setFiles((prevFiles) => {
         const updatedFiles = [...prevFiles];
-        updatedFiles[index] = { ...updatedFiles[index], uploadedUrl: data.url }; // 백엔드 응답 구조 확인 필요
+        updatedFiles[index] = { ...updatedFiles[index], uploadedUrl: data.url };
         return updatedFiles;
       });
 
-      // blockData 업데이트
       setBlockData((prevData) => {
         const newData = { ...prevData };
 
         const updateBlockByPath = (blocks, path) => {
           if (path.length === 1) {
-            blocks[path[0]].content.push(data.url); // 백엔드 응답에 따라 수정 필요
+            blocks[path[0]].content.push(data.url);
           } else {
             updateBlockByPath(blocks[path[0]].content, path.slice(1));
           }
@@ -69,12 +65,10 @@ export default function GalleryBlockController() {
     }
   };
 
-  // 미리보기 제거
   const handleDeletePreview = (index) => {
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
-  // 사진 제거
   const handleDeleteImage = (index) => {
     setBlockData((prevData) => {
       const newData = { ...prevData };
