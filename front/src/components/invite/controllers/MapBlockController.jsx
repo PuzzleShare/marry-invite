@@ -2,12 +2,11 @@ import * as React from "react";
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
+import { getCoordinates } from "@/api/invite/map";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-
-import { getCoordinates } from "@/api/invite/map";
 
 export default function MapBlockController() {
   const [, setBlockData] = useAtom(blockDataAtom);

@@ -39,9 +39,10 @@ export default function Controller() {
   return (
     <Box
       sx={{
-        height: "calc(100vh - 64px)",
+        height: "calc(100vh - 84px)",
         minWidth: 350,
-        padding: "8px 0 0 10px",
+        marginTop: "20px",
+        paddingLeft: "10px",
         ...scrollStyle,
       }}
     >
