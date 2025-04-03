@@ -2,12 +2,11 @@ import * as React from "react";
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
+import { getCoordinates } from "@/api/invite/map";
 
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-
-import apiClient from "@/lib/axios";
 
 export default function MapBlockController() {
   const [, setBlockData] = useAtom(blockDataAtom);
@@ -44,21 +43,8 @@ export default function MapBlockController() {
       return;
     }
 
-    try {
-      const { data } = await apiClient.get(
-        `${process.env.NEXT_PUBLIC_BACK_END}/api/map/geocode`,
-        {
-          params: { address: address },
-        }
-      );
-
-      const { x, y, roadAddress } = data;
-
-      handleMapMarker(x, y, roadAddress);
-    } catch (error) {
-      console.error("Geocoding API 요청 실패:", error);
-      alert("위치 정보를 가져오는 데 실패했습니다.");
-    }
+    const { x, y, roadAddress } = await getCoordinates(address);
+    handleMapMarker(x, y, roadAddress);
   };
 
   return (

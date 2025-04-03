@@ -3,6 +3,7 @@ import * as React from "react";
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
+import { scrollStyle } from "@/styles/scroll";
 
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -29,7 +30,14 @@ export default function BlockTreeContainer() {
   const [blockData] = useAtom(blockDataAtom);
 
   return (
-    <Box sx={{ paddingTop: "8px", minWidth: "300px" }}>
+    <Box
+      sx={{
+        marginTop: "20px",
+        minWidth: "300px",
+        height: "calc(100vh - 84px)",
+        ...scrollStyle,
+      }}
+    >
       <BlockTree content={blockData.content} />
     </Box>
   );
@@ -89,7 +97,12 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
 
   return (
     <List
-      sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+      sx={{
+        width: "100%",
+        maxWidth: 360,
+        padding: 0,
+        bgcolor: "background.paper",
+      }}
       component="nav"
     >
       {content.map((block, index) => {
