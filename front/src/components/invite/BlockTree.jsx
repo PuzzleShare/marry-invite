@@ -5,24 +5,29 @@ import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
 import { scrollStyle } from "@/styles/scroll";
 
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
+import {
+  Box,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+} from "@mui/material";
 
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import Edit from "@mui/icons-material/Edit";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import Folder from "@mui/icons-material/Folder";
-import TextFields from "@mui/icons-material/TextFields";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import {
+  CalendarMonth as CalendarMonthIcon,
+  PhotoCamera as PhotoCameraIcon,
+  Edit,
+  LocationOn as LocationOnIcon,
+  Folder,
+  TextFields,
+  ExpandLess,
+  ExpandMore,
+  VisibilityOutlined as VisibilityOutlinedIcon,
+  VisibilityOffOutlined as VisibilityOffOutlinedIcon,
+  Add as AddIcon,
+} from "@mui/icons-material";
 
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 

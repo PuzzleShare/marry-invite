@@ -1,8 +1,7 @@
 import * as React from "react";
+import { Box } from "@mui/material";
 
-import Box from "@mui/material/Box";
-
-export default function TextBlock({ block, index }) {
+export default function TextBlock({ block }) {
   return (
     <Box
       display="flex"

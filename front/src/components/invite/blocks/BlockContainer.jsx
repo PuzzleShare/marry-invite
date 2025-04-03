@@ -1,18 +1,19 @@
 import * as React from "react";
+import { Stack, Box } from "@mui/material";
 
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import {
+  CalendarBlock,
+  GalleryBlock,
+  GuestbookBlock,
+  MapBlock,
+  NestedBlock,
+  TextBlock,
+} from "@/components/invite/blocks";
 
-import CalendarBlock from "@/components/invite/blocks/CalendarBlock";
-import GalleryBlock from "@/components/invite/blocks/GalleryBlock";
-import GuestbookBlock from "@/components/invite/blocks/GuestbookBlock";
-import MapBlock from "@/components/invite/blocks/MapBlock";
-import NestedBlock from "@/components/invite/blocks/NestedBlock";
-import TextBlock from "@/components/invite/blocks/TextBlock";
-
-import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
-import AddIcon from "@mui/icons-material/Add";
+import {
+  DragIndicator as DragIndicatorIcon,
+  Add as AddIcon,
+} from "@mui/icons-material";
 
 export default function BlockContainer({ block }) {
   const blockType = (type) => {

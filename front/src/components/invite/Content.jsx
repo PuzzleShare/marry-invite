@@ -1,14 +1,11 @@
 "use client";
 import * as React from "react";
+import BlockContainer from "@/components/invite/blocks/BlockContainer";
 
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { scrollStyle } from "@/styles/scroll";
-
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-
-import BlockContainer from "@/components/invite/blocks/BlockContainer";
+import { Stack, Box } from "@mui/material";
 
 export default function Content() {
   const [blockData, setBlockData] = useAtom(blockDataAtom);

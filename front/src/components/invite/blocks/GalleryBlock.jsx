@@ -1,10 +1,6 @@
 import * as React from "react";
-
 import { scrollStyle } from "@/styles/scroll";
-
-import Box from "@mui/material/Box";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
+import { Box, ImageList, ImageListItem } from "@mui/material";
 
 export default function GalleryBlock({ block }) {
   return <Gallery block={block} />;

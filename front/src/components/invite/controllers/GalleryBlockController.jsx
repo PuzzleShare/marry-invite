@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
@@ -21,7 +21,7 @@ import { Delete } from "@mui/icons-material";
 export default function GalleryBlockController() {
   const [blockData, setBlockData] = useAtom(blockDataAtom);
   const [selectedBlock] = useAtom(selectedBlockAtom);
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = React.useState([]);
 
   // 파일 선택 또는 드래그 앤 드롭
   const handleFileChange = (e) => {
