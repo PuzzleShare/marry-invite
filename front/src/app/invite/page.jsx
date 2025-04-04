@@ -1,23 +1,17 @@
 "use client";
 import * as React from "react";
+
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/auth";
 import { blockDataAtom } from "@/atoms/block";
+import { getInvite } from "@/api/invite/invite";
 
-import apiClient from "@/lib/axios";
-
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import Divider from "@mui/material/Divider";
-
-import Header from "@/components/Header";
-import BlockTreeContainer from "@/components/invite/BlockTree";
-import Content from "@/components/invite/Content";
-import Controller from "@/components/invite/Controller";
+import { CssBaseline, Box, Stack, Divider } from "@mui/material";
+import { Header } from "@/components";
+import { BlockTreeContainer, Content, Controller } from "@/components/invite";
 
 function InviteIdLoader() {
   const searchParams = useSearchParams();
@@ -31,17 +25,12 @@ function CreatePage({ inviteId }) {
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    // 블럭 데이터 가져오기
-    // apiClient
-    //   .get(`/invite?inviteId=${inviteId}`, {
-    //     headers: { Authorization: `Bearer ${user.token}` },
-    //   })
-    //   .then((response) => {
-    //     setBlockData(response.data);
-    //   })
-    //   .catch((error) => {
-    //     setError(error);
-    //   });
+    const getData = async () => {
+      const data = await getInvite(inviteId);
+      console.log(data);
+      setBlockData(data.data);
+    };
+    getData();
   }, []);
 
   if (blockData == null) return <div>로딩 중...</div>;

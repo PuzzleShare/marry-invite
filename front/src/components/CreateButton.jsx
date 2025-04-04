@@ -1,9 +1,10 @@
 import * as React from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
 
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
+import { useRouter } from "next/navigation";
+import { createInvite } from "@/api/invite/invite";
+
+import { Fab } from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
 
 export default function CreateButton() {
   const router = useRouter();
@@ -37,8 +38,10 @@ export default function CreateButton() {
         zIndex: 1000,
       }}
       onClick={async () => {
-        const inviteId = await getInviteId();
-        router.push(`/invite?inviteId=${inviteId}`);
+        const data = await createInvite();
+        if (data) {
+          router.push(`/invite?inviteId=${data.inviteId}`);
+        }
       }}
     >
       <AddIcon

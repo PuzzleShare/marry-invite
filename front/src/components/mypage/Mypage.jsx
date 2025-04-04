@@ -1,10 +1,7 @@
 "use client";
 import * as React from "react";
-
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid2";
-
 import InviteCard from "@/components/mypage/InviteCard";
+import { Box, Grid2 as Grid } from "@mui/material";
 
 export default function Mypage() {
   const inviteCards = [

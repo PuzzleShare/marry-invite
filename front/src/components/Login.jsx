@@ -1,18 +1,18 @@
 import * as React from "react";
 import axios from "axios";
+
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/auth";
+import { OAuthButton } from "@/components";
+import { naverLogo, kakaoLogo, googleLogo } from "@/assets/login";
 
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-
-import OAuthButton from "@/components/OAuthButton";
-import naverLogo from "@/assets/login/naver_logo.png";
-import kakaoLogo from "@/assets/login/kakao_logo.png";
-import googleLogo from "@/assets/login/google_logo.png";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 
 export default function Login({ loginOpen, setLoginOpen }) {
   const [, setUser] = useAtom(userAtom);
@@ -59,7 +59,7 @@ export default function Login({ loginOpen, setLoginOpen }) {
       <DialogTitle sx={{ textAlign: "center" }}>로그인</DialogTitle>
       <DialogContent sx={{ width: "300px" }}>
         {oauth.map((o) => (
-          <OAuthButton setLoginOpen={setLoginOpen} oauth={o} key={o.key} />
+          <OAuthButton oauth={o} key={o.key} />
         ))}
       </DialogContent>
       <DialogActions>

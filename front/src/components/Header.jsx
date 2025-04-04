@@ -1,64 +1,45 @@
 "use client";
-
 import * as React from "react";
+import apiClient from "@/lib/axios";
+
 import { useRouter } from "next/navigation";
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/auth";
-
-import Login from "@/components/Login";
-
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grow from "@mui/material/Grow";
-import Avatar from "@mui/material/Avatar";
-import Paper from "@mui/material/Paper";
-import Popper from "@mui/material/Popper";
-import MenuItem from "@mui/material/MenuItem";
-import MenuList from "@mui/material/MenuList";
-import ListItemIcon from "@mui/material/ListItemIcon";
-
-import PersonIcon from "@mui/icons-material/Person";
-import Logout from "@mui/icons-material/Logout";
 import { useUser } from "@/api/users";
-import apiClient from "@/lib/axios";
+import { Login } from "@/components";
+
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  Avatar,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+} from "@mui/material";
+
+import {
+  Person as PersonIcon,
+  Logout as LogoutIcon,
+} from "@mui/icons-material";
 
 export default function Header() {
   const [user, setUser] = useAtom(userAtom);
   const [loginOpen, setLoginOpen] = React.useState(false);
   const router = useRouter();
 
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
-    setOpen(false);
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
-
-  function handleListKeyDown(event) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === "Escape") {
-      setOpen(false);
-    }
-  }
-
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
-    prevOpen.current = open;
-  }, [open]);
 
   React.useEffect(() => {
     const setUserData = async () => {
@@ -78,90 +59,55 @@ export default function Header() {
             variant="h6"
             component="div"
             sx={{ cursor: "pointer" }}
-            onClick={() => {
-              router.push("/");
-            }}
+            onClick={() => router.push("/")}
           >
             Marry Invite
           </Typography>
           {user ? (
             <div>
-              <IconButton
-                ref={anchorRef}
-                id="composition-button"
-                aria-controls={open ? "composition-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleToggle}
-              >
+              <IconButton onClick={handleMenuOpen}>
                 <Avatar sx={{ width: 32, height: 32 }} />
               </IconButton>
-              <Popper
+              <Menu
+                anchorEl={anchorEl}
                 open={open}
-                anchorEl={anchorRef.current}
-                role={undefined}
-                placement="bottom-start"
-                transition
-                disablePortal
-                sx={{ zIndex: 100 }}
+                onClose={handleMenuClose}
+                PaperProps={{
+                  sx: { mt: 1 },
+                }}
               >
-                {({ TransitionProps, placement }) => (
-                  <Grow
-                    {...TransitionProps}
-                    style={{
-                      transformOrigin: "right top",
-                    }}
-                  >
-                    <Paper>
-                      <ClickAwayListener onClickAway={handleClose}>
-                        <MenuList
-                          autoFocusItem={open}
-                          id="composition-menu"
-                          aria-labelledby="composition-button"
-                          onKeyDown={handleListKeyDown}
-                        >
-                          <MenuItem
-                            onClick={(e) => {
-                              handleClose(e);
-                              router.push("/mypage");
-                            }}
-                          >
-                            <ListItemIcon>
-                              <PersonIcon fontSize="small" />
-                            </ListItemIcon>
-                            Mypage
-                          </MenuItem>
-                          <MenuItem
-                            onClick={async (e) => {
-                              try {
-                                await apiClient.post("/api/logout");
-                                setUser(null);
-                                handleClose(e);
-                                router.push("/");
-                              } catch (error) {
-                                console.log(error);
-                              }
-                            }}
-                          >
-                            <ListItemIcon>
-                              <Logout fontSize="small" />
-                            </ListItemIcon>
-                            Logout
-                          </MenuItem>
-                        </MenuList>
-                      </ClickAwayListener>
-                    </Paper>
-                  </Grow>
-                )}
-              </Popper>
+                <MenuItem
+                  onClick={() => {
+                    handleMenuClose();
+                    router.push("/mypage");
+                  }}
+                >
+                  <ListItemIcon>
+                    <PersonIcon fontSize="small" />
+                  </ListItemIcon>
+                  Mypage
+                </MenuItem>
+                <MenuItem
+                  onClick={async () => {
+                    try {
+                      await apiClient.post("/api/logout");
+                      setUser(null);
+                      handleMenuClose();
+                      router.push("/");
+                    } catch (error) {
+                      console.error(error);
+                    }
+                  }}
+                >
+                  <ListItemIcon>
+                    <LogoutIcon fontSize="small" />
+                  </ListItemIcon>
+                  Logout
+                </MenuItem>
+              </Menu>
             </div>
           ) : (
-            <Button
-              onClick={() => {
-                setLoginOpen(true);
-              }}
-              color="default"
-            >
+            <Button onClick={() => setLoginOpen(true)} color="default">
               Login
             </Button>
           )}

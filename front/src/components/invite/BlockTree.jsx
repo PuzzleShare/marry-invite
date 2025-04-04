@@ -4,27 +4,34 @@ import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
 import { scrollStyle } from "@/styles/scroll";
-
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import Edit from "@mui/icons-material/Edit";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import Folder from "@mui/icons-material/Folder";
-import TextFields from "@mui/icons-material/TextFields";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+
+import {
+  Box,
+  IconButton,
+  Divider,
+  Menu,
+  MenuItem,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Collapse,
+} from "@mui/material";
+
+import {
+  CalendarMonth as CalendarMonthIcon,
+  PhotoCamera as PhotoCameraIcon,
+  Edit as EditIcon,
+  LocationOn as LocationOnIcon,
+  Folder as FolderIcon,
+  TextFields as TextFieldsIcon,
+  ExpandLess as ExpandLessIcon,
+  ExpandMore as ExpandMoreIcon,
+  VisibilityOutlined as VisibilityOutlinedIcon,
+  VisibilityOffOutlined as VisibilityOffOutlinedIcon,
+  Add as AddIcon,
+} from "@mui/icons-material";
 
 export default function BlockTreeContainer() {
   const [blockData] = useAtom(blockDataAtom);
@@ -47,6 +54,8 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
   const [, setBlockData] = useAtom(blockDataAtom);
   const [, setSelectedBlock] = useAtom(selectedBlockAtom);
   const [open, setOpen] = React.useState({});
+  const [menuAnchor, setMenuAnchor] = React.useState(null);
+  const [addBlockPath, setAddBlockPath] = React.useState(null);
 
   const handleClick = (block, index) => {
     setSelectedBlock({ block, path: [...path, index] });
@@ -76,23 +85,36 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
     });
   };
 
-  const listItemIcon = (type) => {
-    switch (type) {
-      case "blocks":
-        return <Folder />;
-      case "text":
-        return <TextFields />;
-      case "gallery":
-        return <PhotoCameraIcon />;
-      case "guest_book":
-        return <Edit />;
-      case "calendar":
-        return <CalendarMonthIcon />;
-      case "map":
-        return <LocationOnIcon />;
-      default:
-        return null;
-    }
+  const handleAddBlockClick = (event, path) => {
+    setMenuAnchor(event.currentTarget);
+    setAddBlockPath(path);
+  };
+
+  const handleAddBlock = (type) => {
+    if (!addBlockPath) return;
+    setBlockData((prevData) => {
+      const newData = { ...prevData };
+      const newBlock = {
+        blockName: type.charAt(0).toUpperCase() + type.slice(1) + " Block",
+        type,
+        content: [],
+        style: { display: "block" },
+      };
+
+      const insertBlockByPath = (blocks, path) => {
+        if (path.length === 0) {
+          blocks.push(newBlock);
+        } else {
+          insertBlockByPath(blocks[path[0]].content, path.slice(1));
+        }
+      };
+
+      insertBlockByPath(newData.content, addBlockPath);
+      return newData;
+    });
+
+    setMenuAnchor(null);
+    setAddBlockPath(null);
   };
 
   return (
@@ -122,7 +144,7 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
               <ListItemIcon>{listItemIcon(block.type)}</ListItemIcon>
               <ListItemText primary={block.blockName} />
               {block.type === "blocks" &&
-                (open[index] ? <ExpandLess /> : <ExpandMore />)}
+                (open[index] ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
 
               <IconButton
                 onMouseDown={(event) => {
@@ -156,6 +178,60 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
           </React.Fragment>
         );
       })}
+      <Box textAlign={"center"} sx={{ pl: depth * 2 }}>
+        <IconButton
+          size="large"
+          onClick={(event) => handleAddBlockClick(event, path)}
+        >
+          <AddIcon fontSize="medium" />
+        </IconButton>
+        {depth !== 0 && <Divider component="li" />}
+      </Box>
+
+      {/* 블록 추가 메뉴 */}
+      <Menu
+        anchorEl={menuAnchor}
+        open={Boolean(menuAnchor)}
+        onClose={() => setMenuAnchor(null)}
+      >
+        <MenuItem onClick={() => handleAddBlock("text")}>
+          <ListItemIcon>
+            <TextFieldsIcon />
+          </ListItemIcon>{" "}
+          텍스트
+        </MenuItem>
+        <MenuItem onClick={() => handleAddBlock("gallery")}>
+          <ListItemIcon>
+            <PhotoCameraIcon />
+          </ListItemIcon>{" "}
+          갤러리
+        </MenuItem>
+        <MenuItem onClick={() => handleAddBlock("blocks")}>
+          <ListItemIcon>
+            <FolderIcon />
+          </ListItemIcon>{" "}
+          그룹
+        </MenuItem>
+      </Menu>
     </List>
   );
+}
+
+function listItemIcon(type) {
+  switch (type) {
+    case "blocks":
+      return <FolderIcon />;
+    case "text":
+      return <TextFieldsIcon />;
+    case "gallery":
+      return <PhotoCameraIcon />;
+    case "guest_book":
+      return <EditIcon />;
+    case "calendar":
+      return <CalendarMonthIcon />;
+    case "map":
+      return <LocationOnIcon />;
+    default:
+      return null;
+  }
 }

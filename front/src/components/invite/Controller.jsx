@@ -4,15 +4,16 @@ import * as React from "react";
 import { useAtom } from "jotai";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
 import { scrollStyle } from "@/styles/scroll";
+import { Box } from "@mui/material";
 
-import Box from "@mui/material/Box";
-
-import CalendarBlockController from "@/components/invite/controllers/CalendarBlockController";
-import GalleryBlockController from "@/components/invite/controllers/GalleryBlockController";
-import GuestbookBlockController from "@/components/invite/controllers/GuestbookBlockController";
-import MapBlockController from "@/components/invite/controllers/MapBlockController";
-import NestedBlockController from "@/components/invite/controllers/NestedBlockController";
-import TextBlockController from "@/components/invite/controllers/TextBlockController";
+import {
+  CalendarBlockController,
+  GalleryBlockController,
+  GuestbookBlockController,
+  MapBlockController,
+  NestedBlockController,
+  TextBlockController,
+} from "@/components/invite/controllers";
 
 export default function Controller() {
   const [selectedBlock] = useAtom(selectedBlockAtom);
