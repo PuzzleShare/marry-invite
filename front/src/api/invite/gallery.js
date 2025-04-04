@@ -9,7 +9,8 @@ export const uploadFile = async (formData) => {
         headers: { "Content-Type": "multipart/form-data" },
       }
     );
-    data.url = "s3://marry-invite/" + data.url;
+    data.url =
+      "https://marry-invite.s3.ap-northeast-2.amazonaws.com/" + data.url;
     return data;
   } catch (error) {
     console.error("이미지 업로드 실패:", error);

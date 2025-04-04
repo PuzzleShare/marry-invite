@@ -31,8 +31,6 @@ import {
   VisibilityOutlined as VisibilityOutlinedIcon,
   VisibilityOffOutlined as VisibilityOffOutlinedIcon,
   Add as AddIcon,
-  AddBox as AddBoxIcon,
-  AddBoxOutlined as AddBoxOutlinedIcon,
 } from "@mui/icons-material";
 
 export default function BlockTreeContainer() {

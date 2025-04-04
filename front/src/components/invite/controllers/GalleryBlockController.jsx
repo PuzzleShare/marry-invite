@@ -39,7 +39,6 @@ export default function GalleryBlockController() {
     formData.append("file", fileData.file);
 
     const data = await uploadFile(formData);
-    console.log(data);
 
     if (data) {
       setFiles((prevFiles) => {
