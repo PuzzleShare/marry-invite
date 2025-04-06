@@ -11,7 +11,12 @@ import { getInvite } from "@/api/invite/invite";
 
 import { CssBaseline, Box, Stack, Divider } from "@mui/material";
 import { Header } from "@/components";
-import { BlockTreeContainer, Content, Controller } from "@/components/invite";
+import {
+  BlockTreeContainer,
+  Content,
+  Controller,
+  Loading,
+} from "@/components/invite";
 
 function InviteIdLoader() {
   const searchParams = useSearchParams();
@@ -27,13 +32,17 @@ function CreatePage({ inviteId }) {
   React.useEffect(() => {
     const getData = async () => {
       const data = await getInvite(inviteId);
-      console.log(data);
       setBlockData(data.data);
     };
     getData();
   }, []);
 
-  if (blockData == null) return <div>로딩 중...</div>;
+  if (blockData == null)
+    return (
+      <Box height="calc(100vh - 64px)">
+        <Loading />
+      </Box>
+    );
   if (error) return <div>에러 발생: {error.message}</div>;
 
   return (
