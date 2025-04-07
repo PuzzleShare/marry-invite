@@ -28,11 +28,13 @@ export const getCommentList = async (inviteId) => {
   }
 };
 
-export const modifyComment = async (commentId) => {
+export const modifyComment = async (commentId, comment) => {
   try {
     const { data } = await apiClient.put(
-      `${process.env.NEXT_PUBLIC_BACK_END}/api/comment/${commentId}`
+      `${process.env.NEXT_PUBLIC_BACK_END}/api/comment/${commentId}`,
+      comment
     );
+    console.log(data);
     return data;
   } catch (error) {
     console.error("modifyComment API 요청 실패:", error);
@@ -41,11 +43,13 @@ export const modifyComment = async (commentId) => {
   }
 };
 
-export const deleteComment = async (commentId) => {
+export const deleteComment = async (commentId, pw) => {
   try {
     const { data } = await apiClient.delete(
-      `${process.env.NEXT_PUBLIC_BACK_END}/api/comment/${commentId}`
+      `${process.env.NEXT_PUBLIC_BACK_END}/api/comment/${commentId}`,
+      JSON.stringify(pw)
     );
+    console.log(data);
     return data;
   } catch (error) {
     console.error("deleteComment API 요청 실패:", error);
