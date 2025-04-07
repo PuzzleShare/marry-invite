@@ -1,5 +1,6 @@
 package com.marry_invite.comment.controller;
 
+import com.marry_invite.comment.dto.request.CommentDeleteRequest;
 import com.marry_invite.comment.dto.request.CommentRequest;
 import com.marry_invite.comment.dto.response.CommentResponse;
 import com.marry_invite.comment.service.CommentsService;
@@ -38,8 +39,8 @@ public class CommentController {
     @DeleteMapping("/api/comment/{commentId}")
     public ResponseMessage deleteComment(
             @PathVariable String commentId,
-            @RequestBody String pw
-    ){
-        return commentsService.deleteComment(commentId, pw);
+            @RequestBody CommentDeleteRequest commentDeleteRequest
+            ){
+        return commentsService.deleteComment(commentId, commentDeleteRequest.pw());
     }
 }
