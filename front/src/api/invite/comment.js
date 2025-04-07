@@ -47,7 +47,7 @@ export const deleteComment = async (commentId, pw) => {
   try {
     const { data } = await apiClient.delete(
       `${process.env.NEXT_PUBLIC_BACK_END}/api/comment/${commentId}`,
-      JSON.stringify(pw)
+      { data: pw }
     );
     console.log(data);
     return data;

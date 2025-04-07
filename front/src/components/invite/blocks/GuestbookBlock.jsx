@@ -75,11 +75,11 @@ function SaveCommentBox({ inviteId, getData }) {
 
     const result = await saveComment(inviteId, comment);
     if (result) {
-      alert("방명록이 등록되었습니다!");
       setName("");
       setText("");
       setPassword("");
       getData();
+      alert("방명록이 등록되었습니다!");
     }
   };
 
@@ -109,8 +109,8 @@ function SaveCommentBox({ inviteId, getData }) {
         onChange={(e) => setPassword(e.target.value)}
         sx={{ marginTop: "8px" }}
       />
-      <Box display="flex" justifyContent="end" onClick={handleSubmit}>
-        <Button>등록</Button>
+      <Box display="flex" justifyContent="end">
+        <Button onClick={handleSubmit}>등록</Button>
       </Box>
     </Box>
   );
