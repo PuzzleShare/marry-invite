@@ -13,6 +13,7 @@ export default function NestedBlock({ block }) {
         border: "4px solid rgba(0,0,0,0.1)",
       }}
     >
+      {block.content.map((b)=> {})}
       NestedBlock
     </Box>
   );
