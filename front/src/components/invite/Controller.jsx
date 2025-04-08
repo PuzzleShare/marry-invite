@@ -3,15 +3,17 @@ import * as React from "react";
 
 import { useAtom } from "jotai";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
+import { scrollStyle } from "@/styles/scroll";
+import { Box } from "@mui/material";
 
-import Box from "@mui/material/Box";
-
-import CalendarBlockController from "@/components/invite/controllers/CalendarBlockController";
-import GalleryBlockController from "@/components/invite/controllers/GalleryBlockController";
-import GuestbookBlockController from "@/components/invite/controllers/GuestbookBlockController";
-import MapBlockController from "@/components/invite/controllers/MapBlockController";
-import NestedBlockController from "@/components/invite/controllers/NestedBlockController";
-import TextBlockController from "@/components/invite/controllers/TextBlockController";
+import {
+  CalendarBlockController,
+  GalleryBlockController,
+  GuestbookBlockController,
+  MapBlockController,
+  NestedBlockController,
+  TextBlockController,
+} from "@/components/invite/controllers";
 
 export default function Controller() {
   const [selectedBlock] = useAtom(selectedBlockAtom);
@@ -38,9 +40,10 @@ export default function Controller() {
   return (
     <Box
       sx={{
-        height: "calc(100vh - 64px)",
+        height: "calc(100vh - 84px)",
         minWidth: 350,
-        padding: "8px 0 0 10px",
+        marginTop: "20px",
+        paddingLeft: "10px",
         ...scrollStyle,
       }}
     >
@@ -50,16 +53,3 @@ export default function Controller() {
     </Box>
   );
 }
-
-const scrollStyle = {
-  "&::-webkit-scrollbar": {
-    width: "8px", // 스크롤바 너비
-  },
-  "&::-webkit-scrollbar-thumb": {
-    backgroundColor: "#888", // 스크롤바 색상
-    borderRadius: "4px",
-  },
-  "&::-webkit-scrollbar-thumb:hover": {
-    backgroundColor: "#555", // 호버 시 색상 변경
-  },
-};

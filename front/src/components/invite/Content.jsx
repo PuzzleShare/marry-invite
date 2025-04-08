@@ -1,13 +1,11 @@
 "use client";
 import * as React from "react";
+import BlockContainer from "@/components/invite/blocks/BlockContainer";
 
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
-
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-
-import BlockContainer from "@/components/invite/blocks/BlockContainer";
+import { scrollStyle } from "@/styles/scroll";
+import { Stack, Box } from "@mui/material";
 
 export default function Content() {
   const [blockData, setBlockData] = useAtom(blockDataAtom);
@@ -22,7 +20,6 @@ export default function Content() {
         minWidth: "600px",
         marginTop: "20px",
         padding: "0 5px",
-        overflow: "auto",
         ...scrollStyle,
       }}
     >
@@ -40,16 +37,3 @@ export default function Content() {
     </Stack>
   );
 }
-
-const scrollStyle = {
-  "&::-webkit-scrollbar": {
-    width: "8px", // 스크롤바 너비
-  },
-  "&::-webkit-scrollbar-thumb": {
-    backgroundColor: "#888", // 스크롤바 색상
-    borderRadius: "4px",
-  },
-  "&::-webkit-scrollbar-thumb:hover": {
-    backgroundColor: "#555", // 호버 시 색상 변경
-  },
-};

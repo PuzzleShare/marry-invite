@@ -2,10 +2,9 @@ import * as React from "react";
 import Image from "next/image";
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/auth";
+import { Button } from "@mui/material";
 
-import Button from "@mui/material/Button";
-
-export default function OAuthButton({ setLoginOpen, oauth }) {
+export default function OAuthButton({ oauth }) {
   const [, setUser] = useAtom(userAtom); // todo: 나중에 지우기
 
   // todo: 소셜로그인 연동하기

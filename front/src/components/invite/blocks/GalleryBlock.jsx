@@ -1,20 +1,23 @@
 import * as React from "react";
+import { scrollStyle } from "@/styles/scroll";
+import { Box, ImageList, ImageListItem } from "@mui/material";
 
-import Box from "@mui/material/Box";
+export default function GalleryBlock({ block }) {
+  return <Gallery block={block} />;
+}
 
-export default function GalleryBlock({ block, index }) {
+function Gallery({ block }) {
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      sx={{
-        width: "100%",
-        minHeight: "200px",
-        border: "4px solid rgba(0,0,0,0.1)",
-      }}
-    >
-      GalleryBlock
+    <Box sx={{ width: "100%", ...scrollStyle }}>
+      <ImageList variant="masonry" cols={3} gap={8} sx={{ margin: 0 }}>
+        {block.content.map((item, index) => (
+          <ImageListItem key={index}>
+            <img src={item} alt="Gallery image" loading="lazy" />
+          </ImageListItem>
+        ))}
+      </ImageList>
     </Box>
   );
 }
+
+function Slider({ block }) {}

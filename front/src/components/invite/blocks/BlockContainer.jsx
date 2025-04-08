@@ -1,18 +1,19 @@
 import * as React from "react";
+import { Stack, Box } from "@mui/material";
 
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import {
+  CalendarBlock,
+  GalleryBlock,
+  GuestbookBlock,
+  MapBlock,
+  NestedBlock,
+  TextBlock,
+} from "@/components/invite/blocks";
 
-import CalendarBlock from "@/components/invite/blocks/CalendarBlock";
-import GalleryBlock from "@/components/invite/blocks/GalleryBlock";
-import GuestbookBlock from "@/components/invite/blocks/GuestbookBlock";
-import MapBlock from "@/components/invite/blocks/MapBlock";
-import NestedBlock from "@/components/invite/blocks/NestedBlock";
-import TextBlock from "@/components/invite/blocks/TextBlock";
-
-import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
-import AddIcon from "@mui/icons-material/Add";
+import {
+  DragIndicator as DragIndicatorIcon,
+  Add as AddIcon,
+} from "@mui/icons-material";
 
 export default function BlockContainer({ block }) {
   const blockType = (type) => {
@@ -32,58 +33,47 @@ export default function BlockContainer({ block }) {
   };
 
   return (
-    <Stack
-      direction="row"
-      spacing={0.5}
-      alignItems="start"
-      sx={{
-        "&:hover .iconBox": {
-          opacity: 1, // 호버 시 아이콘 보이기
-        },
-      }}
-    >
-      <Box
-        className="iconBox"
-        sx={{
-          ...buttonStyle,
-          opacity: 0, // 기본적으로 숨겨짐
-          transition: "opacity 0.3s", // 부드러운 트랜지션
-        }}
-      >
-        <AddIcon sx={{ ...iconStyle }} />
-      </Box>
-      <Box
-        className="iconBox"
-        sx={{
-          ...buttonStyle,
-          opacity: 0, // 기본적으로 숨겨짐
-          transition: "opacity 0.3s", // 부드러운 트랜지션
-        }}
-      >
-        <DragIndicatorIcon sx={{ ...iconStyle }} />
-      </Box>
-      {blockType(block.type)}
-    </Stack>
+    // <Stack
+    //   direction="row"
+    //   spacing={0.5}
+    //   alignItems="start"
+    //   sx={{
+    //     "&:hover .iconBox": {
+    //       opacity: 1,
+    //     },
+    //   }}
+    // >
+    //   <Box className="iconBox" sx={{ ...buttonStyle }}>
+    //     <AddIcon sx={{ ...iconStyle }} />
+    //   </Box>
+    //   <Box className="iconBox" sx={{ ...buttonStyle }}>
+    //     <DragIndicatorIcon sx={{ ...iconStyle }} />
+    //   </Box>
+    //   {blockType(block.type)}
+    // </Stack>
+    blockType(block.type)
   );
 }
 
-const buttonStyle = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: "5px",
-  cursor: "pointer",
-  width: "24px",
-  height: "24px",
-  transition: "background 0.3s", // 부드러운 색상 변화
-  "&:hover": {
-    background: "rgba(0,0,0,0.1)", // 호버 상태에서 색상 변경
-  },
-  "&:active": {
-    background: "rgba(0,0,0,0.2)", // 클릭 상태에서 색상 변경
-  },
-};
+// const buttonStyle = {
+//   display: "flex",
+//   justifyContent: "center",
+//   alignItems: "center",
+//   borderRadius: "5px",
+//   cursor: "pointer",
+//   width: "24px",
+//   height: "24px",
+//   transition: "background 0.3s",
+//   opacity: 0,
+//   transition: "opacity 0.3s",
+//   "&:hover": {
+//     background: "rgba(0,0,0,0.05)",
+//   },
+//   "&:active": {
+//     background: "rgba(0,0,0,0.1)",
+//   },
+// };
 
-const iconStyle = {
-  color: "rgba(0,0,0,0.2)",
-};
+// const iconStyle = {
+//   color: "rgba(0,0,0,0.2)",
+// };

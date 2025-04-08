@@ -2,13 +2,9 @@
 import * as React from "react";
 import { useAtom } from "jotai";
 import { userAtom } from "@/atoms/auth";
-
-import CssBaseline from "@mui/material/CssBaseline";
-import Container from "@mui/material/Container";
-
-import Header from "@/components/Header";
+import { CssBaseline, Container } from "@mui/material";
+import { Header, CreateButton } from "@/components";
 import Mypage from "@/components/mypage/Mypage";
-import CreateButton from "@/components/CreateButton";
 
 export default function Home() {
   const [user] = useAtom(userAtom);
