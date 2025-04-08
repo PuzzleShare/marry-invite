@@ -16,7 +16,8 @@ import TreeViewPlugin from "./plugins/TreeViewPlugin";
 import { parseAllowedColor, parseAllowedFontSize } from "./styleConfig";
 import "./styles.css";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { $generateHtmlFromNodes } from "@lexical/html";
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
+import { $getRoot, $insertNodes } from "lexical";
 
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
@@ -131,12 +132,25 @@ const EditorContentEtractor = () => {
 
   // 자동 저장
   React.useEffect(() => {
-    console.log("save");
-    const unregister = editor.registerUpdateListener(({editorState}) => {
+    editor.update(() => {
+      const parser = new DOMParser();
+      const dom = parser.parseFromString(
+        selectedBlock.block.content[0],
+        "text/html"
+      );
+      
+      const nodes = $generateNodesFromDOM(editor, dom);
+
+      const root = $getRoot();
+      root.clear();
+      root.append(...nodes);
+    });
+
+    const unregister = editor.registerUpdateListener(({ editorState }) => {
       editorState.read(() => {
         setBlockData((prevData) => {
           const newData = { ...prevData };
-  
+
           const updateBlockByPath = (blocks, path) => {
             if (path.length === 1) {
               blocks[path[0]].content = [$generateHtmlFromNodes(editor, null)];
@@ -144,37 +158,16 @@ const EditorContentEtractor = () => {
               updateBlockByPath(blocks[path[0]].content, path.slice(1));
             }
           };
-  
+
           updateBlockByPath(newData.content, selectedBlock.path);
           return newData;
         });
-      })
+      });
     });
     return () => unregister();
   }, [editor]);
 
-  // 최초 로딩 시 복원
-  React.useEffect(() => {
-    const saved = localStorage.getItem("lexical-content");
-    if (saved) {
-      const json = JSON.parse(saved);
-      editor.setEditorState(editor.parseEditorState(json));
-    }
-  }, [editor]);
-
   return null;
-  // const [editor] = useLexicalComposerContext();
-  // console.log(editor);
-  // return (
-  //   <button
-  //     onClick={() => {
-  //       console.log("EditorState", editor.getEditorState());
-  //       console.log("root", editor.getRootElement());
-  //     }}
-  //   >
-  //     log
-  //   </button>
-  // );
 };
 export default function App() {
   return (

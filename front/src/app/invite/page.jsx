@@ -32,7 +32,7 @@ function CreatePage({ inviteId }) {
   React.useEffect(() => {
     const getData = async () => {
       const data = await getInvite(inviteId);
-      setBlockData(data.data);
+      // setBlockData(data.data);
     };
     getData();
   }, []);

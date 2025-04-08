@@ -19,7 +19,6 @@ export const getCommentList = async (inviteId) => {
     const { data } = await apiClient.get(
       `${process.env.NEXT_PUBLIC_BACK_END}/api/${inviteId}/comment`
     );
-    console.log(data);
     return data;
   } catch (error) {
     console.error("getCommentList API 요청 실패:", error);
@@ -34,7 +33,6 @@ export const modifyComment = async (commentId, comment) => {
       `${process.env.NEXT_PUBLIC_BACK_END}/api/comment/${commentId}`,
       comment
     );
-    console.log(data);
     return data;
   } catch (error) {
     console.error("modifyComment API 요청 실패:", error);
@@ -49,7 +47,6 @@ export const deleteComment = async (commentId, pw) => {
       `${process.env.NEXT_PUBLIC_BACK_END}/api/comment/${commentId}`,
       { data: pw }
     );
-    console.log(data);
     return data;
   } catch (error) {
     console.error("deleteComment API 요청 실패:", error);

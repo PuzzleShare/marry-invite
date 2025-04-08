@@ -8,12 +8,7 @@ const dummyData = {
       type: "text", // => p 태그
       blockName: "Text",
       style: {},
-      content: [
-        {
-          text: "내용", // => span 태그 shift + enter => \n => <br/>
-          style: {},
-        },
-      ],
+      content: ["<p>가나다라</p>"],
     },
     {
       type: "gallery",
@@ -139,5 +134,5 @@ const dummyData = {
   ],
 };
 
-export const blockDataAtom = atom(null);
+export const blockDataAtom = atom(dummyData);
 export const selectedBlockAtom = atom({ block: null, path: [] });
