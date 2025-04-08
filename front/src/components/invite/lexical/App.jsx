@@ -135,10 +135,10 @@ const EditorContentEtractor = () => {
     editor.update(() => {
       const parser = new DOMParser();
       const dom = parser.parseFromString(
-        selectedBlock.block.content[0],
+        selectedBlock.block.content[0] ?? "<p></p>",
         "text/html"
       );
-      
+
       const nodes = $generateNodesFromDOM(editor, dom);
 
       const root = $getRoot();

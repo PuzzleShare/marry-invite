@@ -134,5 +134,5 @@ const dummyData = {
   ],
 };
 
-export const blockDataAtom = atom(dummyData);
+export const blockDataAtom = atom(null);
 export const selectedBlockAtom = atom({ block: null, path: [] });
