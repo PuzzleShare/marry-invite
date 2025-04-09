@@ -30,12 +30,14 @@ export default function InviteCard({ inviteCard, setInviteCards }) {
   const router = useRouter();
 
   const removeInviteCard = async () => {
-    const result = removeInvite(inviteCard.inviteId);
-    if (result) {
+    const result = await removeInvite(inviteCard.inviteId);
+    if (result.success) {
       const list = await getInviteList();
       if (list) {
         setInviteCards(list);
       }
+    } else {
+      alert(result.messege);
     }
   };
 
