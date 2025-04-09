@@ -18,6 +18,11 @@ import {
   ImageListItem,
 } from "@mui/material";
 
+import {
+  Dashboard as DashboardIcon,
+  ViewCarousel as ViewCarouselIcon,
+} from "@mui/icons-material";
+
 export default function GalleryBlockController() {
   const [, setBlockData] = useAtom(blockDataAtom);
   const [selectedBlock] = useAtom(selectedBlockAtom);

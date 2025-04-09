@@ -15,7 +15,7 @@ export default function BlockContainer({ block, index }) {
 
 const blockType = (block, index) => {
   if (block.type === "blocks") {
-    return <NestedBlock block={block} index={index} />;
+    return <NestedBlock block={block} path={[index]} />;
   } else if (block.type === "text") {
     return <TextBlock block={block} />;
   } else if (block.type === "gallery") {

@@ -130,7 +130,6 @@ const EditorContentEtractor = () => {
   const [selectedBlock] = useAtom(selectedBlockAtom);
   const [editor] = useLexicalComposerContext();
 
-  // 자동 저장
   React.useEffect(() => {
     editor.update(() => {
       const parser = new DOMParser();
@@ -165,7 +164,7 @@ const EditorContentEtractor = () => {
       });
     });
     return () => unregister();
-  }, [editor]);
+  }, [editor, selectedBlock]);
 
   return null;
 };

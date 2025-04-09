@@ -38,7 +38,7 @@ export default function MapBlock({ block }) {
       alignItems="center"
       display="flex"
       flexDirection="column"
-      style={{ width: "100%", aspectRatio: "9 / 5", padding: "10px 0" }}
+      sx={{ width: "100%", aspectRatio: "9 / 5", padding: "10px 0" }}
     >
       <Typography variant="h6" gutterBottom>
         오시는길

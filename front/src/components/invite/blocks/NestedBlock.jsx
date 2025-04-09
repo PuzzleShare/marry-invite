@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Stack, Box } from "@mui/material";
+import { Stack } from "@mui/material";
 
 import {
   CalendarBlock,
@@ -10,14 +10,26 @@ import {
   TextBlock,
 } from "@/components/invite/blocks";
 
-export default function NestedBlock({ block, index }) {
-  return <BlockTree content={block.content} path={[index]} />;
+export default function NestedBlock({ block, path }) {
+  return (
+    <Stack direction={block.shape.direction} spacing={block.shape.spacing}>
+      {block.content.map((block, index) => {
+        return (
+          <React.Fragment key={index}>
+            {block.type !== "blocks" ? (
+              blockType(block)
+            ) : (
+              <NestedBlock block={block} path={[...path, index]} />
+            )}
+          </React.Fragment>
+        );
+      })}
+    </Stack>
+  );
 }
 
 const blockType = (block) => {
-  if (block.type === "blocks") {
-    return <NestedBlock block={block} />;
-  } else if (block.type === "text") {
+  if (block.type === "text") {
     return <TextBlock block={block} />;
   } else if (block.type === "gallery") {
     return <GalleryBlock block={block} />;
@@ -29,22 +41,3 @@ const blockType = (block) => {
     return <MapBlock block={block} />;
   }
 };
-
-function BlockTree({ content, path }) {
-  return (
-    <Stack direction="row" spacing={2}>
-      {content.map((block, index) => {
-        return (
-          <React.Fragment key={index}>
-            {}
-            {block.type !== "blocks" ? (
-              blockType(block)
-            ) : (
-              <BlockTree content={block.content} path={[...path, index]} />
-            )}
-          </React.Fragment>
-        );
-      })}
-    </Stack>
-  );
-}
