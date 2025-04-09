@@ -28,7 +28,6 @@ export default function Content() {
           key={index}
           sx={{
             width: 540,
-            ...block.style,
           }}
         >
           <BlockContainer block={block} index={index} />

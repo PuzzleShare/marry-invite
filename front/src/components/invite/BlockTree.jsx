@@ -59,10 +59,6 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
 
   const handleClick = (block, index) => {
     setSelectedBlock({ block, path: [...path, index] });
-    setOpen((prevOpen) => ({
-      ...prevOpen,
-      [index]: !prevOpen[index],
-    }));
   };
 
   const updateBlockDisplay = (path, display) => {
@@ -130,7 +126,7 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
       {content.map((block, index) => {
         // 현재 블록의 display 상태 결정 (부모가 숨겨졌다면 무조건 숨김)
         const currentDisplay =
-          parentDisplay === "none" ? "none" : block.style.display;
+          parentDisplay === "none" ? "none" : block.style.display ?? "block";
 
         return (
           <React.Fragment key={index}>
@@ -143,8 +139,22 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
             >
               <ListItemIcon>{listItemIcon(block.type)}</ListItemIcon>
               <ListItemText primary={block.blockName} />
-              {block.type === "blocks" &&
-                (open[index] ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
+              {block.type === "blocks" && (
+                <IconButton
+                  onMouseDown={(event) => {
+                    event.stopPropagation();
+                  }}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setOpen((prevOpen) => ({
+                      ...prevOpen,
+                      [index]: !prevOpen[index],
+                    }));
+                  }}
+                >
+                  {open[index] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </IconButton>
+              )}
 
               <IconButton
                 onMouseDown={(event) => {

@@ -5,8 +5,8 @@ import { selectedBlockAtom } from "@/atoms/selectedBlock";
 
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import {
-  ViewStream as ColumnIcon,
-  ViewWeek as RowIcon,
+  ViewStreamSharp as ColumnIcon,
+  ViewWeekSharp as RowIcon,
 } from "@mui/icons-material";
 
 export default function NestedBlockController() {

@@ -43,7 +43,13 @@ export default function GuestbookBlock({ block }) {
 
   if (comments == null) return <Loading />;
   return (
-    <Box alignItems="center" display="flex" flexDirection="column" width="100%">
+    <Box
+      alignItems="center"
+      display="flex"
+      flexDirection="column"
+      width="100%"
+      sx={{ ...block.style }}
+    >
       <Typography variant="body1" sx={{ fontWeight: "bold" }}>
         방명록
       </Typography>

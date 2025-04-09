@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 import {
   CalendarBlock,
@@ -12,19 +12,21 @@ import {
 
 export default function NestedBlock({ block, path }) {
   return (
-    <Stack direction={block.shape.direction} spacing={block.shape.spacing}>
-      {block.content.map((block, index) => {
-        return (
-          <React.Fragment key={index}>
-            {block.type !== "blocks" ? (
-              blockType(block)
-            ) : (
-              <NestedBlock block={block} path={[...path, index]} />
-            )}
-          </React.Fragment>
-        );
-      })}
-    </Stack>
+    <Box sx={{ ...block.style }}>
+      <Stack direction={block.shape.direction} spacing={block.shape.spacing}>
+        {block.content.map((block, index) => {
+          return (
+            <React.Fragment key={index}>
+              {block.type !== "blocks" ? (
+                block.style.display !== "none" && blockType(block)
+              ) : (
+                <NestedBlock block={block} path={[...path, index]} />
+              )}
+            </React.Fragment>
+          );
+        })}
+      </Stack>
+    </Box>
   );
 }
 
