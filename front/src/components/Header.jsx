@@ -45,7 +45,11 @@ export default function Header() {
     const setUserData = async () => {
       if (!user) {
         const userData = await useUser();
-        setUser(userData);
+        if (userData) {
+          setUser(userData);
+        } else {
+          router.push("/");
+        }
       }
     };
     setUserData();
