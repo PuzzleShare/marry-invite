@@ -8,7 +8,7 @@ import { scrollStyle } from "@/styles/scroll";
 import { Stack, Box } from "@mui/material";
 
 export default function Content() {
-  const [blockData, setBlockData] = useAtom(blockDataAtom);
+  const [blockData] = useAtom(blockDataAtom);
 
   return (
     <Stack
@@ -31,7 +31,7 @@ export default function Content() {
             ...block.style,
           }}
         >
-          <BlockContainer block={block} />
+          <BlockContainer block={block} index={index} />
         </Box>
       ))}
     </Stack>
