@@ -59,10 +59,6 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
 
   const handleClick = (block, index) => {
     setSelectedBlock({ block, path: [...path, index] });
-    setOpen((prevOpen) => ({
-      ...prevOpen,
-      [index]: !prevOpen[index],
-    }));
   };
 
   const updateBlockDisplay = (path, display) => {
@@ -92,18 +88,12 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
 
   const handleAddBlock = (type) => {
     if (!addBlockPath) return;
+
     setBlockData((prevData) => {
       const newData = { ...prevData };
-      const newBlock = {
-        blockName: type.charAt(0).toUpperCase() + type.slice(1) + " Block",
-        type,
-        content: [],
-        style: { display: "block" },
-      };
-
       const insertBlockByPath = (blocks, path) => {
         if (path.length === 0) {
-          blocks.push(newBlock);
+          blocks.push(newBlock(type));
         } else {
           insertBlockByPath(blocks[path[0]].content, path.slice(1));
         }
@@ -130,7 +120,7 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
       {content.map((block, index) => {
         // 현재 블록의 display 상태 결정 (부모가 숨겨졌다면 무조건 숨김)
         const currentDisplay =
-          parentDisplay === "none" ? "none" : block.style.display;
+          parentDisplay === "none" ? "none" : block.style.display ?? "block";
 
         return (
           <React.Fragment key={index}>
@@ -143,8 +133,22 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
             >
               <ListItemIcon>{listItemIcon(block.type)}</ListItemIcon>
               <ListItemText primary={block.blockName} />
-              {block.type === "blocks" &&
-                (open[index] ? <ExpandLessIcon /> : <ExpandMoreIcon />)}
+              {block.type === "blocks" && (
+                <IconButton
+                  onMouseDown={(event) => {
+                    event.stopPropagation();
+                  }}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setOpen((prevOpen) => ({
+                      ...prevOpen,
+                      [index]: !prevOpen[index],
+                    }));
+                  }}
+                >
+                  {open[index] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </IconButton>
+              )}
 
               <IconButton
                 onMouseDown={(event) => {
@@ -231,6 +235,64 @@ function listItemIcon(type) {
       return <CalendarMonthIcon />;
     case "map":
       return <LocationOnIcon />;
+    default:
+      return null;
+  }
+}
+
+function newBlock(type) {
+  switch (type) {
+    case "blocks":
+      return {
+        blockName: "그룹",
+        type: type,
+        shape: {
+          direction: "column", // "column" | "row"
+          spacing: 0, // 0 ~ 5
+        },
+        style: { display: "block" },
+        content: [],
+      };
+    case "text":
+      return {
+        blockName: "텍스트",
+        type: type,
+        style: { display: "block" },
+        content: [],
+      };
+    case "gallery":
+      return {
+        blockName: "겔러리",
+        type: type,
+        shape: {
+          type: "gallery", // "gallery" | "slider"
+          cols: 3, // 1 | 2 | 3
+          spacing: 0, // 0 ~ 5
+        },
+        style: { display: "block" },
+        content: [],
+      };
+    // case "guest_book":
+    //   return {
+    //     blockName: type.charAt(0).toUpperCase() + type.slice(1) + " Block",
+    //     type,
+    //     content: [],
+    //     style: { display: "block" },
+    //   };
+    // case "calendar":
+    //   return {
+    //     blockName: type.charAt(0).toUpperCase() + type.slice(1) + " Block",
+    //     type,
+    //     content: [],
+    //     style: { display: "block" },
+    //   };
+    // case "map":
+    //   return {
+    //     blockName: type.charAt(0).toUpperCase() + type.slice(1) + " Block",
+    //     type,
+    //     content: [],
+    //     style: { display: "block" },
+    //   };
     default:
       return null;
   }

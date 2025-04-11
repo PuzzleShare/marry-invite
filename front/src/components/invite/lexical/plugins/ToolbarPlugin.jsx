@@ -101,7 +101,6 @@ export default function ToolbarPlugin() {
         aria-label="Redo">
         <i className="format redo" />
       </button>
-      <Divider />
       <button
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
