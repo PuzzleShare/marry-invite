@@ -151,7 +151,10 @@ const EditorContentEtractor = () => {
           const newData = { ...prevData };
 
           const updateBlockByPath = (blocks, path) => {
-            if (path.length === 1) {
+            if (blocks[path[0]] != selectedBlock.block) {
+              return null;
+            } else if (path.length === 1) {
+              console.log(blocks, path);
               blocks[path[0]].content = [$generateHtmlFromNodes(editor, null)];
             } else {
               updateBlockByPath(blocks[path[0]].content, path.slice(1));

@@ -23,19 +23,20 @@ export default function Controller() {
   const handleDeleteBlock = () => {
     setBlockData((prevData) => {
       const newData = { ...prevData };
-
+      
       const updateBlockByPath = (blocks, path) => {
         if (path.length === 1) {
           blocks.splice(path[0], 1);
-          setSelectedBlock({ block: null, path: [] });
         } else {
           updateBlockByPath(blocks[path[0]].content, path.slice(1));
         }
       };
-
+      
       updateBlockByPath(newData.content, selectedBlock.path);
       return newData;
     });
+    
+    setSelectedBlock({ block: null, path: [] });
   };
 
   return (
