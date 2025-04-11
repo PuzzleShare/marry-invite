@@ -1,13 +1,11 @@
 package com.marry_invite.invite.document.block;
 
-import com.marry_invite.invite.document.style.CalendarStyle;
-import com.marry_invite.invite.document.style.GuestBookStyle;
-import com.marry_invite.invite.document.style.MapStyle;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 @Data
@@ -19,18 +17,21 @@ public class DataBlock extends AbstractBlock {
         return DataBlock.builder()
                 .type("guest_book")
                 .content(new ArrayList<>())
-                .style(new GuestBookStyle());
+                .style(new HashMap<>())
+                .shape(new HashMap<>());
     }
     public static DataBlockBuilder<?, ?> calendarBuilder(){
         return DataBlock.builder()
                 .type("calendar")
                 .content(new ArrayList<>())
-                .style(new CalendarStyle());
+                .style(new HashMap<>())
+                .shape(new HashMap<>());
     }
     public static DataBlockBuilder<?, ?> mapBuilder(){
         return DataBlock.builder()
                 .type("map")
                 .content(new ArrayList<>())
-                .style(new MapStyle());
+                .style(new HashMap<>())
+                .shape(new HashMap<>());
     }
 }
