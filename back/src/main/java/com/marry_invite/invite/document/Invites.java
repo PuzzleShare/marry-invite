@@ -3,7 +3,6 @@ package com.marry_invite.invite.document;
 import com.marry_invite.invite.document.block.Block;
 import com.marry_invite.invite.document.block.DataBlock;
 import com.marry_invite.invite.document.block.RootBlock;
-import com.marry_invite.invite.document.style.BlocksStyle;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 @Document
@@ -34,14 +34,14 @@ public class Invites {
         DataBlock map = DataBlock.mapBuilder().blockName("지도").build();
         RootBlock rootBlock = RootBlock.builder()
                 .type("root")
-                .style(new BlocksStyle())
+                .style(new HashMap<>())
                 .content(new ArrayList<>())
                 .blockName("root")
                 .bgm("")
                 .title("").build();
-        rootBlock.getContent().add(guestBook);
         rootBlock.getContent().add(calendar);
         rootBlock.getContent().add(map);
+        rootBlock.getContent().add(guestBook);
 
         return Invites.builder()
                 .userId(userId)
