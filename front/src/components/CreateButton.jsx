@@ -9,22 +9,6 @@ import { Add as AddIcon } from "@mui/icons-material";
 export default function CreateButton() {
   const router = useRouter();
 
-  const getInviteId = async () => {
-    // try {
-    //   const token = "USER_TOKEN";    // 유저 토큰 받아오기
-    //   const response = await axios.get("https://marry-invite.site/api/invite", {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   });
-    //   return response.data;
-    // } catch (error) {
-    //   console.error("Error:", error);
-    //   return null;
-    // }
-    return "20250306abcdef";
-  };
-
   return (
     <Fab
       color="primary"
