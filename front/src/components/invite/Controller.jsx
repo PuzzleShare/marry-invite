@@ -4,8 +4,10 @@ import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
 import { scrollStyle } from "@/styles/scroll";
+import { modifyInvite } from "@/api/invite/invite";
+import { useSearchParams } from "next/navigation";
 
-import { Box, Button, Divider } from "@mui/material";
+import { Box, Button, Divider, Stack } from "@mui/material";
 
 import {
   CalendarBlockController,
@@ -16,14 +18,19 @@ import {
   TextBlockController,
 } from "@/components/invite/controllers";
 
+import { Save as SaveIcon } from "@mui/icons-material";
+
 export default function Controller() {
-  const [, setBlockData] = useAtom(blockDataAtom);
+  const searchParams = useSearchParams();
+  const inviteId = searchParams.get("inviteId");
+  const [blockData, setBlockData] = useAtom(blockDataAtom);
   const [selectedBlock, setSelectedBlock] = useAtom(selectedBlockAtom);
+  const [loading, setLoading] = React.useState(false);
 
   const handleDeleteBlock = () => {
     setBlockData((prevData) => {
       const newData = { ...prevData };
-      
+
       const updateBlockByPath = (blocks, path) => {
         if (path.length === 1) {
           blocks.splice(path[0], 1);
@@ -31,11 +38,11 @@ export default function Controller() {
           updateBlockByPath(blocks[path[0]].content, path.slice(1));
         }
       };
-      
+
       updateBlockByPath(newData.content, selectedBlock.path);
       return newData;
     });
-    
+
     setSelectedBlock({ block: null, path: [] });
   };
 
@@ -46,7 +53,7 @@ export default function Controller() {
       justifyContent={"space-between"}
       height="calc(100vh - 84px)"
       minWidth="350px"
-      marginTop="20px"
+      margin="20px 0 0 8px"
     >
       <Box
         sx={{
@@ -54,26 +61,40 @@ export default function Controller() {
         }}
       >
         {selectedBlock.block ? (
-          <Box>
-            {controllerType(selectedBlock.block.type)}
-            <Divider />
-            <Box marginTop={"20px"} textAlign={"center"}>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => {
-                  handleDeleteBlock();
-                }}
-              >
-                블럭 삭제
-              </Button>
-            </Box>
-          </Box>
+          <Box>{controllerType(selectedBlock.block.type)}</Box>
         ) : (
           "블록을 선택하세요"
         )}
       </Box>
-      <Box padding="0 10px 10px" textAlign={"center"}></Box>
+      <Box margin="20px auto 20px">
+        <Stack direction={"row"} spacing={1}>
+          {selectedBlock.block && (
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => {
+                handleDeleteBlock();
+              }}
+            >
+              블럭 삭제
+            </Button>
+          )}
+          <Button
+            color="success"
+            loading={loading}
+            loadingPosition="start"
+            startIcon={<SaveIcon />}
+            variant="contained"
+            width="100%"
+            onClick={async () => {
+              console.log(blockData);
+              const data = await modifyInvite(inviteId, blockData);
+            }}
+          >
+            저장
+          </Button>
+        </Stack>
+      </Box>
     </Box>
   );
 }

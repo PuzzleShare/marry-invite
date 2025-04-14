@@ -1,4 +1,7 @@
 import * as React from "react";
+import { useAtom } from "jotai";
+import { commentsAtom } from "@/atoms/comment";
+
 import { useSearchParams } from "next/navigation";
 import { Loading } from "@/components/invite";
 
@@ -30,13 +33,13 @@ import {
 export default function GuestbookBlock({ block }) {
   const searchParams = useSearchParams();
   const inviteId = searchParams.get("inviteId");
+  const [comments, setComments] = useAtom(commentsAtom);
 
   const getData = async () => {
     const data = await getCommentList(inviteId);
     setComments(data);
   };
 
-  const [comments, setComments] = React.useState(null);
   React.useEffect(() => {
     getData();
   }, []);

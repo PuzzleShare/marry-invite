@@ -32,16 +32,17 @@ public class Invites {
         DataBlock guestBook = DataBlock.guestBookBuilder().blockName("방명록").build();
         DataBlock calendar = DataBlock.calendarBuilder().blockName("달력").build();
         DataBlock map = DataBlock.mapBuilder().blockName("지도").build();
+        ArrayList<Block> blocks = new ArrayList<>();
+        blocks.add(calendar);
+        blocks.add(map);
+        blocks.add(guestBook);
         RootBlock rootBlock = RootBlock.builder()
                 .type("root")
                 .style(new HashMap<>())
-                .content(new ArrayList<>())
+                .content(blocks)
                 .blockName("root")
                 .bgm("")
                 .title("").build();
-        rootBlock.getContent().add(calendar);
-        rootBlock.getContent().add(map);
-        rootBlock.getContent().add(guestBook);
 
         return Invites.builder()
                 .userId(userId)

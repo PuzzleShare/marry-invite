@@ -54,3 +54,16 @@ export const deleteComment = async (commentId, pw) => {
     return null;
   }
 };
+
+export const deleteCommentByAdmin = async (commentId) => {
+  try {
+    const { data } = await apiClient.delete(
+      `${process.env.NEXT_PUBLIC_BACK_END}/api/comment/${commentId}/admin`
+    );
+    return data;
+  } catch (error) {
+    console.error("deleteComment API 요청 실패:", error);
+    alert("방명록을 삭제하는데 실패했습니다.");
+    return null;
+  }
+};

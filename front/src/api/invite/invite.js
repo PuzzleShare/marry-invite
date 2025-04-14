@@ -39,16 +39,15 @@ export const createInvite = async () => {
   }
 };
 
-export const modifyInvite = async (inviteId) => {
+export const modifyInvite = async (inviteId, data) => {
   try {
-    const { data } = await apiClient.patch(
-      `${process.env.NEXT_PUBLIC_BACK_END}/api/invite/${inviteId}`
+    await apiClient.patch(
+      `${process.env.NEXT_PUBLIC_BACK_END}/api/invite/${inviteId}`,
+      data
     );
-    return data;
   } catch (error) {
     console.error("modifyInvite API 요청 실패:", error);
     alert("청첩장을 수정하는데 실패했습니다.");
-    return null;
   }
 };
 
