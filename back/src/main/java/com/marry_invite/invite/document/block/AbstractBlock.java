@@ -12,7 +12,7 @@ import java.util.Map;
 public abstract class AbstractBlock implements Block{
     protected String type;
     protected String blockName;
-    protected List<Block> content;
+    protected List<?> content;
     protected Map<String, String> style;
     protected Map<String, ?> shape;
 }
