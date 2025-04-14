@@ -25,22 +25,7 @@ import { selectedBlockAtom } from "@/atoms/selectedBlock";
 
 const placeholder = "Enter some rich text...";
 
-const removeStylesExportDOM = (editor, target) => {
-  const output = target.exportDOM(editor);
-  if (output && isHTMLElement(output.element)) {
-    for (const el of [
-      output.element,
-      ...output.element.querySelectorAll('[style],[class],[dir="ltr"]'),
-    ]) {
-      el.removeAttribute("class");
-      el.removeAttribute("style");
-      if (el.getAttribute("dir") === "ltr") {
-        el.removeAttribute("dir");
-      }
-    }
-  }
-  return output;
-};
+const removeStylesExportDOM = (editor, target) => target.exportDOM(editor);
 
 const exportMap = new Map([
   [ParagraphNode, removeStylesExportDOM],
@@ -154,7 +139,7 @@ const EditorContentEtractor = () => {
             if (blocks[path[0]] != selectedBlock.block) {
               return null;
             } else if (path.length === 1) {
-              console.log(blocks, path);
+              // console.log(blocks, path);
               blocks[path[0]].content = [$generateHtmlFromNodes(editor, null)];
             } else {
               updateBlockByPath(blocks[path[0]].content, path.slice(1));
