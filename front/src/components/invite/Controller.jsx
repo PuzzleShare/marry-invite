@@ -87,8 +87,11 @@ export default function Controller() {
             variant="contained"
             width="100%"
             onClick={async () => {
-              console.log(blockData);
-              const data = await modifyInvite(inviteId, blockData);
+              setLoading(true);
+              await modifyInvite(inviteId, blockData);
+              setTimeout(() => {
+                setLoading(false);
+              }, 500);
             }}
           >
             저장
