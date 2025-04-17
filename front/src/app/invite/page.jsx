@@ -32,7 +32,11 @@ function CreatePage({ inviteId }) {
   React.useEffect(() => {
     const getData = async () => {
       const data = await getInvite(inviteId);
-      setBlockData(data.data);
+      if (data) {
+        setBlockData(data.data);
+      } else {
+        alert("청첩장을 불러오는데 실패했습니다.");
+      }
     };
     getData();
   }, []);

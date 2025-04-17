@@ -21,7 +21,6 @@ export const getInvite = async (inviteId) => {
     return data;
   } catch (error) {
     console.error("getInvite API 요청 실패:", error);
-    alert("청첩장을 불러오는데 실패했습니다.");
     return null;
   }
 };
