@@ -8,7 +8,13 @@ export default function GalleryBlock({ block }) {
 
 function Gallery({ block }) {
   return (
-    <Box sx={{ width: "100%", ...scrollStyle }}>
+    <Box
+      width="100%"
+      sx={{
+        ...block.style,
+        ...scrollStyle,
+      }}
+    >
       <ImageList variant="masonry" cols={3} gap={8} sx={{ margin: 0 }}>
         {block.content.map((item, index) => (
           <ImageListItem key={index}>

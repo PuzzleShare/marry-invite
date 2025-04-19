@@ -24,9 +24,10 @@ export default function DateCalendarFormProps({ block }) {
       alignItems="center"
       display="flex"
       flexDirection="column"
+      width="100%"
+      padding="10px 0"
       sx={{
-        width: "100%",
-        padding: "10px 0",
+        ...block.style,
       }}
     >
       <Typography>WEDDING DATE</Typography>

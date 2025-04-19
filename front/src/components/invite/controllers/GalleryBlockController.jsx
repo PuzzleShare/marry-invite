@@ -1,8 +1,10 @@
 import React from "react";
+import { styled } from "@mui/material/styles";
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
 import { uploadFile } from "@/api/invite/gallery";
+import { scrollStyle } from "@/styles/scroll";
 
 import { Delete } from "@mui/icons-material";
 import {
@@ -17,6 +19,12 @@ import {
   ImageList,
   ImageListItem,
 } from "@mui/material";
+
+import {
+  CloudUpload as CloudUploadIcon,
+  Dashboard as GalleryIcon,
+  ViewCarousel as SliderIcon,
+} from "@mui/icons-material";
 
 export default function GalleryBlockController() {
   const [, setBlockData] = useAtom(blockDataAtom);
@@ -94,23 +102,18 @@ export default function GalleryBlockController() {
       divider={<Divider orientation="horizontal" flexItem />}
     >
       <Box sx={{ width: "100%", textAlign: "center" }}>
-        <Typography variant="h6" gutterBottom>
-          사진 업로드 (jpg, jpeg, png)
-        </Typography>
-
-        {/* 파일 선택 */}
         <Button
-          variant="outlined"
           component="label"
-          sx={{ width: "100%", height: "50px", mb: 2 }}
+          role={undefined}
+          variant="contained"
+          tabIndex={-1}
+          startIcon={<CloudUploadIcon />}
         >
-          사진 선택
-          <input
+          사진 업로드
+          <VisuallyHiddenInput
             type="file"
-            accept="image/*"
-            multiple
-            hidden
             onChange={handleFileChange}
+            multiple
           />
         </Button>
 
@@ -191,3 +194,15 @@ export default function GalleryBlockController() {
     </Stack>
   );
 }
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});

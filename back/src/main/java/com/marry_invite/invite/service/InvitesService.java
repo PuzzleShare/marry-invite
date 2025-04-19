@@ -39,6 +39,7 @@ public class InvitesService {
     ){
         Invites invites = invitesRepository.findByInviteId(inviteId)
                 .orElseThrow(() -> new DocumentNotFoundException("청첩장을 찾을 수 없습니다."));
+        System.out.println(invites);
         return InviteResponse.of(invites);
     }
 

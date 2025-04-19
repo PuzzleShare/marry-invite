@@ -1,4 +1,5 @@
-﻿import apiClient from "@/lib/axios";
+﻿'use client'
+import apiClient from "@/lib/axios";
 
 const useUser = async () => {
   try {

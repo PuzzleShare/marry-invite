@@ -4,7 +4,6 @@ import com.marry_invite.common.exception.DocumentNotFoundException;
 import com.marry_invite.invite.document.Invites;
 import com.marry_invite.invite.document.block.DataBlock;
 import com.marry_invite.invite.document.block.RootBlock;
-import com.marry_invite.invite.document.style.BlocksStyle;
 import com.marry_invite.invite.repository.InvitesRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 @SpringBootTest
@@ -28,7 +28,7 @@ public class InvitesRepositoryTest {
         DataBlock map = DataBlock.mapBuilder().blockName("지도").build();
         RootBlock rootBlock = RootBlock.builder()
                 .type("root")
-                .style(new BlocksStyle())
+                .style(new HashMap<>())
                 .content(new ArrayList<>())
                 .blockName("root")
                 .bgm("")
