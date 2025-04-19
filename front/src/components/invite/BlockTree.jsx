@@ -4,7 +4,12 @@ import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
 import { scrollStyle } from "@/styles/scroll";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "@hello-pangea/dnd";
 
 import {
   Box,
@@ -13,6 +18,7 @@ import {
   Menu,
   MenuItem,
   List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -34,7 +40,43 @@ import {
 } from "@mui/icons-material";
 
 export default function BlockTreeContainer() {
-  const [blockData] = useAtom(blockDataAtom);
+  const [blockData, setBlockData] = useAtom(blockDataAtom);
+
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const sourcePath = result.source.droppableId.split("-").map(Number);
+    const destPath = result.destination.droppableId.split("-").map(Number);
+
+    const sourceIndex = result.source.index;
+    const destIndex = result.destination.index;
+
+    if (isNaN(sourcePath[0])) {
+      sourcePath.shift();
+    }
+    if (isNaN(destPath[0])) {
+      destPath.shift();
+    }
+    sourcePath.push(sourceIndex);
+    destPath.push(destIndex);
+
+    setBlockData((prevData) => {
+      const copy = JSON.parse(JSON.stringify(prevData.content));
+
+      const getNestedBlock = (path, blocks) => {
+        if (path.length === 1) return blocks;
+        return getNestedBlock(path.slice(1), blocks[path[0]].content);
+      };
+
+      const sourceBlocks = getNestedBlock(sourcePath, copy);
+      const destBlocks = getNestedBlock(destPath, copy);
+
+      const [movedItem] = sourceBlocks.splice(sourceIndex, 1);
+      destBlocks.splice(destIndex, 0, movedItem);
+
+      return { ...prevData, content: copy };
+    });
+  };
 
   return (
     <Box
@@ -45,7 +87,9 @@ export default function BlockTreeContainer() {
         ...scrollStyle,
       }}
     >
-      <BlockTree content={blockData.content} />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <BlockTree content={blockData.content} />
+      </DragDropContext>
     </Box>
   );
 }
@@ -108,116 +152,144 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
   };
 
   return (
-    <List
-      sx={{
-        width: "100%",
-        maxWidth: 360,
-        padding: 0,
-        bgcolor: "background.paper",
-      }}
-      component="nav"
-    >
-      {content.map((block, index) => {
-        // 현재 블록의 display 상태 결정 (부모가 숨겨졌다면 무조건 숨김)
-        const currentDisplay =
-          parentDisplay === "none" ? "none" : block.style.display ?? "block";
+    <Droppable droppableId={path.join("-") || "root"} type="BLOCK">
+      {(provided) => (
+        <>
+          <List
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            sx={{
+              width: "100%",
+              maxWidth: 360,
+              padding: 0,
+              bgcolor: "background.paper",
+            }}
+            component="nav"
+          >
+            {content.map((block, index) => {
+              const currentPath = [...path, index];
 
-        return (
-          <React.Fragment key={index}>
-            <ListItemButton
-              sx={{
-                pl: depth * 2,
-                opacity: currentDisplay === "none" ? 0.3 : 1, // 개별 블록의 상태 반영
-              }}
-              onClick={() => handleClick(block, index)}
-            >
-              <ListItemIcon>{listItemIcon(block.type)}</ListItemIcon>
-              <ListItemText primary={block.blockName} />
-              {block.type === "blocks" && (
-                <IconButton
-                  onMouseDown={(event) => {
-                    event.stopPropagation();
-                  }}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setOpen((prevOpen) => ({
-                      ...prevOpen,
-                      [index]: !prevOpen[index],
-                    }));
-                  }}
+              // 현재 블록의 display 상태 결정 (부모가 숨겨졌다면 무조건 숨김)
+              const currentDisplay =
+                parentDisplay === "none"
+                  ? "none"
+                  : block.style.display ?? "block";
+
+              return (
+                <Draggable
+                  key={currentPath.join("-")}
+                  draggableId={currentPath.join("-")}
+                  index={index}
                 >
-                  {open[index] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                </IconButton>
-              )}
+                  {(draggableProvided) => (
+                    <div
+                      ref={draggableProvided.innerRef}
+                      {...draggableProvided.draggableProps}
+                      {...draggableProvided.dragHandleProps}
+                    >
+                      <ListItemButton
+                        sx={{
+                          pl: depth * 2,
+                          opacity: currentDisplay === "none" ? 0.3 : 1, // 개별 블록의 상태 반영
+                        }}
+                        onClick={() => handleClick(block, index)}
+                      >
+                        <ListItemIcon>{listItemIcon(block.type)}</ListItemIcon>
+                        <ListItemText primary={block.blockName} />
+                        {block.type === "blocks" && (
+                          <IconButton
+                            onMouseDown={(event) => {
+                              event.stopPropagation();
+                            }}
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              setOpen((prevOpen) => ({
+                                ...prevOpen,
+                                [index]: !prevOpen[index],
+                              }));
+                            }}
+                          >
+                            {open[index] ? (
+                              <ExpandLessIcon />
+                            ) : (
+                              <ExpandMoreIcon />
+                            )}
+                          </IconButton>
+                        )}
 
-              <IconButton
-                onMouseDown={(event) => {
-                  event.stopPropagation();
-                }}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  updateBlockDisplay(
-                    [...path, index],
-                    block.style.display === "none" ? "block" : "none"
-                  );
-                }}
-              >
-                {block.style.display === "none" ? (
-                  <VisibilityOffOutlinedIcon fontSize="small" />
-                ) : (
-                  <VisibilityOutlinedIcon fontSize="small" />
-                )}
-              </IconButton>
-            </ListItemButton>
-            {block.type === "blocks" && (
-              <Collapse in={open[index]} timeout="auto" unmountOnExit>
-                <BlockTree
-                  content={block.content}
-                  depth={depth + 1}
-                  path={[...path, index]}
-                  parentDisplay={currentDisplay} // 부모 상태 전달
-                />
-              </Collapse>
-            )}
-          </React.Fragment>
-        );
-      })}
-      <Box textAlign={"center"} sx={{ pl: depth * 2 }}>
-        <IconButton
-          size="large"
-          onClick={(event) => handleAddBlockClick(event, path)}
-        >
-          <AddIcon fontSize="medium" />
-        </IconButton>
-        {depth !== 0 && <Divider component="li" />}
-      </Box>
+                        <IconButton
+                          onMouseDown={(event) => {
+                            event.stopPropagation();
+                          }}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            updateBlockDisplay(
+                              [...path, index],
+                              block.style.display === "none" ? "block" : "none"
+                            );
+                          }}
+                        >
+                          {block.style.display === "none" ? (
+                            <VisibilityOffOutlinedIcon fontSize="small" />
+                          ) : (
+                            <VisibilityOutlinedIcon fontSize="small" />
+                          )}
+                        </IconButton>
+                      </ListItemButton>
+                      {block.type === "blocks" && (
+                        <Collapse in={open[index]} timeout="auto" unmountOnExit>
+                          <BlockTree
+                            content={block.content}
+                            depth={depth + 1}
+                            path={[...path, index]}
+                            parentDisplay={currentDisplay} // 부모 상태 전달
+                          />
+                        </Collapse>
+                      )}
+                    </div>
+                  )}
+                </Draggable>
+              );
+            })}
 
-      {/* 블록 추가 메뉴 */}
-      <Menu
-        anchorEl={menuAnchor}
-        open={Boolean(menuAnchor)}
-        onClose={() => setMenuAnchor(null)}
-      >
-        <MenuItem onClick={() => handleAddBlock("text")}>
-          <ListItemIcon>
-            <TextFieldsIcon />
-          </ListItemIcon>{" "}
-          텍스트
-        </MenuItem>
-        <MenuItem onClick={() => handleAddBlock("gallery")}>
-          <ListItemIcon>
-            <PhotoCameraIcon />
-          </ListItemIcon>{" "}
-          갤러리
-        </MenuItem>
-        <MenuItem onClick={() => handleAddBlock("blocks")}>
-          <ListItemIcon>
-            <FolderIcon />
-          </ListItemIcon>{" "}
-          그룹
-        </MenuItem>
-      </Menu>
-    </List>
+            {provided.placeholder}
+          </List>
+          <Box textAlign={"center"} sx={{ pl: depth * 2 }}>
+            <IconButton
+              size="large"
+              onClick={(event) => handleAddBlockClick(event, path)}
+            >
+              <AddIcon fontSize="medium" />
+            </IconButton>
+            {depth !== 0 && <Divider component="li" />}
+          </Box>
+          <Menu
+            anchorEl={menuAnchor}
+            open={Boolean(menuAnchor)}
+            onClose={() => setMenuAnchor(null)}
+          >
+            <MenuItem onClick={() => handleAddBlock("text")}>
+              <ListItemIcon>
+                <TextFieldsIcon />
+              </ListItemIcon>{" "}
+              텍스트
+            </MenuItem>
+            <MenuItem onClick={() => handleAddBlock("gallery")}>
+              <ListItemIcon>
+                <PhotoCameraIcon />
+              </ListItemIcon>{" "}
+              갤러리
+            </MenuItem>
+            <MenuItem onClick={() => handleAddBlock("blocks")}>
+              <ListItemIcon>
+                <FolderIcon />
+              </ListItemIcon>{" "}
+              그룹
+            </MenuItem>
+          </Menu>
+        </>
+      )}
+    </Droppable>
   );
 }
 
@@ -272,27 +344,6 @@ function newBlock(type) {
         style: { display: "block" },
         content: [],
       };
-    // case "guest_book":
-    //   return {
-    //     blockName: type.charAt(0).toUpperCase() + type.slice(1) + " Block",
-    //     type,
-    //     content: [],
-    //     style: { display: "block" },
-    //   };
-    // case "calendar":
-    //   return {
-    //     blockName: type.charAt(0).toUpperCase() + type.slice(1) + " Block",
-    //     type,
-    //     content: [],
-    //     style: { display: "block" },
-    //   };
-    // case "map":
-    //   return {
-    //     blockName: type.charAt(0).toUpperCase() + type.slice(1) + " Block",
-    //     type,
-    //     content: [],
-    //     style: { display: "block" },
-    //   };
     default:
       return null;
   }

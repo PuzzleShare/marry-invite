@@ -5,6 +5,7 @@ export default function TextBlock({ block }) {
   return (
     <Box
       dangerouslySetInnerHTML={{ __html: text }}
+      width="100%"
       sx={{ ...block.style }}
     ></Box>
   );
