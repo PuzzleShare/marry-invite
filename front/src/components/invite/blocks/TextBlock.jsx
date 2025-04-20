@@ -1,19 +1,12 @@
-import * as React from "react";
 import { Box } from "@mui/material";
 
 export default function TextBlock({ block }) {
+  const text = block.content[0];
   return (
     <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      sx={{
-        width: "100%",
-        minHeight: "200px",
-        border: "4px solid rgba(0,0,0,0.1)",
-      }}
-    >
-      TextBlock
-    </Box>
+      dangerouslySetInnerHTML={{ __html: text }}
+      width="100%"
+      sx={{ ...block.style }}
+    ></Box>
   );
 }
