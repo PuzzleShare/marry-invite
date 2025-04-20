@@ -6,10 +6,10 @@ import Content from "./_components/Content";
 export async function generateMetadata({ params, searchParams }, parent) {
   const { inviteId } = await params;
   const invite = await getInvite(inviteId);
-  const previousImages = [invite?.images];
+  const previousImages = [invite?.imageUrl];
 
   return {
-    title: invite?.title || "marry-invite",
+    title: invite?.data.title || "marry-invite",
     openGraph: {
       images: previousImages,
     },
