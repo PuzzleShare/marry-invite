@@ -4,7 +4,6 @@ import {
   IconButton,
   Card,
   CardActions,
-  CardHeader,
   CardMedia,
   Button,
   CardContent,
@@ -18,7 +17,6 @@ import {
   LocalPostOfficeOutlined as LocalPostOfficeOutlinedIcon,
 } from "@mui/icons-material";
 import { getDefaultImg } from "@/const/defaultCardImg";
-import axios from "@/lib/axios";
 import { getInviteList, removeInvite } from "@/api/invite/invite";
 import { useRouter } from "next/navigation";
 
@@ -61,7 +59,7 @@ export default function InviteCard({ inviteCard, setInviteCards }) {
       />
       <InviteCardContent>
         <Typography variant="h7">
-          {inviteCard.data.title || "타이틀이 정해지지 않았습니다."}
+          {inviteCard.data?.title || "타이틀이 정해지지 않았습니다."}
         </Typography>
       </InviteCardContent>
       <CardActions sx={{ justifyContent: "space-between" }}>
