@@ -2,6 +2,7 @@ package com.marry_invite.repository;
 
 import com.marry_invite.common.exception.DocumentNotFoundException;
 import com.marry_invite.invite.document.Invites;
+import com.marry_invite.invite.document.block.Block;
 import com.marry_invite.invite.document.block.DataBlock;
 import com.marry_invite.invite.document.block.RootBlock;
 import com.marry_invite.invite.repository.InvitesRepository;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
@@ -26,16 +28,17 @@ public class InvitesRepositoryTest {
         DataBlock guestBook = DataBlock.guestBookBuilder().blockName("방명록").build();
         DataBlock calendar = DataBlock.calendarBuilder().blockName("달력").build();
         DataBlock map = DataBlock.mapBuilder().blockName("지도").build();
+        List<Block> list = new ArrayList<>();
+        list.add(calendar);
+        list.add(map);
+        list.add(guestBook);
         RootBlock rootBlock = RootBlock.builder()
                 .type("root")
                 .style(new HashMap<>())
-                .content(new ArrayList<>())
+                .content(list)
                 .blockName("root")
                 .bgm("")
                 .title("").build();
-        rootBlock.getContent().add(guestBook);
-        rootBlock.getContent().add(calendar);
-        rootBlock.getContent().add(map);
 
         Invites invites = Invites.builder()
                 .userId("minjagot")
