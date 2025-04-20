@@ -57,11 +57,11 @@ export default function InviteCard({ inviteCard, setInviteCards }) {
         component="img"
         width="358"
         height="426"
-        image={inviteCard.imgUrl || getDefaultImg()}
+        image={inviteCard.imageUrl || getDefaultImg()}
       />
       <InviteCardContent>
         <Typography variant="h7">
-          {inviteCard.title || "타이틀이 정해지지 않았습니다."}
+          {inviteCard.data.title || "타이틀이 정해지지 않았습니다."}
         </Typography>
       </InviteCardContent>
       <CardActions sx={{ justifyContent: "space-between" }}>
