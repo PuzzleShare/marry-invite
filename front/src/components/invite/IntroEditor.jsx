@@ -19,7 +19,6 @@ import {
 export default function IntroEditor() {
   const [blockData, setBlockData] = useAtom(blockDataAtom);
   const fileInputRef = React.useRef(null);
-  const [imagePreview, setImagePreview] = React.useState(blockData.introImg);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const bgmOptions = [
@@ -43,7 +42,6 @@ export default function IntroEditor() {
     const uploaded = await uploadFile(formData);
     setIsLoading(false);
     if (uploaded?.url) {
-      setImagePreview(uploaded.url);
       setBlockData((prev) => ({ ...prev, introImg: uploaded.url }));
     }
   };
@@ -83,10 +81,10 @@ export default function IntroEditor() {
         sx={{
           width: "100%",
           height: 200,
-          border: imagePreview ? "none" : "2px dashed #ccc",
+          border: blockData.introImg ? "none" : "2px dashed #ccc",
           borderRadius: 2,
           cursor: "pointer",
-          backgroundImage: `url(${imagePreview || "/placeholder.png"})`,
+          backgroundImage: `url(${blockData.introImg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           display: "flex",
@@ -100,7 +98,7 @@ export default function IntroEditor() {
         {isLoading ? (
           <Loading />
         ) : (
-          !imagePreview && (
+          !blockData.introImg && (
             <Typography color="textSecondary">
               클릭하여 대표 이미지 선택
             </Typography>
