@@ -15,6 +15,7 @@ import {
   BlockTreeContainer,
   Content,
   Controller,
+  IntroEditor,
   Loading,
 } from "@/components/invite";
 
@@ -58,7 +59,15 @@ function CreatePage({ inviteId }) {
           direction="row"
           divider={<Divider orientation="vertical" flexItem />}
         >
-          <BlockTreeContainer />
+          <Stack
+            direction="column"
+            spacing={2}
+            height="calc(100vh - 64px)"
+            divider={<Divider orientation="horizontal" flexItem />}
+          >
+            <IntroEditor />
+            <BlockTreeContainer />
+          </Stack>
           <Content />
           <Controller />
         </Stack>

@@ -4,12 +4,7 @@ import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
 import { scrollStyle } from "@/styles/scroll";
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-} from "@hello-pangea/dnd";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 import {
   Box,
@@ -18,7 +13,6 @@ import {
   Menu,
   MenuItem,
   List,
-  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -44,6 +38,10 @@ export default function BlockTreeContainer() {
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
+
+    // [수정 필요]
+    // 내부로 요소 이동이 안되는 그룹 블록 있음.
+    // 그룹이나 그룹 내부 요소를 이동할 때 ui 깨지는 문제 있음.
 
     const sourcePath = result.source.droppableId.split("-").map(Number);
     const destPath = result.destination.droppableId.split("-").map(Number);
@@ -81,9 +79,7 @@ export default function BlockTreeContainer() {
   return (
     <Box
       sx={{
-        marginTop: "20px",
         minWidth: "300px",
-        height: "calc(100vh - 84px)",
         ...scrollStyle,
       }}
     >
