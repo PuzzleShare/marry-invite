@@ -87,6 +87,7 @@ export default function Controller() {
             variant="contained"
             width="100%"
             onClick={async () => {
+              console.log(blockData);
               setLoading(true);
               await modifyInvite(inviteId, blockData);
               setTimeout(() => {
