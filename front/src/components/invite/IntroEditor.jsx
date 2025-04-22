@@ -42,7 +42,7 @@ export default function IntroEditor() {
     const uploaded = await uploadFile(formData);
     setIsLoading(false);
     if (uploaded?.url) {
-      setBlockData((prev) => ({ ...prev, introImg: uploaded.url }));
+      setBlockData((prev) => ({ ...prev, imageUrl: uploaded.url }));
     }
   };
 
@@ -81,10 +81,10 @@ export default function IntroEditor() {
         sx={{
           width: "100%",
           height: 200,
-          border: blockData.introImg ? "none" : "2px dashed #ccc",
+          border: blockData.imageUrl ? "none" : "2px dashed #ccc",
           borderRadius: 2,
           cursor: "pointer",
-          backgroundImage: `url(${blockData.introImg})`,
+          backgroundImage: `url(${blockData.imageUrl})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           display: "flex",
@@ -98,7 +98,7 @@ export default function IntroEditor() {
         {isLoading ? (
           <Loading />
         ) : (
-          !blockData.introImg && (
+          !blockData.imageUrl && (
             <Typography color="textSecondary">
               클릭하여 대표 이미지 선택
             </Typography>

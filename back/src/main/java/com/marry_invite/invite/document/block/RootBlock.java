@@ -13,4 +13,5 @@ import lombok.experimental.SuperBuilder;
 public class RootBlock extends AbstractBlock {
     private String title;
     private String bgm;
+    private String imageUrl;
 }
