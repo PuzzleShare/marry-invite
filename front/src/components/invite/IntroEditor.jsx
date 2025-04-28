@@ -20,6 +20,13 @@ export default function IntroEditor() {
   const [blockData, setBlockData] = useAtom(blockDataAtom);
   const fileInputRef = React.useRef(null);
   const [isLoading, setIsLoading] = React.useState(false);
+  const audioRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.5;
+    }
+  }, [blockData.bgm]);
 
   const bgmOptions = [
     { label: "없음", url: "" },
@@ -132,6 +139,7 @@ export default function IntroEditor() {
 
       {blockData.bgm && (
         <audio
+          ref={audioRef}
           controls
           controlsList="nodownload noplaybackrate"
           disableRemotePlayback

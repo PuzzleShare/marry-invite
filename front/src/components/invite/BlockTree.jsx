@@ -257,7 +257,9 @@ function BlockTree({ content, depth = 0, path = [], parentDisplay = "block" }) {
             >
               <AddIcon fontSize="medium" />
             </IconButton>
-            {depth !== 0 && <Divider component="li" />}
+            {depth !== 0 && (
+              <Divider component="li" sx={{ marginRight: "10px" }} />
+            )}
           </Box>
           <Menu
             anchorEl={menuAnchor}
