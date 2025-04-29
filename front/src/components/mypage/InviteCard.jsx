@@ -55,7 +55,7 @@ export default function InviteCard({ inviteCard, setInviteCards }) {
         component="img"
         width="358"
         height="426"
-        image={inviteCard.imageUrl || getDefaultImg()}
+        image={inviteCard.data.imageUrl || getDefaultImg()}
       />
       <InviteCardContent>
         <Typography variant="h7">

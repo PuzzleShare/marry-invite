@@ -47,7 +47,7 @@ export default function GuestbookBlockController() {
 
 function CommentBox({ comment, getData }) {
   const handleDelete = async () => {
-    const isConfirmed = window.confirm("정말로 삭제하시겠습니까?");
+    const isConfirmed = window.confirm("삭제하시겠습니까?");
     if (!isConfirmed) return;
 
     const result = await deleteCommentByAdmin(comment.commentId);

@@ -1,4 +1,4 @@
-﻿import { geistSans, geistMono } from "@/const/font"
+﻿import { geistSans, geistMono } from "@/const/font";
 import "@/styles/globals.css";
 import { getInvite } from "@/api/invite/invite";
 
@@ -6,7 +6,7 @@ import { getInvite } from "@/api/invite/invite";
 export async function generateMetadata({ params, searchParams }, parent) {
   const { inviteId } = await params;
   const invite = await getInvite(inviteId);
-  const previousImages = [invite?.imageUrl];
+  const previousImages = [invite?.data.imageUrl];
 
   return {
     title: invite?.data.title || "marry-invite",

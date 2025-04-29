@@ -7,8 +7,6 @@ import { scrollStyle } from "@/styles/scroll";
 import { modifyInvite } from "@/api/invite/invite";
 import { useSearchParams } from "next/navigation";
 
-import { Box, Button, Divider, Stack } from "@mui/material";
-
 import {
   CalendarBlockController,
   GalleryBlockController,
@@ -17,7 +15,8 @@ import {
   NestedBlockController,
   TextBlockController,
 } from "@/components/invite/controllers";
-
+import { ColorPicker } from "@/components/invite";
+import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { Save as SaveIcon } from "@mui/icons-material";
 
 export default function Controller() {
@@ -26,6 +25,12 @@ export default function Controller() {
   const [blockData, setBlockData] = useAtom(blockDataAtom);
   const [selectedBlock, setSelectedBlock] = useAtom(selectedBlockAtom);
   const [loading, setLoading] = React.useState(false);
+  const [backgroundColor, setBackgroundColor] = React.useState(
+    selectedBlock.block?.style?.backgroundColor || "#ffffff"
+  );
+  const [textColor, setTextColor] = React.useState(
+    selectedBlock.block?.style?.color || "#000000"
+  );
 
   const handleDeleteBlock = () => {
     setBlockData((prevData) => {
@@ -46,6 +51,36 @@ export default function Controller() {
     setSelectedBlock({ block: null, path: [] });
   };
 
+  React.useEffect(() => {
+    setBackgroundColor(
+      selectedBlock.block?.style?.backgroundColor || "#ffffff"
+    );
+    setTextColor(selectedBlock.block?.style?.color || "#000000");
+  }, [selectedBlock]);
+
+  React.useEffect(() => {
+    if (!selectedBlock.block) return;
+
+    setBlockData((prevData) => {
+      const newData = { ...prevData };
+
+      const updateBlockByPath = (blocks, path) => {
+        if (path.length === 1) {
+          blocks[path[0]].style = {
+            ...blocks[path[0]].style,
+            backgroundColor: backgroundColor,
+            color: textColor,
+          };
+        } else {
+          updateBlockByPath(blocks[path[0]].content, path.slice(1));
+        }
+      };
+
+      updateBlockByPath(newData.content, selectedBlock.path);
+      return newData;
+    });
+  }, [backgroundColor, textColor]);
+
   return (
     <Box
       display="flex"
@@ -53,15 +88,34 @@ export default function Controller() {
       justifyContent={"space-between"}
       height="calc(100vh - 84px)"
       minWidth="350px"
-      margin="20px 0 0 8px"
+      marginTop="20px"
     >
       <Box
+        marginLeft="8px"
         sx={{
           ...scrollStyle,
         }}
       >
         {selectedBlock.block ? (
-          <Box>{controllerType(selectedBlock.block.type)}</Box>
+          <>
+            <Box>
+              {/* 배경 색상 적용 */}
+              <Typography variant="subtitle2" mt={2}>
+                배경 색
+              </Typography>
+              <ColorPicker
+                color={backgroundColor}
+                setColor={setBackgroundColor}
+              />
+              {/* 글 색상 적용 */}
+              <Typography variant="subtitle2" mt={2}>
+                글자 색
+              </Typography>
+              <ColorPicker color={textColor} setColor={setTextColor} />
+            </Box>
+            <Divider sx={{ margin: "20px 0" }} />
+            <Box>{controllerType(selectedBlock.block.type)}</Box>
+          </>
         ) : (
           "블록을 선택하세요"
         )}
@@ -87,6 +141,7 @@ export default function Controller() {
             variant="contained"
             width="100%"
             onClick={async () => {
+              console.log(blockData);
               setLoading(true);
               await modifyInvite(inviteId, blockData);
               setTimeout(() => {

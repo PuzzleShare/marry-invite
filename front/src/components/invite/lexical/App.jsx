@@ -22,6 +22,7 @@ import { $getRoot, $insertNodes } from "lexical";
 import { useAtom } from "jotai";
 import { blockDataAtom } from "@/atoms/block";
 import { selectedBlockAtom } from "@/atoms/selectedBlock";
+import { ToolbarContext } from "./context/ToolbarContext";
 
 const placeholder = "Enter some rich text...";
 
@@ -160,22 +161,24 @@ const EditorContentEtractor = () => {
 export default function App() {
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <div className="editor-container">
-        <ToolbarPlugin />
-        <div className="editor-inner">
-          <RichTextPlugin
-            contentEditable={<ContentEditable className="editor-input" />}
-            placeholder={
-              <div className="editor-placeholder">{placeholder}</div>
-            }
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <HistoryPlugin />
-          <AutoFocusPlugin />
-          {/* <TreeViewPlugin /> */}
+      <ToolbarContext>
+        <div className="editor-container">
+          <ToolbarPlugin />
+          <div className="editor-inner">
+            <RichTextPlugin
+              contentEditable={<ContentEditable className="editor-input" />}
+              placeholder={
+                <div className="editor-placeholder">{placeholder}</div>
+              }
+              ErrorBoundary={LexicalErrorBoundary}
+            />
+            <HistoryPlugin />
+            <AutoFocusPlugin />
+            {/* <TreeViewPlugin /> */}
+          </div>
         </div>
-      </div>
-      <EditorContentEtractor />
+        <EditorContentEtractor />
+      </ToolbarContext>
     </LexicalComposer>
   );
 }
