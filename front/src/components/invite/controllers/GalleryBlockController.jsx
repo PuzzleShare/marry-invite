@@ -14,6 +14,8 @@ import {
   CardMedia,
   IconButton,
   Typography,
+  ToggleButtonGroup,
+  ToggleButton,
   Stack,
   Divider,
   ImageList,
@@ -30,6 +32,9 @@ export default function GalleryBlockController() {
   const [, setBlockData] = useAtom(blockDataAtom);
   const [selectedBlock] = useAtom(selectedBlockAtom);
   const [files, setFiles] = React.useState([]);
+  const [galleryType, setGalleryType] = React.useState(
+    selectedBlock?.block?.shape?.type || "gallery"
+  );
 
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files).map((file) => ({
@@ -95,12 +100,51 @@ export default function GalleryBlockController() {
     });
   };
 
+  const handleGalleryType = (event, newGalleryType) => {
+    if (newGalleryType === null) return;
+
+    setGalleryType(newGalleryType);
+
+    setBlockData((prevData) => {
+      const newData = { ...prevData };
+
+      const updateBlockByPath = (blocks, path) => {
+        const current = blocks[path[0]];
+        if (path.length === 1) {
+          current.shape = {
+            ...current.shape,
+            type: newGalleryType,
+          };
+        } else {
+          updateBlockByPath(current.content, path.slice(1));
+        }
+      };
+
+      updateBlockByPath(newData.content, selectedBlock.path);
+      return newData;
+    });
+  };
+
   return (
     <Stack
       direction="column"
       spacing={2}
       divider={<Divider orientation="horizontal" flexItem />}
     >
+      <Box>
+        <ToggleButtonGroup
+          value={galleryType}
+          exclusive
+          onChange={handleGalleryType}
+        >
+          <ToggleButton value="gallery">
+            <GalleryIcon />
+          </ToggleButton>
+          <ToggleButton value="slider">
+            <SliderIcon />
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
       <Box sx={{ width: "100%", textAlign: "center" }}>
         <Button
           component="label"

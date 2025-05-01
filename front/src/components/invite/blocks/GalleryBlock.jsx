@@ -10,7 +10,15 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/scrollbar";
 
 export default function GalleryBlock({ block }) {
-  return <Slider block={block} />;
+  if (block?.shape?.type === "gallery") {
+    return <Gallery block={block} />;
+  }
+
+  if (block?.shape?.type === "slider") {
+    return <Slider block={block} />;
+  }
+
+  return null;
 }
 
 function Gallery({ block }) {
