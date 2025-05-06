@@ -23,16 +23,25 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import DropdownColorPicker from "../ui/DropdownColorPicker";
 import { useToolbarState } from "../context/ToolbarContext";
 import { $patchStyleText } from "../lexical-node";
+import FontSize from "./ToolbarPlugin/fontSize";
+import styled from "styled-components";
 
 const LowPriority = 1;
 
-function Divider() {
-  return <div className="divider" />;
-}
+// function Divider() {
+//   return <div className="divider" />;
+// }
+
+const Divider = styled.div`
+  width: 1px;
+  background-color: #eee;
+  margin: 0 4px;
+  // display: inline-block;
+  // line-height: 1.7;
+`;
 
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext();
-  const toolbarRef = useRef(null);
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
   const [isBold, setIsBold] = useState(false);
@@ -110,93 +119,109 @@ export default function ToolbarPlugin() {
   }, [editor, $updateToolbar]);
 
   return (
-    <div className="toolbar" ref={toolbarRef}>
-      <button
-        disabled={!canUndo}
-        onClick={() => editor.dispatchCommand(UNDO_COMMAND, undefined)}
-        className="toolbar-item spaced"
-        aria-label="Undo"
-      >
-        <i className="format undo" />
-      </button>
-      <button
-        disabled={!canRedo}
-        onClick={() => editor.dispatchCommand(REDO_COMMAND, undefined)}
-        className="toolbar-item"
-        aria-label="Redo"
-      >
-        <i className="format redo" />
-      </button>
-      <button
-        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
-        className={"toolbar-item spaced " + (isBold ? "active" : "")}
-        aria-label="Format Bold"
-      >
-        <i className="format bold" />
-      </button>
-      <button
-        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
-        className={"toolbar-item spaced " + (isItalic ? "active" : "")}
-        aria-label="Format Italics"
-      >
-        <i className="format italic" />
-      </button>
-      <button
-        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")}
-        className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
-        aria-label="Format Underline"
-      >
-        <i className="format underline" />
-      </button>
-      <button
-        onClick={() =>
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough")
-        }
-        className={"toolbar-item spaced " + (isStrikethrough ? "active" : "")}
-        aria-label="Format Strikethrough"
-      >
-        <i className="format strikethrough" />
-      </button>
-      <DropdownColorPicker
-        disabled={!isEditable}
-        buttonClassName="toolbar-item color-picker"
-        buttonAriaLabel="Formatting text color"
-        buttonIconClassName="icon font-color"
-        color={toolbarState.fontColor}
-        onChange={onFontColorSelect}
-        title="text color"
-      />
-      <Divider />
-      <button
-        onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left")}
-        className="toolbar-item spaced"
-        aria-label="Left Align"
-      >
-        <i className="format left-align" />
-      </button>
-      <button
-        onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center")}
-        className="toolbar-item spaced"
-        aria-label="Center Align"
-      >
-        <i className="format center-align" />
-      </button>
-      <button
-        onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right")}
-        className="toolbar-item spaced"
-        aria-label="Right Align"
-      >
-        <i className="format right-align" />
-      </button>
-      <button
-        onClick={() =>
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify")
-        }
-        className="toolbar-item"
-        aria-label="Justify Align"
-      >
-        <i className="format justify-align" />
-      </button>
-    </div>
+    <>
+      <div className="toolbar">
+        <button
+          disabled={!canUndo}
+          onClick={() => editor.dispatchCommand(UNDO_COMMAND, undefined)}
+          className="toolbar-item spaced"
+          aria-label="Undo"
+        >
+          <i className="format undo" />
+        </button>
+        <button
+          disabled={!canRedo}
+          onClick={() => editor.dispatchCommand(REDO_COMMAND, undefined)}
+          className="toolbar-item"
+          aria-label="Redo"
+        >
+          <i className="format redo" />
+        </button>
+        <button
+          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
+          className={"toolbar-item spaced " + (isBold ? "active" : "")}
+          aria-label="Format Bold"
+        >
+          <i className="format bold" />
+        </button>
+        <button
+          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
+          className={"toolbar-item spaced " + (isItalic ? "active" : "")}
+          aria-label="Format Italics"
+        >
+          <i className="format italic" />
+        </button>
+        <button
+          onClick={() =>
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")
+          }
+          className={"toolbar-item spaced " + (isUnderline ? "active" : "")}
+          aria-label="Format Underline"
+        >
+          <i className="format underline" />
+        </button>
+        <button
+          onClick={() =>
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough")
+          }
+          className={"toolbar-item spaced " + (isStrikethrough ? "active" : "")}
+          aria-label="Format Strikethrough"
+        >
+          <i className="format strikethrough" />
+        </button>
+        <DropdownColorPicker
+          disabled={!isEditable}
+          buttonClassName="toolbar-item color-picker"
+          buttonAriaLabel="Formatting text color"
+          buttonIconClassName="icon font-color"
+          color={toolbarState.fontColor}
+          onChange={onFontColorSelect}
+          title="text color"
+        />
+        <div />
+      </div>
+      <div className="toolbar">
+        <FontSize
+          selectionFontSize={toolbarState.fontSize.slice(0, -2)}
+          editor={editor}
+          disabled={!isEditable}
+        />
+        <Divider />
+        <button
+          onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left")}
+          className="toolbar-item spaced"
+          aria-label="Left Align"
+        >
+          <i className="format left-align" />
+        </button>
+        <button
+          onClick={() =>
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center")
+          }
+          className="toolbar-item spaced"
+          aria-label="Center Align"
+        >
+          <i className="format center-align" />
+        </button>
+        <button
+          onClick={() =>
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right")
+          }
+          className="toolbar-item spaced"
+          aria-label="Right Align"
+        >
+          <i className="format right-align" />
+        </button>
+        <button
+          onClick={() =>
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify")
+          }
+          className="toolbar-item"
+          aria-label="Justify Align"
+        >
+          <i className="format justify-align" />
+        </button>
+      </div>
+    </>
   );
 }
