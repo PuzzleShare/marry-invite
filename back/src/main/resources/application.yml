@@ -1,6 +1,10 @@
 spring:
   application:
     name: marry-invite
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 110MB
   profiles:
     group:
       local: "datasource, oauth, oauthclient, s3, map"

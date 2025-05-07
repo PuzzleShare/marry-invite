@@ -28,17 +28,15 @@ public class TokenRefreshFilter extends OncePerRequestFilter {
         String refreshToken = customOAuth2UserService.getCookie(request, "refreshToken");
         int accessState = jwtProvider.validateToken(accessToken);
         int refreshState = jwtProvider.validateToken(refreshToken);
-        if (accessState == 1 && refreshState == 0){
+
+        if ((accessState == 1 && refreshState == 0) || (accessState == 0 && refreshState == 1)){
             // access token expire and refresh token valid
+            // or access token valid and refresh token expire
             accessToken = jwtProvider.createAccessToken(jwtProvider.getSubset(refreshToken));
-            request = new CustomRequestWrapper(request, accessToken);
-            customOAuth2UserService.setTokenCookies(response, accessToken, refreshToken);
-
-        } else if (accessState == 0 && refreshState == 1) {
-            // access token valid and refresh token expire
             refreshToken = jwtProvider.createRefreshToken(jwtProvider.getSubset(accessToken));
-            customOAuth2UserService.setTokenCookies(response, accessToken, refreshToken);
+            request = new CustomRequestWrapper(request, accessToken, refreshToken);
 
+            customOAuth2UserService.setTokenCookies(response, accessToken, refreshToken);
         } else if (accessState == 1 && refreshState == 1) {
             customOAuth2UserService.removeTokenCookies(request, response);
         }

@@ -8,6 +8,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -17,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.marry_invite.users.provider.JWTProvider.ACCESS_MAX_AGE;
-import static com.marry_invite.users.provider.JWTProvider.REFRESH_MAX_AGE;
+import static com.marry_invite.common.factory.CookieFactory.getAccessCookie;
+import static com.marry_invite.common.factory.CookieFactory.getRefreshCookie;
 
 @Service
 @Transactional
@@ -71,14 +72,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String accessToken,
         String refreshToken
     ){
-        response.addHeader(
-                "Set-Cookie",
-                "accessToken=" + accessToken +
-                        "; Path=/; Secure; HttpOnly; SameSite=None; Max-Age=" + ACCESS_MAX_AGE);
-        response.addHeader(
-                "Set-Cookie",
-                "refreshToken=" + refreshToken +
-                        "; Path=/; Secure; HttpOnly; SameSite=None; Max-Age=" + REFRESH_MAX_AGE);
+        response.addHeader(HttpHeaders.SET_COOKIE, getAccessCookie(accessToken).toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, getRefreshCookie(refreshToken).toString());
     }
 
     public void removeTokenCookies(

@@ -56,6 +56,9 @@ public class JWTProvider {
      * @return int 0 ~ 5, 0 is valid but, else is exception
      */
     public int validateToken(String token){
+        if (token == null) {
+            return 1;
+        }
         try {
             Jwts.parserBuilder()
                     .setSigningKey(signKey)

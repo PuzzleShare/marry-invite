@@ -19,11 +19,12 @@ public class UserService {
     private final UsersRepository usersRepository;
     private final JWTProvider jwtProvider;
     public UserDataResponse login(HttpServletRequest request, HttpServletResponse response) {
-        Cookie accessToken = Arrays.stream(request.getCookies())
-                .filter(cookie -> cookie.getName().equals("accessToken"))
-                .findFirst().get();
+        String accessToken = request.getHeader("Authorization").substring(7);
+//        Cookie accessToken = Arrays.stream(request.getCookies())
+//                .filter(cookie -> cookie.getName().equals("accessToken"))
+//                .findFirst().get();
 
-        String userId = jwtProvider.getSubset(accessToken.getValue());
+        String userId = jwtProvider.getSubset(accessToken);
         Users users = usersRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다."));
         return UserDataResponse.of(users);
