@@ -8,6 +8,10 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.marry_invite.users.provider.JWTProvider.ACCESS_MAX_AGE;
+import static com.marry_invite.users.provider.JWTProvider.REFRESH_MAX_AGE;
+
+
 public class CustomRequestWrapper extends HttpServletRequestWrapper {
     private final Map<String, String> customHeaders = new HashMap<>();
     /**
@@ -19,7 +23,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
     public CustomRequestWrapper(HttpServletRequest request) {
         super(request);
     }
-    public CustomRequestWrapper(HttpServletRequest request, String accessToken) {
+    public CustomRequestWrapper(HttpServletRequest request, String accessToken, String refreshToken) {
         super(request);
         customHeaders.put("Authorization", "Bearer " + accessToken);
     }
